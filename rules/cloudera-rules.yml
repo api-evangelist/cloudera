@@ -1,0 +1,88 @@
+extends:
+  - spectral:oas
+
+# Spectral linting rules for Cloudera CDP / Cloudera Manager APIs.
+rules:
+  cloudera-info-contact:
+    description: API contact information must be present.
+    severity: error
+    given: "$.info"
+    then:
+      field: contact
+      function: truthy
+
+  cloudera-info-license:
+    description: API license must be declared.
+    severity: warn
+    given: "$.info"
+    then:
+      field: license
+      function: truthy
+
+  cloudera-server-https:
+    description: All server URLs must use HTTPS.
+    severity: error
+    given: "$.servers[*].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^https://"
+
+  cloudera-cm-versioned:
+    description: Cloudera Manager paths must be versioned (/api/v{N}).
+    severity: warn
+    given: "$.servers[?(@.url && @.url.indexOf('cloudera') > -1)].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: "/api/v\\d+(/|$)"
+
+  cloudera-auth-required:
+    description: A security scheme (basic or apiKey) must be declared.
+    severity: error
+    given: "$.components.securitySchemes"
+    then:
+      function: truthy
+
+  cloudera-operation-tags:
+    description: Every operation must declare at least one tag.
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: tags
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          minItems: 1
+
+  cloudera-operation-id:
+    description: Every operation must declare a unique operationId.
+    severity: error
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: operationId
+      function: truthy
+
+  cloudera-operation-summary:
+    description: Every operation must include a short summary.
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: summary
+      function: truthy
+
+  cloudera-error-responses:
+    description: Mutating operations should declare 4xx error responses.
+    severity: warn
+    given: "$.paths[*][post,put,patch,delete].responses"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          anyOf:
+            - required: ["400"]
+            - required: ["401"]
+            - required: ["403"]
+            - required: ["404"]

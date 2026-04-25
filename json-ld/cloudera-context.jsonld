@@ -1,0 +1,89 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "cloudera": "https://api.cloudera.com/ns/",
+    "cdp": "https://cloudera.com/cdp/",
+    "cm": "https://cloudera.github.io/cm_api/ns/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+
+    "Environment": {
+      "@id": "cdp:Environment",
+      "@context": {
+        "name": "schema:name",
+        "crn": "cdp:crn",
+        "status": "cdp:status",
+        "cloudPlatform": "cdp:cloud_platform",
+        "region": "cdp:region",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Datalake": {
+      "@id": "cdp:Datalake",
+      "@context": {
+        "name": "schema:name",
+        "crn": "cdp:crn",
+        "environmentName": "cdp:environment_name",
+        "status": "cdp:status"
+      }
+    },
+
+    "Datahub": {
+      "@id": "cdp:Datahub",
+      "@context": {
+        "name": "schema:name",
+        "crn": "cdp:crn",
+        "environmentName": "cdp:environment_name",
+        "status": "cdp:status",
+        "clusterTemplate": "cdp:cluster_template"
+      }
+    },
+
+    "Cluster": {
+      "@id": "cm:Cluster",
+      "@context": {
+        "name": "schema:name",
+        "displayName": "schema:alternateName",
+        "version": "cm:version",
+        "fullVersion": "cm:full_version",
+        "maintenanceMode": "cm:maintenance_mode"
+      }
+    },
+
+    "Service": {
+      "@id": "cm:Service",
+      "@context": {
+        "name": "schema:name",
+        "type": "schema:additionalType",
+        "serviceState": "cm:service_state",
+        "healthSummary": "cm:health_summary"
+      }
+    },
+
+    "Role": {
+      "@id": "cm:Role",
+      "@context": {
+        "name": "schema:name",
+        "type": "schema:additionalType",
+        "hostRef": "cm:host_ref",
+        "roleState": "cm:role_state"
+      }
+    },
+
+    "Host": {
+      "@id": "cm:Host",
+      "@context": {
+        "hostId": "cm:host_id",
+        "ipAddress": "cm:ip_address",
+        "hostname": "schema:hostname",
+        "rackId": "cm:rack_id",
+        "totalPhysMemBytes": "cm:total_phys_mem_bytes"
+      }
+    }
+  }
+}

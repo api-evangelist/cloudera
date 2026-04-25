@@ -1,0 +1,146 @@
+aid: cloudera
+name: Cloudera
+description: >-
+  Cloudera is a hybrid data platform company offering the Cloudera Data Platform
+  (CDP) for data engineering, data warehousing, machine learning, streaming,
+  and operational data. The platform exposes multiple REST APIs including the
+  CDP Public Cloud Control Plane API for managing environments, datalakes,
+  data hubs and workloads, the Cloudera Manager API for cluster lifecycle and
+  configuration management, and per-service REST APIs across the runtime
+  (Cruise Control, Streams Replication Manager, HBase REST, YARN Queue
+  Manager, etc.). APIs are JSON, support standard CRUD, and are typically
+  authenticated via API access keys, basic auth, or session cookies.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/cloudera/refs/heads/main/apis.yml
+created: '2024-01-01'
+modified: '2026-04-25'
+specificationVersion: '0.19'
+x-type: company
+tags:
+  - Big Data
+  - Data Engineering
+  - Data Lakehouse
+  - Data Platform
+  - Data Warehouse
+  - Hadoop
+  - Hybrid Cloud
+  - Machine Learning
+  - Streaming
+apis:
+  - aid: cloudera:cdp-control-plane
+    name: Cloudera CDP Public Cloud Control Plane API
+    tags:
+      - Cloud
+      - Control Plane
+      - CDP
+      - Environments
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+    properties:
+      - url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+        type: Documentation
+      - url: https://github.com/cloudera/cdpcurl
+        type: CLI
+    description: >-
+      The Cloudera CDP Public Cloud Control Plane REST API manages CDP
+      environments, datalakes, data hubs, machine learning workspaces, data
+      warehouses and data engineering services. Access requires a Cloudera
+      user account with an API access key and private key. cdpcurl is the
+      Python CLI for signed calls.
+  - aid: cloudera:manager
+    name: Cloudera Manager API
+    tags:
+      - Cluster
+      - Configuration
+      - Management
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://cloudera.github.io/cm_api/
+    properties:
+      - url: https://cloudera.github.io/cm_api/
+        type: Documentation
+      - url: https://cloudera.github.io/cm_api/apidocs/v19/
+        type: Reference
+      - url: https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/concepts/topics/cm-api-overview.html
+        type: Overview
+    description: >-
+      Cloudera Manager exposes a JSON REST API at /api/v{N} for managing
+      clusters, services, roles, configurations, hosts, parcels, tags and
+      audits. Authentication uses HTTP basic auth with the same credentials
+      as the Cloudera Manager web UI; subsequent requests can use the
+      session cookie returned on authentication.
+  - aid: cloudera:cruise-control
+    name: Cloudera Cruise Control REST API
+    tags:
+      - Kafka
+      - Rebalancing
+      - Streaming
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://docs.cloudera.com/runtime/7.2.18/cctrl-managing/topics/cctrl-using-rest-api.html
+    properties:
+      - url: https://docs.cloudera.com/runtime/7.2.18/cctrl-managing/topics/cctrl-using-rest-api.html
+        type: Documentation
+    description: >-
+      Cruise Control on CDP exposes REST endpoints for rebalancing Kafka
+      clusters, monitoring partition load, and triggering anomaly checks.
+  - aid: cloudera:srm
+    name: Streams Replication Manager Service REST API
+    tags:
+      - Kafka
+      - Replication
+      - Streaming
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/srm-overview/topics/srm-rest-api-overview.html
+    properties:
+      - url: https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/srm-overview/topics/srm-rest-api-overview.html
+        type: Documentation
+    description: >-
+      Streams Replication Manager (SRM) exposes a REST API for inspecting
+      cross-cluster Kafka replication topology, lag, and metrics.
+  - aid: cloudera:hbase-rest
+    name: HBase REST Server
+    tags:
+      - HBase
+      - NoSQL
+      - REST
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://docs.cloudera.com/cdp-private-cloud-base/latest/accessing-hbase/topics/hbase-installing-rest-server-using-cm.html
+    properties:
+      - url: https://docs.cloudera.com/cdp-private-cloud-base/latest/accessing-hbase/topics/hbase-installing-rest-server-using-cm.html
+        type: Documentation
+    description: >-
+      The HBase REST Server provides a REST front-end to HBase tables for
+      get/put/scan/delete, namespace and table management - installable via
+      Cloudera Manager.
+  - aid: cloudera:yarn-queue-manager
+    name: YARN Queue Manager API
+    tags:
+      - YARN
+      - Resource Management
+      - Scheduling
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/yarn-reference/topics/yarn-qm-using-api.html
+    properties:
+      - url: https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/yarn-reference/topics/yarn-qm-using-api.html
+        type: Documentation
+    description: >-
+      YARN Queue Manager exposes a REST API for managing capacity scheduler
+      queues, ACLs, and resource allocations on a CDP cluster.
+common:
+  - type: Website
+    url: https://www.cloudera.com/
+  - type: Documentation
+    url: https://docs.cloudera.com/
+  - type: Support
+    url: https://my.cloudera.com/knowledge.html
+  - type: Privacy Policy
+    url: https://www.cloudera.com/legal/privacy.html
+  - type: GitHub
+    url: https://github.com/cloudera
+  - type: JSON-LD
+    url: json-ld/cloudera-context.jsonld
+  - type: Spectral
+    url: rules/cloudera-rules.yml
+maintainers:
+  - FN: Kin Lane
+    email: kinlane@gmail.com
