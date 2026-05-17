@@ -16,7 +16,7 @@ url: https://raw.githubusercontent.com/api-evangelist/cloudera/refs/heads/main/a
 created: '2024-01-01'
 modified: '2026-04-25'
 specificationVersion: '0.19'
-x-type: company
+kind: company
 tags:
   - Big Data
   - Data Engineering
@@ -133,11 +133,11 @@ common:
     url: https://docs.cloudera.com/
   - type: Support
     url: https://my.cloudera.com/knowledge.html
-  - type: Privacy Policy
+  - type: PrivacyPolicy
     url: https://www.cloudera.com/legal/privacy.html
   - type: GitHub
     url: https://github.com/cloudera
-  - type: JSON-LD
+  - type: JSONLD
     url: json-ld/cloudera-context.jsonld
   - type: Spectral
     url: rules/cloudera-rules.yml
