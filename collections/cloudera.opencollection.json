@@ -1,0 +1,191 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cloudera CDP Public Cloud Control Plane API",
+    "version": "0.9.158"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-altus-auth",
+      "value": "{{x-altus-auth}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Environments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List environments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.us-west-1.cdp.cloudera.com/api/v1/environments2/listEnvironments"
+          },
+          "docs": "List environments"
+        },
+        {
+          "info": {
+            "name": "Describe an environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.us-west-1.cdp.cloudera.com/api/v1/environments2/describeEnvironment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Describe an environment"
+        },
+        {
+          "info": {
+            "name": "Delete an environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.us-west-1.cdp.cloudera.com/api/v1/environments2/deleteEnvironment"
+          },
+          "docs": "Delete an environment"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Datalake",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List datalakes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.us-west-1.cdp.cloudera.com/api/v1/datalake/listDatalakes"
+          },
+          "docs": "List datalakes"
+        },
+        {
+          "info": {
+            "name": "Describe a datalake",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.us-west-1.cdp.cloudera.com/api/v1/datalake/describeDatalake"
+          },
+          "docs": "Describe a datalake"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Datahub",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Data Hub clusters",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.us-west-1.cdp.cloudera.com/api/v1/datahub/listClusters"
+          },
+          "docs": "List Data Hub clusters"
+        },
+        {
+          "info": {
+            "name": "Describe a Data Hub cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.us-west-1.cdp.cloudera.com/api/v1/datahub/describeCluster"
+          },
+          "docs": "Describe a Data Hub cluster"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "IAM",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List IAM users",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.us-west-1.cdp.cloudera.com/api/v1/iam/listUsers"
+          },
+          "docs": "List IAM users"
+        },
+        {
+          "info": {
+            "name": "List IAM groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.us-west-1.cdp.cloudera.com/api/v1/iam/listGroups"
+          },
+          "docs": "List IAM groups"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ML",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List ML workspaces",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.us-west-1.cdp.cloudera.com/api/v1/ml/listWorkspaces"
+          },
+          "docs": "List ML workspaces"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "DataEngineering",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Data Engineering services",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.us-west-1.cdp.cloudera.com/api/v1/de/listServices"
+          },
+          "docs": "List Data Engineering services"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
