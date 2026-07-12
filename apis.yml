@@ -127,6 +127,12 @@ apis:
       YARN Queue Manager exposes a REST API for managing capacity scheduler
       queues, ACLs, and resource allocations on a CDP cluster.
 common:
+  - type: TrustCenter
+    url: security/cloudera-trust-center.yml
+  - type: DomainSecurity
+    url: security/cloudera-domain-security.yml
+  - type: Authentication
+    url: authentication/cloudera-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/cloudera
   - type: Website

@@ -1,0 +1,18 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/cloudera-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: altusAuth
+  type: apiKey
+  in: header
+  parameter: x-altus-auth
+  description: |-
+    CDP signature-based authentication. Each request must include an
+    x-altus-auth signature header and an x-altus-date timestamp header.
+  sources:
+  - openapi/cloudera-openapi.yml
