@@ -1,0 +1,50 @@
+openapi: 3.1.0
+info:
+  title: Cloudera CDP Public Cloud Control Plane DataEngineering API
+  description: 'Best-effort OpenAPI 3.1 description of the Cloudera Data Platform (CDP)
+
+    Public Cloud Control Plane API. The CDP API exposes operations for
+
+    managing environments, datalakes, data hubs, ML workspaces, data
+
+    engineering services, and IAM resources. Calls are POST-style RPCs under
+
+    versioned service paths (environments2, datalake, datahub, ml, dataeng,
+
+    iam). Requests are signed with the x-altus-auth header and an
+
+    x-altus-date timestamp per the CDP request signing specification.
+
+    '
+  version: 0.9.158
+  contact:
+    name: Cloudera
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+servers:
+- url: https://api.us-west-1.cdp.cloudera.com
+  description: CDP control plane (us-west-1)
+security:
+- altusAuth: []
+tags:
+- name: DataEngineering
+paths:
+  /api/v1/de/listServices:
+    post:
+      summary: List Data Engineering services
+      operationId: listDeServices
+      tags:
+      - DataEngineering
+      responses:
+        '200':
+          description: List of DE services
+components:
+  securitySchemes:
+    altusAuth:
+      type: apiKey
+      in: header
+      name: x-altus-auth
+      description: 'CDP signature-based authentication. Each request must include an
+
+        x-altus-auth signature header and an x-altus-date timestamp header.
+
+        '
