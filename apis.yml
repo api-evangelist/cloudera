@@ -11,7 +11,19 @@ description: >-
   Manager, etc.). APIs are JSON, support standard CRUD, and are typically
   authenticated via API access keys, basic auth, or session cookies.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cloudera.png
 url: https://raw.githubusercontent.com/api-evangelist/cloudera/refs/heads/main/apis.yml
 created: '2024-01-01'
 modified: '2026-04-25'
@@ -28,104 +40,160 @@ tags:
   - Machine Learning
   - Streaming
 apis:
-  - aid: cloudera:cdp-control-plane
-    name: Cloudera CDP Public Cloud Control Plane API
-    tags:
-      - Cloud
-      - Control Plane
-      - CDP
-      - Environments
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-    properties:
-      - url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-        type: Documentation
-      - url: https://github.com/cloudera/cdpcurl
-        type: CLI
-    description: >-
-      The Cloudera CDP Public Cloud Control Plane REST API manages CDP
-      environments, datalakes, data hubs, machine learning workspaces, data
-      warehouses and data engineering services. Access requires a Cloudera
-      user account with an API access key and private key. cdpcurl is the
-      Python CLI for signed calls.
-  - aid: cloudera:manager
-    name: Cloudera Manager API
-    tags:
-      - Cluster
-      - Configuration
-      - Management
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://cloudera.github.io/cm_api/
-    properties:
-      - url: https://cloudera.github.io/cm_api/
-        type: Documentation
-      - url: https://cloudera.github.io/cm_api/apidocs/v19/
-        type: Reference
-      - url: https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/concepts/topics/cm-api-overview.html
-        type: Overview
-    description: >-
-      Cloudera Manager exposes a JSON REST API at /api/v{N} for managing
-      clusters, services, roles, configurations, hosts, parcels, tags and
-      audits. Authentication uses HTTP basic auth with the same credentials
-      as the Cloudera Manager web UI; subsequent requests can use the
-      session cookie returned on authentication.
-  - aid: cloudera:cruise-control
-    name: Cloudera Cruise Control REST API
-    tags:
-      - Kafka
-      - Rebalancing
-      - Streaming
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.cloudera.com/runtime/7.2.18/cctrl-managing/topics/cctrl-using-rest-api.html
-    properties:
-      - url: https://docs.cloudera.com/runtime/7.2.18/cctrl-managing/topics/cctrl-using-rest-api.html
-        type: Documentation
-    description: >-
-      Cruise Control on CDP exposes REST endpoints for rebalancing Kafka
-      clusters, monitoring partition load, and triggering anomaly checks.
-  - aid: cloudera:srm
-    name: Streams Replication Manager Service REST API
-    tags:
-      - Kafka
-      - Replication
-      - Streaming
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/srm-overview/topics/srm-rest-api-overview.html
-    properties:
-      - url: https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/srm-overview/topics/srm-rest-api-overview.html
-        type: Documentation
-    description: >-
-      Streams Replication Manager (SRM) exposes a REST API for inspecting
-      cross-cluster Kafka replication topology, lag, and metrics.
-  - aid: cloudera:hbase-rest
-    name: HBase REST Server
-    tags:
-      - HBase
-      - NoSQL
-      - REST
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.cloudera.com/cdp-private-cloud-base/latest/accessing-hbase/topics/hbase-installing-rest-server-using-cm.html
-    properties:
-      - url: https://docs.cloudera.com/cdp-private-cloud-base/latest/accessing-hbase/topics/hbase-installing-rest-server-using-cm.html
-        type: Documentation
-    description: >-
-      The HBase REST Server provides a REST front-end to HBase tables for
-      get/put/scan/delete, namespace and table management - installable via
-      Cloudera Manager.
-  - aid: cloudera:yarn-queue-manager
-    name: YARN Queue Manager API
-    tags:
-      - YARN
-      - Resource Management
-      - Scheduling
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/yarn-reference/topics/yarn-qm-using-api.html
-    properties:
-      - url: https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/yarn-reference/topics/yarn-qm-using-api.html
-        type: Documentation
-    description: >-
-      YARN Queue Manager exposes a REST API for managing capacity scheduler
-      queues, ACLs, and resource allocations on a CDP cluster.
+- aid: cloudera:cdp-control-plane
+  name: Cloudera CDP Public Cloud Control Plane API
+  tags:
+  - Cloud
+  - Control Plane
+  - CDP
+  - Environments
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  properties:
+  - url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+    type: Documentation
+  - url: https://github.com/cloudera/cdpcurl
+    type: CLI
+  description: >-
+    The Cloudera CDP Public Cloud Control Plane REST API manages CDP environments, datalakes, data hubs,
+    machine learning workspaces, data warehouses and data engineering services. Access requires a Cloudera
+    user account with an API access key and private key. cdpcurl is the Python CLI for signed calls.
+- aid: cloudera:manager
+  name: Cloudera Manager API
+  tags:
+  - Cluster
+  - Configuration
+  - Management
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://cloudera.github.io/cm_api/
+  properties:
+  - url: https://cloudera.github.io/cm_api/
+    type: Documentation
+  - url: https://cloudera.github.io/cm_api/apidocs/v19/
+    type: Reference
+  - url: >-
+      https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/concepts/topics/cm-api-overview.html
+    type: Overview
+  description: >-
+    Cloudera Manager exposes a JSON REST API at /api/v{N} for managing clusters, services, roles, configurations,
+    hosts, parcels, tags and audits. Authentication uses HTTP basic auth with the same credentials as
+    the Cloudera Manager web UI; subsequent requests can use the session cookie returned on authentication.
+- aid: cloudera:cruise-control
+  name: Cloudera Cruise Control REST API
+  tags:
+  - Kafka
+  - Rebalancing
+  - Streaming
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.cloudera.com/runtime/7.2.18/cctrl-managing/topics/cctrl-using-rest-api.html
+  properties:
+  - url: https://docs.cloudera.com/runtime/7.2.18/cctrl-managing/topics/cctrl-using-rest-api.html
+    type: Documentation
+  description: >-
+    Cruise Control on CDP exposes REST endpoints for rebalancing Kafka clusters, monitoring partition
+    load, and triggering anomaly checks.
+- aid: cloudera:srm
+  name: Streams Replication Manager Service REST API
+  tags:
+  - Kafka
+  - Replication
+  - Streaming
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: >-
+    https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/srm-overview/topics/srm-rest-api-overview.html
+  properties:
+  - url: >-
+      https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/srm-overview/topics/srm-rest-api-overview.html
+    type: Documentation
+  description: >-
+    Streams Replication Manager (SRM) exposes a REST API for inspecting cross-cluster Kafka replication
+    topology, lag, and metrics.
+- aid: cloudera:hbase-rest
+  name: HBase REST Server
+  tags:
+  - HBase
+  - NoSQL
+  - REST
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: >-
+    https://docs.cloudera.com/cdp-private-cloud-base/latest/accessing-hbase/topics/hbase-installing-rest-server-using-cm.html
+  properties:
+  - url: >-
+      https://docs.cloudera.com/cdp-private-cloud-base/latest/accessing-hbase/topics/hbase-installing-rest-server-using-cm.html
+    type: Documentation
+  description: >-
+    The HBase REST Server provides a REST front-end to HBase tables for get/put/scan/delete, namespace
+    and table management - installable via Cloudera Manager.
+- aid: cloudera:yarn-queue-manager
+  name: YARN Queue Manager API
+  tags:
+  - YARN
+  - Resource Management
+  - Scheduling
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: >-
+    https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/yarn-reference/topics/yarn-qm-using-api.html
+  properties:
+  - url: >-
+      https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/yarn-reference/topics/yarn-qm-using-api.html
+    type: Documentation
+  description: >-
+    YARN Queue Manager exposes a REST API for managing capacity scheduler queues, ACLs, and resource allocations
+    on a CDP cluster.
+- aid: cloudera:cloudera-dataengineering-api
+  name: Cloudera DataEngineering API
+  description: The DataEngineering API from Cloudera — 1 operation(s) for dataengineering.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  tags:
+  - DataEngineering
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-dataengineering-api-openapi.yml
+- aid: cloudera:cloudera-datahub-api
+  name: Cloudera Datahub API
+  description: The Datahub API from Cloudera — 2 operation(s) for datahub.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  tags:
+  - Datahub
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-datahub-api-openapi.yml
+- aid: cloudera:cloudera-datalake-api
+  name: Cloudera Datalake API
+  description: The Datalake API from Cloudera — 2 operation(s) for datalake.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  tags:
+  - Datalake
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-datalake-api-openapi.yml
+- aid: cloudera:cloudera-environments-api
+  name: Cloudera Environments API
+  description: The Environments API from Cloudera — 3 operation(s) for environments.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  tags:
+  - Environments
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-environments-api-openapi.yml
+- aid: cloudera:cloudera-iam-api
+  name: Cloudera IAM API
+  description: The IAM API from Cloudera — 2 operation(s) for iam.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  tags:
+  - IAM
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-iam-api-openapi.yml
+- aid: cloudera:cloudera-ml-api
+  name: Cloudera ML API
+  description: The ML API from Cloudera — 1 operation(s) for ml.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  tags:
+  - ML
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-ml-api-openapi.yml
 common:
   - type: AgenticAccess
     url: agentic-access/cloudera-agentic-access.yml
