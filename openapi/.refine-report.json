@@ -1,0 +1,24 @@
+{
+  "provider": "cloudera",
+  "sources": [
+    "cloudera-dataengineering-api-openapi.yml",
+    "cloudera-datahub-api-openapi.yml",
+    "cloudera-datalake-api-openapi.yml",
+    "cloudera-environments-api-openapi.yml",
+    "cloudera-iam-api-openapi.yml",
+    "cloudera-ml-api-openapi.yml"
+  ],
+  "outputs": [
+    "cloudera-dataengineering-api-openapi.yml",
+    "cloudera-datahub-api-openapi.yml",
+    "cloudera-datalake-api-openapi.yml",
+    "cloudera-environments-api-openapi.yml",
+    "cloudera-iam-api-openapi.yml",
+    "cloudera-ml-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

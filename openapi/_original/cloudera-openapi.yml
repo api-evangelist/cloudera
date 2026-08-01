@@ -1,0 +1,128 @@
+openapi: 3.1.0
+info:
+  title: Cloudera CDP Public Cloud Control Plane API
+  description: |
+    Best-effort OpenAPI 3.1 description of the Cloudera Data Platform (CDP)
+    Public Cloud Control Plane API. The CDP API exposes operations for
+    managing environments, datalakes, data hubs, ML workspaces, data
+    engineering services, and IAM resources. Calls are POST-style RPCs under
+    versioned service paths (environments2, datalake, datahub, ml, dataeng,
+    iam). Requests are signed with the x-altus-auth header and an
+    x-altus-date timestamp per the CDP request signing specification.
+  version: 0.9.158
+  contact:
+    name: Cloudera
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+servers:
+  - url: https://api.us-west-1.cdp.cloudera.com
+    description: CDP control plane (us-west-1)
+security:
+  - altusAuth: []
+paths:
+  /api/v1/environments2/listEnvironments:
+    post:
+      summary: List environments
+      operationId: listEnvironments
+      tags: [Environments]
+      responses:
+        '200':
+          description: List of environments
+  /api/v1/environments2/describeEnvironment:
+    post:
+      summary: Describe an environment
+      operationId: describeEnvironment
+      tags: [Environments]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [environmentName]
+              properties:
+                environmentName:
+                  type: string
+      responses:
+        '200':
+          description: Environment details
+  /api/v1/environments2/deleteEnvironment:
+    post:
+      summary: Delete an environment
+      operationId: deleteEnvironment
+      tags: [Environments]
+      responses:
+        '200':
+          description: Deletion accepted
+  /api/v1/datalake/listDatalakes:
+    post:
+      summary: List datalakes
+      operationId: listDatalakes
+      tags: [Datalake]
+      responses:
+        '200':
+          description: List of datalakes
+  /api/v1/datalake/describeDatalake:
+    post:
+      summary: Describe a datalake
+      operationId: describeDatalake
+      tags: [Datalake]
+      responses:
+        '200':
+          description: Datalake details
+  /api/v1/datahub/listClusters:
+    post:
+      summary: List Data Hub clusters
+      operationId: listClusters
+      tags: [Datahub]
+      responses:
+        '200':
+          description: List of Data Hub clusters
+  /api/v1/datahub/describeCluster:
+    post:
+      summary: Describe a Data Hub cluster
+      operationId: describeCluster
+      tags: [Datahub]
+      responses:
+        '200':
+          description: Cluster details
+  /api/v1/iam/listUsers:
+    post:
+      summary: List IAM users
+      operationId: listUsers
+      tags: [IAM]
+      responses:
+        '200':
+          description: List of users
+  /api/v1/iam/listGroups:
+    post:
+      summary: List IAM groups
+      operationId: listGroups
+      tags: [IAM]
+      responses:
+        '200':
+          description: List of groups
+  /api/v1/ml/listWorkspaces:
+    post:
+      summary: List ML workspaces
+      operationId: listMlWorkspaces
+      tags: [ML]
+      responses:
+        '200':
+          description: List of ML workspaces
+  /api/v1/de/listServices:
+    post:
+      summary: List Data Engineering services
+      operationId: listDeServices
+      tags: [DataEngineering]
+      responses:
+        '200':
+          description: List of DE services
+components:
+  securitySchemes:
+    altusAuth:
+      type: apiKey
+      in: header
+      name: x-altus-auth
+      description: |
+        CDP signature-based authentication. Each request must include an
+        x-altus-auth signature header and an x-altus-date timestamp header.
