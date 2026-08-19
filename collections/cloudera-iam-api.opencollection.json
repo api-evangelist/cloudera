@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cloudera CDP Public Cloud Control Plane DataEngineering IAM API",
+    "version": "0.9.158"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-altus-auth",
+      "value": "{{x-altus-auth}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "IAM",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List IAM users",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.us-west-1.cdp.cloudera.com/api/v1/iam/listUsers"
+          },
+          "docs": "List IAM users"
+        },
+        {
+          "info": {
+            "name": "List IAM groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.us-west-1.cdp.cloudera.com/api/v1/iam/listGroups"
+          },
+          "docs": "List IAM groups"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

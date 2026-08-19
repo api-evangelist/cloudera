@@ -1,0 +1,191 @@
+{
+  "item": [
+    {
+      "id": "e8764c2f-b151-49e9-bf5b-916a9d61b17c",
+      "name": "IAM",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3cd00499-df6d-407c-9a65-c0ac6ae1d4ba",
+          "name": "List IAM users",
+          "request": {
+            "name": "List IAM users",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "iam",
+                "listUsers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7ee54c40-3877-40ca-b954-becfc6ecb6c5",
+              "name": "List of users",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "iam",
+                    "listUsers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-altus-auth",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cba2434f-db69-4fc7-bec4-8db7396d75b8",
+          "name": "List IAM groups",
+          "request": {
+            "name": "List IAM groups",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "iam",
+                "listGroups"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0c58a633-5859-4321-9160-50fb56d2a428",
+              "name": "List of groups",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "iam",
+                    "listGroups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-altus-auth",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.us-west-1.cdp.cloudera.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-altus-auth"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c7a47312-8866-411d-9a3c-bda8d0e83835",
+    "name": "Cloudera CDP Public Cloud Control Plane DataEngineering IAM API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Best-effort OpenAPI 3.1 description of the Cloudera Data Platform (CDP)\nPublic Cloud Control Plane API. The CDP API exposes operations for\nmanaging environments, datalakes, data hubs, ML workspaces, data\nengineering services, and IAM resources. Calls are POST-style RPCs under\nversioned service paths (environments2, datalake, datahub, ml, dataeng,\niam). Requests are signed with the x-altus-auth header and an\nx-altus-date timestamp per the CDP request signing specification.\n\n\nContact Support:\n Name: Cloudera",
+      "type": "text/plain"
+    }
+  }
+}

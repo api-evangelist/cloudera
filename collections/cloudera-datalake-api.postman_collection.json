@@ -1,0 +1,191 @@
+{
+  "item": [
+    {
+      "id": "c6e2aa6a-892a-4a04-9173-2afa39c4c1be",
+      "name": "Datalake",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b6bc5874-6de1-4433-a266-d91a05345a32",
+          "name": "List datalakes",
+          "request": {
+            "name": "List datalakes",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "datalake",
+                "listDatalakes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8958f432-19bd-4294-88d2-31836fd52b81",
+              "name": "List of datalakes",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datalake",
+                    "listDatalakes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-altus-auth",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f29af20d-4ba3-404a-afc3-3827da5beded",
+          "name": "Describe a datalake",
+          "request": {
+            "name": "Describe a datalake",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "datalake",
+                "describeDatalake"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f1b54f22-7c3b-4f69-bbb0-42aa3609dbe0",
+              "name": "Datalake details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datalake",
+                    "describeDatalake"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-altus-auth",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.us-west-1.cdp.cloudera.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-altus-auth"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c3d1006c-93ce-4614-8f73-6b748d2a3194",
+    "name": "Cloudera CDP Public Cloud Control Plane DataEngineering Datalake API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Best-effort OpenAPI 3.1 description of the Cloudera Data Platform (CDP)\nPublic Cloud Control Plane API. The CDP API exposes operations for\nmanaging environments, datalakes, data hubs, ML workspaces, data\nengineering services, and IAM resources. Calls are POST-style RPCs under\nversioned service paths (environments2, datalake, datahub, ml, dataeng,\niam). Requests are signed with the x-altus-auth header and an\nx-altus-date timestamp per the CDP request signing specification.\n\n\nContact Support:\n Name: Cloudera",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cloudera CDP Public Cloud Control Plane DataEngineering Datalake API",
+    "version": "0.9.158"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-altus-auth",
+      "value": "{{x-altus-auth}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Datalake",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List datalakes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.us-west-1.cdp.cloudera.com/api/v1/datalake/listDatalakes"
+          },
+          "docs": "List datalakes"
+        },
+        {
+          "info": {
+            "name": "Describe a datalake",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.us-west-1.cdp.cloudera.com/api/v1/datalake/describeDatalake"
+          },
+          "docs": "Describe a datalake"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

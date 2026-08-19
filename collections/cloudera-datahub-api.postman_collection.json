@@ -1,0 +1,191 @@
+{
+  "item": [
+    {
+      "id": "eb2ffbfe-2aeb-43b8-9b40-8f3d168634d2",
+      "name": "Datahub",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f47088b9-bdb5-469b-b866-6412651528fe",
+          "name": "List Data Hub clusters",
+          "request": {
+            "name": "List Data Hub clusters",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "datahub",
+                "listClusters"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "881fae66-46dd-4c29-90f3-b9d77f7a74bf",
+              "name": "List of Data Hub clusters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datahub",
+                    "listClusters"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-altus-auth",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d4882ac9-16fa-4c14-924b-cf3a42bda104",
+          "name": "Describe a Data Hub cluster",
+          "request": {
+            "name": "Describe a Data Hub cluster",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "datahub",
+                "describeCluster"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9fdc3611-2323-4bc6-9447-c1fc40240a7a",
+              "name": "Cluster details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "datahub",
+                    "describeCluster"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-altus-auth",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.us-west-1.cdp.cloudera.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-altus-auth"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "5b329d22-2ba4-4a5e-9635-5c83a5cc78e2",
+    "name": "Cloudera CDP Public Cloud Control Plane DataEngineering Datahub API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Best-effort OpenAPI 3.1 description of the Cloudera Data Platform (CDP)\nPublic Cloud Control Plane API. The CDP API exposes operations for\nmanaging environments, datalakes, data hubs, ML workspaces, data\nengineering services, and IAM resources. Calls are POST-style RPCs under\nversioned service paths (environments2, datalake, datahub, ml, dataeng,\niam). Requests are signed with the x-altus-auth header and an\nx-altus-date timestamp per the CDP request signing specification.\n\n\nContact Support:\n Name: Cloudera",
+      "type": "text/plain"
+    }
+  }
+}
