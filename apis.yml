@@ -37,6 +37,16 @@ tags:
   - Data Warehouse
   - Hadoop
   - Hybrid Cloud
+  - Machine-Learning
+  - Streaming
+tags_raw:
+  - Big Data
+  - Data Engineering
+  - Data Lakehouse
+  - Data Platform
+  - Data Warehouse
+  - Hadoop
+  - Hybrid Cloud
   - Machine Learning
   - Streaming
 apis:
@@ -145,6 +155,8 @@ apis:
   description: The DataEngineering API from Cloudera — 1 operation(s) for dataengineering.
   humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   tags:
+  - Data Engineering
+  tags_raw:
   - DataEngineering
   properties:
   - type: OpenAPI
@@ -154,6 +166,8 @@ apis:
   description: The Datahub API from Cloudera — 2 operation(s) for datahub.
   humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   tags:
+  - Data Hub
+  tags_raw:
   - Datahub
   properties:
   - type: OpenAPI
@@ -163,6 +177,8 @@ apis:
   description: The Datalake API from Cloudera — 2 operation(s) for datalake.
   humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   tags:
+  - Data Lake
+  tags_raw:
   - Datalake
   properties:
   - type: OpenAPI
