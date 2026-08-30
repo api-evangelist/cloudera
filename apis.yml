@@ -166,7 +166,7 @@ apis:
   description: The DataEngineering API from Cloudera — 1 operation(s) for dataengineering.
   humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   tags:
-  - Data Engineering
+  - DataEngineering
   tags_raw:
   - DataEngineering
   properties:
@@ -177,7 +177,7 @@ apis:
   description: The Datahub API from Cloudera — 2 operation(s) for datahub.
   humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   tags:
-  - Data Hub
+  - Datahub
   tags_raw:
   - Datahub
   properties:
@@ -188,7 +188,7 @@ apis:
   description: The Datalake API from Cloudera — 2 operation(s) for datalake.
   humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   tags:
-  - Data Lake
+  - Datalake
   tags_raw:
   - Datalake
   properties:
