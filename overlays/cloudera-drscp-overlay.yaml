@@ -1,0 +1,63 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enrichment overlay — CDP Control Plane Data Recovery Service
+  version: 1.0.0
+extends: ./cloudera-drscp-openapi.yml
+x-generated: '2026-09-05'
+x-method: generated
+x-source: derived from the harvested Cloudera Swagger 2.0 definition; records API Evangelist enrichment
+  findings without mutating the original
+actions:
+- target: $.info
+  description: Record the enrichment provenance and the artifacts derived from this definition.
+  update:
+    x-apievangelist:
+      harvested_from: https://github.com/cloudera/cdp-dev-docs/tree/master/api-docs/swagger
+      harvested: '2026-09-05'
+      service: drscp
+      operations: 9
+      mutating_operations: 3
+      deprecated_operations: 0
+      authentication: authentication/cloudera-authentication.yml
+      conventions: conventions/cloudera-conventions.yml
+      errors: errors/cloudera-problem-types.yml
+      lifecycle: lifecycle/cloudera-lifecycle.yml
+      data_model: data-model/cloudera-data-model.yml
+- target: $
+  description: The published definition declares no securityDefinitions. Record the real auth model so
+    a generated client signs its requests.
+  update:
+    x-apievangelist-authentication:
+      scheme: altusRequestSigning
+      headers:
+      - x-altus-auth
+      - x-altus-date
+      algorithms:
+      - rsav1
+      - ed25519v1
+      spec: https://github.com/cloudera/cdp-dev-docs/blob/master/api-docs/swagger/request_signing.md
+      note: Absent from the original definition. A client generated straight from this spec will not sign
+        and will receive 401 AUTHENTICATION_FAILURE.
+- target: $
+  description: The definition carries no host or basePath. Record the regional control plane hosts confirmed
+    live on 2026-09-05.
+  update:
+    x-apievangelist-hosts:
+    - host: api.us-west-1.cdp.cloudera.com
+      region: us-west-1
+      probed: 401
+    - host: api.eu-1.cdp.cloudera.com
+      region: eu-1
+      probed: 401
+    - host: api.ap-1.cdp.cloudera.com
+      region: ap-1
+      probed: 401
+- target: $.definitions['Error']
+  description: Record what the shared Error envelope does and does not provide.
+  update:
+    x-apievangelist-error:
+      rfc9457: false
+      observed_codes:
+      - AUTHENTICATION_FAILURE
+      note: No 4xx or 5xx status is enumerated on any operation in this definition; code is an unconstrained
+        string.

@@ -1,0 +1,99 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://docs.cloudera.com/cdp-public-cloud/cloud/cli/topics/mc-cli-client-setup.html,
+  https://github.com/cloudera/cdpcli, https://github.com/cloudera/cdpcurl,
+  and the cdpcli service definitions at cdpcli/data/<service>/<service>.yaml
+clis:
+  - name: cdp
+    package: cdpcli
+    registry: pypi
+    url: https://pypi.org/project/cdpcli/
+    version: 0.9.163
+    published: '2026-07-30'
+    repo: https://github.com/cloudera/cdpcli
+    docs: https://docs.cloudera.com/cdp-public-cloud/cloud/cli/topics/mc-cli-client-setup.html
+    official: true
+    language: python
+    install:
+      - pip install cdpcli
+      - pip install cdpcli-beta   # beta channel, pre-GA services
+    configure: >-
+      `cdp configure` writes the API access key ID and private key to
+      ~/.cdp/credentials. The CLI performs x-altus-auth request signing on the
+      caller's behalf.
+    surface_shape: >-
+      One command group per control plane service, and one subcommand per API
+      operation, generated from the same service definitions that back the
+      published Swagger. `cdp <service> <operation>` maps 1:1 to
+      POST /api/v1/<service>/<operationId>, so the CLI is a complete and current
+      mirror of the 778-operation API.
+    command_groups:
+      - {group: audit, operations: 11}
+      - {group: cloudprivatelinks, operations: 9}
+      - {group: compute, operations: 15}
+      - {group: consumption, operations: 1}
+      - {group: datacatalog, operations: 20}
+      - {group: datahub, operations: 75}
+      - {group: datalake, operations: 56}
+      - {group: de, operations: 24}
+      - {group: df, operations: 66}
+      - {group: dfworkload, operations: 71}
+      - {group: drscp, operations: 9}
+      - {group: dw, operations: 95}
+      - {group: environments, operations: 104}
+      - {group: iam, operations: 79}
+      - {group: imagecatalog, operations: 11}
+      - {group: lakehouseopt, operations: 30}
+      - {group: ml, operations: 59}
+      - {group: opdb, operations: 19}
+      - {group: replicationmanager, operations: 24}
+    key_flows:
+      - name: Create and inspect an environment
+        commands:
+          - cdp environments create-aws-environment
+          - cdp environments describe-environment
+          - cdp environments list-environments
+      - name: Provision a datalake
+        commands:
+          - cdp datalake create-aws-datalake
+          - cdp datalake describe-datalake
+          - cdp datalake backup-datalake
+      - name: Manage a Data Hub cluster
+        commands:
+          - cdp datahub create-aws-cluster
+          - cdp datahub describe-cluster
+          - cdp datahub stop-cluster
+      - name: Manage access
+        commands:
+          - cdp iam create-machine-user
+          - cdp iam create-machine-user-access-key
+          - cdp iam assign-user-role
+    note: >-
+      cdpcli's own data directory (cdpcli/data/<service>/<service>.yaml) ships the
+      19 service definitions, one per control plane service — the same set
+      Cloudera publishes as Swagger in cdp-dev-docs.
+  - name: cdpcurl
+    package: cdpcurl
+    registry: pypi
+    url: https://pypi.org/project/cdpcurl/
+    version: 1.1.0
+    published: '2026-06-09'
+    repo: https://github.com/cloudera/cdpcurl
+    official: true
+    language: python
+    kind: request-signing tool
+    install:
+      - pip install cdpcurl
+    description: >-
+      curl-like tool that signs CDP API requests. Ships cdpv1sign, which the API
+      overview names as the supported way to generate x-altus-auth and
+      x-altus-date headers for any other HTTP client. This is the tool that makes
+      the raw API reachable from anything that is not the CLI or the Java SDK.
+adjacent:
+  - name: terraform-provider-cdp
+    kind: infrastructure-as-code
+    url: https://registry.terraform.io/providers/cloudera/cdp/latest
+    version: 0.13.1
+    published: '2026-08-31'
+    note: Not a CLI, but the third first-party way to drive the control plane.

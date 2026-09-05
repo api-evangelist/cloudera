@@ -1,0 +1,159 @@
+generated: '2026-09-05'
+method: derived
+source: >-
+  openapi/cloudera-*-openapi.yml (19 harvested CDP control plane Swagger
+  definitions), security/cloudera-trust-center.yml (https://trust.cloudera.com/),
+  and live probes on 2026-09-05
+note: >-
+  Every entry below cites the exact contract location or probe that evidences it.
+  Where a standard was checked and is genuinely absent, conforms is false and the
+  evidence says what was looked for.
+conformance:
+  - id: openapi-2.0
+    name: OpenAPI / Swagger 2.0
+    conforms: true
+    evidence: >-
+      All 19 published service definitions declare `swagger: "2.0"` and are stated
+      as such in Cloudera's own README at
+      https://github.com/cloudera/cdp-dev-docs/blob/master/api-docs/swagger/README.md
+      — "They adhere to the OpenAPI / Swagger 2.0 specification."
+    note: >-
+      Swagger 2.0, not OpenAPI 3.x. Consumers needing 3.x must convert. The
+      definitions carry Cloudera-specific x- extensions (x-mutating, x-right,
+      x-form-factors, x-cdp-releases, x-audit, x-endpoint-name) that Cloudera
+      explicitly warns "are subject to change at any time".
+  - id: rfc9457
+    name: RFC 9457 Problem Details for HTTP APIs
+    conforms: false
+    evidence: >-
+      The shared #/definitions/Error object is {code, message} and is served as
+      application/json. It carries none of type/title/status/detail/instance and
+      no application/problem+json media type appears in any definition.
+    see: errors/cloudera-problem-types.yml
+  - id: oauth2
+    name: OAuth 2.0
+    conforms: false
+    evidence: >-
+      No securityDefinitions block exists in any of the 19 definitions, and no
+      oauth2 flow, authorization endpoint or token endpoint is documented for the
+      control plane. Authentication is Cloudera's own x-altus-auth request
+      signing (rsav1 / ed25519v1), specified at
+      https://github.com/cloudera/cdp-dev-docs/blob/master/api-docs/swagger/request_signing.md.
+      /.well-known/oauth-authorization-server returns 401 on the API host and
+      404 on the web hosts.
+  - id: oidc
+    name: OpenID Connect
+    conforms: false
+    evidence: >-
+      /.well-known/openid-configuration is not served on any Cloudera host
+      (404 on cloudera.com, www, docs; 401 on the API and console hosts; SPA
+      shell on my.cloudera.com). The one OIDC reference in the whole contract is
+      `oidcIssuerURL` on the compute service's Azure AKS cluster description — a
+      property of the customer's Kubernetes cluster, not of Cloudera's API.
+  - id: pagination
+    name: Cursor / token pagination
+    conforms: true
+    partial: true
+    evidence: >-
+      startingToken + pageSize appear in 40 and 46 request definitions
+      respectively; pageToken / nextPageToken in 5 each. Not uniform across the
+      surface — many list operations take no pagination at all.
+    see: conventions/cloudera-conventions.yml
+  - id: idempotency
+    name: Idempotent request replay
+    conforms: false
+    evidence: >-
+      No Idempotency-Key header, idempotency token or client request identifier
+      appears in any of the 778 operations or 2,257 definitions. 414 operations
+      are marked x-mutating true.
+    see: conventions/cloudera-conventions.yml
+  - id: rfc8594
+    name: RFC 8594 Sunset header
+    conforms: false
+    evidence: >-
+      No Sunset or Deprecation response header observed on probes of
+      https://api.us-west-1.cdp.cloudera.com. Deprecation is signalled in the
+      contract (5 operations carry `deprecated: true`) but never at runtime.
+    see: lifecycle/cloudera-lifecycle.yml
+  - id: rfc9116
+    name: RFC 9116 security.txt
+    conforms: false
+    evidence: >-
+      /.well-known/security.txt is not served on any of the eight hosts probed.
+    see: well-known/cloudera-well-known.yml
+domain_standards:
+  note: >-
+    Cloudera's market is enterprise data platform and identity federation. The
+    standards that matter to a buyer here are the ones that decide whether the
+    platform plugs into an existing corporate IdP and an existing data-governance
+    estate. Two are declared IN THE CONTRACT, with operations to prove it.
+  standards:
+    - id: scim
+      name: SCIM — System for Cross-domain Identity Management (RFC 7643 / RFC 7644)
+      conforms: true
+      evidence: >-
+        openapi/cloudera-iam-openapi.yml declares three operations that exist
+        solely to run a SCIM provisioning integration: createScimAccessToken
+        (/iam/createScimAccessToken, "Creates a SCIM access token for a SCIM
+        enabled identity provider. This token is used to authenticate requests
+        sent to the SCIM endpoints"), listScimAccessTokens and
+        deleteScimAccessToken.
+      buyer_impact: >-
+        An enterprise already running SCIM provisioning from Okta, Entra ID or
+        Ping can push users and groups into CDP with no bespoke connector.
+      caveat: >-
+        The contract states this operation "is not supported for Cloudera for
+        Government", so the SCIM path is unavailable on the GovCloud form factor.
+      limitation: >-
+        The SCIM endpoints themselves are not described in the published Swagger —
+        only the token lifecycle for them is. A consumer gets the standard, but
+        not a machine-readable description of Cloudera's SCIM surface.
+    - id: saml2
+      name: SAML 2.0 Web SSO
+      conforms: true
+      evidence: >-
+        openapi/cloudera-iam-openapi.yml carries a full SAML identity-provider
+        management surface — createSamlProvider, describeSamlProvider,
+        updateSamlProvider, deleteSamlProvider, listSamlProviders,
+        setSamlAuthnRequestSigningKey, setSamlResponseDecryptionKey,
+        getDefaultIdentityProvider, setDefaultIdentityProvider and
+        migrateUsersToIdentityProvider. "SAML" appears 101 times across the
+        harvested definitions.
+      buyer_impact: >-
+        Corporate SSO is configurable through the API rather than only through
+        the console, including AuthnRequest signing keys and response decryption
+        keys — the parts of SAML that usually require a support ticket.
+    - id: odata
+      name: OData
+      conforms: false
+      evidence: >-
+        Checked and NOT present. Case-insensitive matches on "odata" in the
+        contract are substring artefacts of camelCase identifiers
+        (toDataShare, toDatahub); there is no $metadata surface and no OData
+        query option anywhere.
+    - id: fhir
+      name: HL7 FHIR
+      conforms: false
+      evidence: Not applicable to this market; zero occurrences in the contract.
+compliance:
+  source: https://trust.cloudera.com/
+  method: searched
+  certifications:
+    - SOC 2
+    - ISO 27001
+    - ISO 27017
+    - ISO 27018
+    - PCI DSS
+    - HIPAA
+    - FedRAMP
+    - GDPR
+  in_contract_signal:
+    - id: govcloud
+      evidence: >-
+        "GovCloud" appears 74 times across the harvested definitions, with
+        dedicated operations (getGovCloudCredentialPrerequisites,
+        getGovCloudAuditCredentialPrerequisites) and a documented restriction
+        that SCIM token creation is unavailable on Cloudera for Government. The
+        FedRAMP posture claimed on the trust centre is therefore corroborated by
+        a distinct, contract-visible form factor — not just a marketing claim.
+  see: security/cloudera-trust-center.yml

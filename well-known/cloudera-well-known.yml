@@ -1,0 +1,174 @@
+generated: '2026-09-05'
+method: probed
+source: live HTTP probes of the named /.well-known/ paths on every host this record knows
+note: >-
+  Nothing was found. Cloudera serves no /.well-known/ document on any host in this
+  record — registrable domain and www, the docs host, the three regional control
+  plane API hosts, the console, the support portal, the trust centre and the
+  community forum. NO WellKnown and NO SecurityTxt pointer is emitted from this
+  file, because every path either 404s, is refused by the API gateway's blanket
+  401, or answers 200 with a single-page-app HTML shell rather than a document.
+  Specifically: my.cloudera.com returns HTTP 200 with the My Cloudera SPA shell
+  for EVERY /.well-known/* path including agent-card.json, and trust.cloudera.com
+  returns 200 with the Conveyor trust-centre SPA shell — both are catch-alls, not
+  documents, and neither is counted as a hit. community.cloudera.com sits behind a
+  Cloudflare interstitial (403 "Just a moment...") for all seven paths, so it is
+  recorded as challenged rather than as an absence. api.usg-1.cdp.cloudera.com
+  (the GovCloud control plane named in the environments spec) does not resolve
+  from this vantage point.
+hosts:
+  - host: cloudera.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: www.cloudera.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: docs.cloudera.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: api.us-west-1.cdp.cloudera.com
+    note: >-
+      The control plane gateway answers every unauthenticated request, on every
+      path, with the same 401 {"code":"AUTHENTICATION_FAILURE"} body. It does not
+      distinguish a missing document from a refused one.
+    documents:
+      - path: /.well-known/security.txt
+        status: 401
+      - path: /.well-known/openid-configuration
+        status: 401
+      - path: /.well-known/oauth-authorization-server
+        status: 401
+      - path: /.well-known/api-catalog
+        status: 401
+      - path: /.well-known/ai-plugin.json
+        status: 401
+      - path: /.well-known/agent-card.json
+        status: 401
+      - path: /.well-known/agent.json
+        status: 401
+  - host: console.cdp.cloudera.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 401
+      - path: /.well-known/openid-configuration
+        status: 401
+      - path: /.well-known/oauth-authorization-server
+        status: 401
+      - path: /.well-known/api-catalog
+        status: 401
+      - path: /.well-known/ai-plugin.json
+        status: 401
+      - path: /.well-known/agent-card.json
+        status: 401
+      - path: /.well-known/agent.json
+        status: 401
+  - host: my.cloudera.com
+    note: >-
+      Every path returns HTTP 200 with the My Cloudera single-page-app HTML shell
+      (<!DOCTYPE html> ... lang="en-US"). This is an SPA catch-all, not a served
+      document, and is recorded as a miss.
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        result: spa-shell
+      - path: /.well-known/openid-configuration
+        status: 200
+        result: spa-shell
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        result: spa-shell
+      - path: /.well-known/api-catalog
+        status: 200
+        result: spa-shell
+      - path: /.well-known/ai-plugin.json
+        status: 200
+        result: spa-shell
+      - path: /.well-known/agent-card.json
+        status: 200
+        result: spa-shell
+      - path: /.well-known/agent.json
+        status: 200
+        result: spa-shell
+  - host: trust.cloudera.com
+    note: >-
+      Hosted by Conveyor. /.well-known/ai-plugin.json returns 200 with the trust
+      centre SPA shell; the other six paths reset the connection before a status
+      line is returned (recorded as 0).
+    documents:
+      - path: /.well-known/security.txt
+        status: 0
+      - path: /.well-known/openid-configuration
+        status: 0
+      - path: /.well-known/oauth-authorization-server
+        status: 0
+      - path: /.well-known/api-catalog
+        status: 0
+      - path: /.well-known/ai-plugin.json
+        status: 200
+        result: spa-shell
+      - path: /.well-known/agent-card.json
+        status: 0
+      - path: /.well-known/agent.json
+        status: 0
+  - host: community.cloudera.com
+    note: Cloudflare bot interstitial ("Just a moment...") on every path.
+    documents:
+      - path: /.well-known/security.txt
+        status: 403
+      - path: /.well-known/openid-configuration
+        status: 403
+      - path: /.well-known/oauth-authorization-server
+        status: 403
+      - path: /.well-known/api-catalog
+        status: 403
+      - path: /.well-known/ai-plugin.json
+        status: 403
+      - path: /.well-known/agent-card.json
+        status: 403
+      - path: /.well-known/agent.json
+        status: 403
+summary:
+  documents_found: 0
+  security_txt: false
+  api_catalog: false
+  agent_card: false
+  oauth_metadata: false

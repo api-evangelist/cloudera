@@ -1,0 +1,200 @@
+# Cloudera Documentation
+
+> Product documentation for Cloudera's data platform, including CDP, Cloudera Manager, Data Services, and related tools.
+
+## Getting started
+
+Recommended starting points for new users, covering the main deployment models for Cloudera's data platform. Curated by the docs team; entries here surface in the site-root llms.txt for AI discoverability.
+
+- [Get started with CDP Public Cloud](https://docs.cloudera.com/cdp-public-cloud/cloud/index.html): Register environments, provision workload clusters, and deploy Data Hub, Data Warehouse, Machine Learning, Data Engineering, and Operational Database on AWS, Azure, or GCP.
+- [Get started with CDP Private Cloud](https://docs.cloudera.com/cdp-private-cloud/latest/index.html): Install and manage the Cloudera Data Platform on-premises. Umbrella entry covering both Private Cloud Base (Cloudera Manager + Runtime) and Data Services.
+- [Get started with Cloudera Data Services on premises](https://docs.cloudera.com/cdp-private-cloud-data-services/latest/index.html): Deploy Cloudera Data Warehouse, Data Engineering, Machine Learning, and Operational Database as Kubernetes services on an existing Private Cloud Base cluster or Embedded Container Service.
+- [Get started with Cloudera Manager](https://docs.cloudera.com/cloudera-manager/latest/index.html): Centralized management software for installing, configuring, and monitoring clusters running Cloudera services on-premises or in the cloud.
+
+## Current releases
+
+### Public cloud
+
+- [application-resources latest](https://docs.cloudera.com/application-resources/latest/llms.txt)
+- [best-practices latest](https://docs.cloudera.com/best-practices/latest/llms.txt)
+- [cdf-datahub 7.3.2](https://docs.cloudera.com/cdf-datahub/7.3.2/llms.txt)
+- [cdp-public-cloud cloud](https://docs.cloudera.com/cdp-public-cloud/cloud/llms.txt)
+- [cdp-public-cloud-patterns cloud](https://docs.cloudera.com/cdp-public-cloud-patterns/cloud/llms.txt)
+- [cdp-reference-architectures latest](https://docs.cloudera.com/cdp-reference-architectures/latest/llms.txt)
+- [cdw-runtime cloud](https://docs.cloudera.com/cdw-runtime/cloud/llms.txt)
+- [cloudera-account-360 latest](https://docs.cloudera.com/cloudera-account-360/latest/llms.txt)
+- [cloudera-manager 7.13.2](https://docs.cloudera.com/cloudera-manager/7.13.2/llms.txt)
+- [csp-ce latest](https://docs.cloudera.com/csp-ce/latest/llms.txt)
+- [data-catalog cloud](https://docs.cloudera.com/data-catalog/cloud/llms.txt)
+- [data-engineering cloud](https://docs.cloudera.com/data-engineering/cloud/llms.txt)
+- [data-hub cloud](https://docs.cloudera.com/data-hub/cloud/llms.txt)
+- [data-warehouse cloud](https://docs.cloudera.com/data-warehouse/cloud/llms.txt)
+- [dataflow cloud](https://docs.cloudera.com/dataflow/cloud/llms.txt)
+- [hybrid-cloud latest](https://docs.cloudera.com/hybrid-cloud/latest/llms.txt)
+- [machine-learning cloud](https://docs.cloudera.com/machine-learning/cloud/llms.txt)
+- [management-console cloud](https://docs.cloudera.com/management-console/cloud/llms.txt)
+- [observability cloud](https://docs.cloudera.com/observability/cloud/llms.txt)
+- [octopai latest](https://docs.cloudera.com/octopai/latest/llms.txt)
+- [operational-database cloud](https://docs.cloudera.com/operational-database/cloud/llms.txt)
+- [replication-manager cloud](https://docs.cloudera.com/replication-manager/cloud/llms.txt)
+- [runtime 7.3.2](https://docs.cloudera.com/runtime/7.3.2/llms.txt)
+
+### On-premises
+
+- [cdp-private-cloud-base 7.3.2](https://docs.cloudera.com/cdp-private-cloud-base/7.3.2/llms.txt)
+- [cdp-private-cloud-data-services 1.5.5](https://docs.cloudera.com/cdp-private-cloud-data-services/1.5.5/llms.txt)
+- [cdp-private-cloud-upgrade latest](https://docs.cloudera.com/cdp-private-cloud-upgrade/latest/llms.txt)
+- [cdsw 1.10.5](https://docs.cloudera.com/cdsw/1.10.5/llms.txt)
+- [cdw-runtime 1.5.5](https://docs.cloudera.com/cdw-runtime/1.5.5/llms.txt)
+- [cem 2.4.0](https://docs.cloudera.com/cem/2.4.0/llms.txt)
+- [cfm 4.12.0](https://docs.cloudera.com/cfm/4.12.0/llms.txt)
+- [cfm-operator 3.3.0](https://docs.cloudera.com/cfm-operator/3.3.0/llms.txt)
+- [cloudera-manager-ibm 7.2.3](https://docs.cloudera.com/cloudera-manager-ibm/7.2.3/llms.txt)
+- [cloudera-migration-assistant 4.1](https://docs.cloudera.com/cloudera-migration-assistant/4.1/llms.txt)
+- [csa 1.17.0](https://docs.cloudera.com/csa/1.17.0/llms.txt)
+- [csa-operator 1.5](https://docs.cloudera.com/csa-operator/1.5/llms.txt)
+- [csm-operator 1.7](https://docs.cloudera.com/csm-operator/1.7/llms.txt)
+- [data-catalog 1.5.5](https://docs.cloudera.com/data-catalog/1.5.5/llms.txt)
+- [data-engineering 1.5.5](https://docs.cloudera.com/data-engineering/1.5.5/llms.txt)
+- [data-visualization 8](https://docs.cloudera.com/data-visualization/8/llms.txt)
+- [data-warehouse 1.5.5](https://docs.cloudera.com/data-warehouse/1.5.5/llms.txt)
+- [machine-learning 1.5.5](https://docs.cloudera.com/machine-learning/1.5.5/llms.txt)
+- [management-console 1.5.5](https://docs.cloudera.com/management-console/1.5.5/llms.txt)
+- [observability 3.7.1](https://docs.cloudera.com/observability/3.7.1/llms.txt)
+- [replication-manager 1.5.5](https://docs.cloudera.com/replication-manager/1.5.5/llms.txt)
+
+## Older versions
+
+### cdf-datahub
+
+- [7.3.1](https://docs.cloudera.com/cdf-datahub/7.3.1/llms.txt)
+- [7.2.18](https://docs.cloudera.com/cdf-datahub/7.2.18/llms.txt)
+- [7.2.17](https://docs.cloudera.com/cdf-datahub/7.2.17/llms.txt)
+- [7.2.16](https://docs.cloudera.com/cdf-datahub/7.2.16/llms.txt)
+- [7.2.15](https://docs.cloudera.com/cdf-datahub/7.2.15/llms.txt)
+
+### cdp-private-cloud-base
+
+- [7.3.1](https://docs.cloudera.com/cdp-private-cloud-base/7.3.1/llms.txt)
+- [7.1.9](https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/llms.txt)
+- [7.1.8](https://docs.cloudera.com/cdp-private-cloud-base/7.1.8/llms.txt)
+- [7.1.7](https://docs.cloudera.com/cdp-private-cloud-base/7.1.7/llms.txt)
+
+### cdp-private-cloud-data-services
+
+- [1.5.4](https://docs.cloudera.com/cdp-private-cloud-data-services/1.5.4/llms.txt)
+
+### cdsw
+
+- [1.10.4](https://docs.cloudera.com/cdsw/1.10.4/llms.txt)
+- [1.10.3](https://docs.cloudera.com/cdsw/1.10.3/llms.txt)
+- [1.10.2](https://docs.cloudera.com/cdsw/1.10.2/llms.txt)
+- [1.10.1](https://docs.cloudera.com/cdsw/1.10.1/llms.txt)
+- [1.10.0](https://docs.cloudera.com/cdsw/1.10.0/llms.txt)
+- [1.9.2](https://docs.cloudera.com/cdsw/1.9.2/llms.txt)
+- [1.9.1](https://docs.cloudera.com/cdsw/1.9.1/llms.txt)
+- [1.9.0](https://docs.cloudera.com/cdsw/1.9.0/llms.txt)
+
+### cdw-runtime
+
+- [1.5.4](https://docs.cloudera.com/cdw-runtime/1.5.4/llms.txt)
+
+### cem
+
+- [2.3.1](https://docs.cloudera.com/cem/2.3.1/llms.txt)
+- [2.3.0](https://docs.cloudera.com/cem/2.3.0/llms.txt)
+- [2.2.0](https://docs.cloudera.com/cem/2.2.0/llms.txt)
+- [2.1.3](https://docs.cloudera.com/cem/2.1.3/llms.txt)
+
+### cfm
+
+- [4.11.0](https://docs.cloudera.com/cfm/4.11.0/llms.txt)
+- [4.10.0](https://docs.cloudera.com/cfm/4.10.0/llms.txt)
+- [2.1.7](https://docs.cloudera.com/cfm/2.1.7/llms.txt)
+- [2.1.6](https://docs.cloudera.com/cfm/2.1.6/llms.txt)
+- [2.1.5](https://docs.cloudera.com/cfm/2.1.5/llms.txt)
+- [2.1.3](https://docs.cloudera.com/cfm/2.1.3/llms.txt)
+
+### cfm-operator
+
+- [3.2.0](https://docs.cloudera.com/cfm-operator/3.2.0/llms.txt)
+- [3.1.0](https://docs.cloudera.com/cfm-operator/3.1.0/llms.txt)
+- [3.0.0](https://docs.cloudera.com/cfm-operator/3.0.0/llms.txt)
+- [2.11.0](https://docs.cloudera.com/cfm-operator/2.11.0/llms.txt)
+
+### cloudera-manager
+
+- [7.13.1](https://docs.cloudera.com/cloudera-manager/7.13.1/llms.txt)
+
+### cloudera-migration-assistant
+
+- [4.0](https://docs.cloudera.com/cloudera-migration-assistant/4.0/llms.txt)
+
+### csa
+
+- [1.16.1](https://docs.cloudera.com/csa/1.16.1/llms.txt)
+- [1.16.0](https://docs.cloudera.com/csa/1.16.0/llms.txt)
+- [1.15.2](https://docs.cloudera.com/csa/1.15.2/llms.txt)
+- [1.15.1](https://docs.cloudera.com/csa/1.15.1/llms.txt)
+- [1.15.0](https://docs.cloudera.com/csa/1.15.0/llms.txt)
+- [1.13.6](https://docs.cloudera.com/csa/1.13.6/llms.txt)
+- [1.13.4](https://docs.cloudera.com/csa/1.13.4/llms.txt)
+- [1.13.3](https://docs.cloudera.com/csa/1.13.3/llms.txt)
+- [1.13.2](https://docs.cloudera.com/csa/1.13.2/llms.txt)
+- [1.13.1](https://docs.cloudera.com/csa/1.13.1/llms.txt)
+- [1.13.0](https://docs.cloudera.com/csa/1.13.0/llms.txt)
+
+### csa-operator
+
+- [1.4](https://docs.cloudera.com/csa-operator/1.4/llms.txt)
+- [1.3](https://docs.cloudera.com/csa-operator/1.3/llms.txt)
+
+### csm-operator
+
+- [1.6](https://docs.cloudera.com/csm-operator/1.6/llms.txt)
+- [1.5](https://docs.cloudera.com/csm-operator/1.5/llms.txt)
+- [1.4](https://docs.cloudera.com/csm-operator/1.4/llms.txt)
+
+### data-catalog
+
+- [1.5.4](https://docs.cloudera.com/data-catalog/1.5.4/llms.txt)
+
+### data-engineering
+
+- [1.5.4](https://docs.cloudera.com/data-engineering/1.5.4/llms.txt)
+
+### data-visualization
+
+- [7](https://docs.cloudera.com/data-visualization/7/llms.txt)
+
+### data-warehouse
+
+- [1.5.4](https://docs.cloudera.com/data-warehouse/1.5.4/llms.txt)
+
+### machine-learning
+
+- [1.5.4](https://docs.cloudera.com/machine-learning/1.5.4/llms.txt)
+
+### management-console
+
+- [1.5.4](https://docs.cloudera.com/management-console/1.5.4/llms.txt)
+
+### observability
+
+- [3.6.2](https://docs.cloudera.com/observability/3.6.2/llms.txt)
+- [3.5.3](https://docs.cloudera.com/observability/3.5.3/llms.txt)
+- [3.5.2](https://docs.cloudera.com/observability/3.5.2/llms.txt)
+- [3.4.4](https://docs.cloudera.com/observability/3.4.4/llms.txt)
+
+### replication-manager
+
+- [1.5.4](https://docs.cloudera.com/replication-manager/1.5.4/llms.txt)
+
+### runtime
+
+- [7.3.1](https://docs.cloudera.com/runtime/7.3.1/llms.txt)
+- [7.2.18](https://docs.cloudera.com/runtime/7.2.18/llms.txt)
+- [7.2.17](https://docs.cloudera.com/runtime/7.2.17/llms.txt)
+- [7.2.16](https://docs.cloudera.com/runtime/7.2.16/llms.txt)
+- [7.2.15](https://docs.cloudera.com/runtime/7.2.15/llms.txt)
+

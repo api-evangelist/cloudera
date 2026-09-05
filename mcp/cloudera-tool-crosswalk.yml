@@ -1,0 +1,106 @@
+generated: '2026-09-05'
+method: derived
+source: >-
+  mcp/cloudera-mcp.yml (four first-party MCP servers) bound against
+  openapi/cloudera-*-openapi.yml (19 harvested CDP control plane Swagger
+  definitions, 778 operations)
+finding: >-
+  THE TWO SURFACES DO NOT OVERLAP. Cloudera's published contract and Cloudera's
+  published MCP servers describe different products. The 778 operations in
+  openapi/ are the CDP Public Cloud CONTROL PLANE (create an environment, scale a
+  datalake, provision a virtual warehouse, manage IAM); the 226 MCP tools operate
+  INSIDE a running deployment (query an Iceberg table, build a NiFi flow, edit a
+  CDV dashboard, run a Cloudera AI job). Not one MCP tool binds to a control plane
+  operationId, and not one control plane operation has an agent binding. This is
+  a genuine architectural split, not a coverage gap in this crosswalk — recording
+  it as zero-overlap is the accurate result.
+surfaces:
+  openapi:
+    path: openapi/
+    files: 19
+    operations: 778
+    host: https://api.us-west-1.cdp.cloudera.com (also api.eu-1, api.ap-1)
+    gated: >-
+      The contract itself is public (github.com/cloudera/cdp-dev-docs). The live
+      endpoint refuses every unauthenticated request with 401
+      AUTHENTICATION_FAILURE and requires x-altus-auth request signing.
+  mcp:
+    url: null
+    gated: true
+    note: >-
+      No hosted endpoint. Four local-stdio servers, each pointed at a customer's
+      own deployment; tools/list cannot be reached anonymously.
+  graphql:
+    present: false
+coverage:
+  mcp_tools_total: 226
+  rest_operations_total: 778
+  bound: 0
+  mcp_only: 226
+  rest_only: 778
+  overlap_percent: 0.0
+crosswalk: []
+mcp_only:
+  - tool_group: cdv-mcp-server (52 tools)
+    reason: >-
+      Targets the Cloudera Data Visualization REST API on a customer's own CDV
+      host. CDV has no service definition in the published CDP Swagger set, so
+      there is no operationId to bind to.
+  - tool_group: cai-workbench-mcp-server (106 tools)
+    reason: >-
+      Targets the Cloudera AI workbench API v2 (cmlapi) INSIDE a provisioned
+      workspace. openapi/cloudera-ml-openapi.yml covers the control plane side of
+      Cloudera AI only — createWorkspace, describeWorkspace, listWorkspaces and so
+      on — and stops at the workspace boundary. Jobs, models, experiments and
+      project files live behind that boundary and are absent from the contract.
+    closest_rest: openapi/cloudera-ml-openapi.yml
+    binding: adjacent
+    confidence: high
+  - tool_group: nifi-mcp-server (66 tools)
+    reason: >-
+      Targets the Apache NiFi API through Knox on a Data Hub or CFM cluster.
+      openapi/cloudera-df-openapi.yml and openapi/cloudera-dfworkload-openapi.yml
+      manage DataFlow deployments and readyflows at the control plane level; the
+      NiFi canvas itself (processors, connections, controller services) is not in
+      any Cloudera-published contract.
+    closest_rest: openapi/cloudera-dfworkload-openapi.yml
+    binding: adjacent
+    confidence: high
+  - tool_group: iceberg-mcp-server (2 tools)
+    reason: >-
+      execute_query / get_schema speak SQL to an Impala coordinator. There is no
+      REST operation for either; the data plane is not part of the control plane
+      contract.
+    binding: none
+    confidence: high
+rest_only:
+  note: >-
+    All 778 control plane operations are REST-only. Listed by service with
+    operation counts rather than one row each; every operationId is readable from
+    the corresponding file in openapi/.
+  services:
+    - {service: environments, file: openapi/cloudera-environments-openapi.yml, operations: 104}
+    - {service: dw, file: openapi/cloudera-dw-openapi.yml, operations: 95}
+    - {service: iam, file: openapi/cloudera-iam-openapi.yml, operations: 79}
+    - {service: datahub, file: openapi/cloudera-datahub-openapi.yml, operations: 75}
+    - {service: dfworkload, file: openapi/cloudera-dfworkload-openapi.yml, operations: 71}
+    - {service: df, file: openapi/cloudera-df-openapi.yml, operations: 66}
+    - {service: ml, file: openapi/cloudera-ml-openapi.yml, operations: 59}
+    - {service: datalake, file: openapi/cloudera-datalake-openapi.yml, operations: 56}
+    - {service: lakehouseopt, file: openapi/cloudera-lakehouseopt-openapi.yml, operations: 30}
+    - {service: de, file: openapi/cloudera-de-openapi.yml, operations: 24}
+    - {service: replicationmanager, file: openapi/cloudera-replicationmanager-openapi.yml, operations: 24}
+    - {service: datacatalog, file: openapi/cloudera-datacatalog-openapi.yml, operations: 20}
+    - {service: opdb, file: openapi/cloudera-opdb-openapi.yml, operations: 19}
+    - {service: compute, file: openapi/cloudera-compute-openapi.yml, operations: 15}
+    - {service: audit, file: openapi/cloudera-audit-openapi.yml, operations: 11}
+    - {service: imagecatalog, file: openapi/cloudera-imagecatalog-openapi.yml, operations: 11}
+    - {service: cloudprivatelinks, file: openapi/cloudera-cloudprivatelinks-openapi.yml, operations: 9}
+    - {service: drscp, file: openapi/cloudera-drscp-openapi.yml, operations: 9}
+    - {service: consumption, file: openapi/cloudera-consumption-openapi.yml, operations: 1}
+recommendation: >-
+  The highest-value missing artifact for Cloudera is an MCP server over the
+  control plane itself. Every operation is a POST with a JSON body and a stable
+  operationId, and Cloudera already ships x-mutating on 705 of 778 operations —
+  the machine-readable consequence annotation an agent binding needs is already
+  in the contract.

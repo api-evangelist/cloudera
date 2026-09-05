@@ -1,0 +1,212 @@
+generated: '2026-09-05'
+method: derived
+source: >-
+  openapi/cloudera-*-openapi.yml — 2,257 definitions across 19 CDP control plane
+  Swagger services; relationships derived from *Crn reference fields and $ref
+  links between definitions.
+identifier:
+  scheme: CRN
+  name: Cloudera Resource Name
+  format: 'crn:cdp:<service>:<region>:<account-id>:<resourceType>:<identifier>'
+  note: >-
+    One identifier scheme spans every service. A CRN encodes the owning service,
+    so an agent holding a CRN always knows which of the 19 APIs to call next
+    without a lookup table. Most operations accept either the CRN or the human
+    resource name for the same object.
+  reference_fields_observed: 30
+  most_common:
+    - {field: environmentCrn, occurrences: 133}
+    - {field: crn, occurrences: 121}
+    - {field: clusterCrn, occurrences: 52}
+    - {field: deploymentCrn, occurrences: 51}
+    - {field: projectCrn, occurrences: 31}
+    - {field: datahubCrn, occurrences: 29}
+    - {field: workspaceCrn, occurrences: 29}
+    - {field: backupCrn, occurrences: 25}
+    - {field: datalakeCrn, occurrences: 24}
+root: environment
+root_note: >-
+  environmentCrn is the single most referenced field in the entire contract (133
+  occurrences, in 16 of 19 services). The environment is the tenancy root: cloud
+  credentials, network, FreeIPA identity and region hang off it, and essentially
+  every other resource belongs to exactly one environment. Nothing else in the
+  model can be created until an environment exists, which makes it the first
+  entity any agent must resolve.
+entities:
+  - name: Environment
+    service: environments
+    file: openapi/cloudera-environments-openapi.yml
+    key: environmentCrn
+    describe: describeEnvironment
+    list: listEnvironments
+    create: [createAWSEnvironment, createAzureEnvironment, createGCPEnvironment, createAWSGovCloudEnvironment]
+    delete: deleteEnvironment
+    relationships:
+      - {type: has_one, target: Datalake, via: environmentCrn}
+      - {type: has_many, target: DataHubCluster, via: environmentCrn}
+      - {type: has_many, target: VirtualWarehouse, via: environmentCrn}
+      - {type: has_many, target: Workspace, via: environmentCrn}
+      - {type: has_many, target: DEService, via: environmentCrn}
+      - {type: belongs_to, target: Credential, via: credentialCrn}
+  - name: Credential
+    service: environments
+    key: credentialCrn
+    list: listCredentials
+    relationships:
+      - {type: has_many, target: Environment, via: credentialCrn}
+    note: The cloud provider access credential an environment uses to provision resources.
+  - name: Datalake
+    service: datalake
+    file: openapi/cloudera-datalake-openapi.yml
+    key: datalakeCrn
+    describe: describeDatalake
+    list: listDatalakes
+    create: [createAWSDatalake, createAzureDatalake, createGCPDatalake, createAWSGovCloudDatalake]
+    delete: deleteDatalake
+    relationships:
+      - {type: belongs_to, target: Environment, via: environmentCrn}
+      - {type: has_many, target: DatalakeBackup, via: datalakeCrn}
+    note: >-
+      Exactly one per environment. Holds the shared metadata, security and
+      governance context (Hive metastore, Ranger, Atlas) that every workload
+      cluster in the environment attaches to.
+  - name: DatalakeBackup
+    service: datalake
+    key: backupCrn
+    create: backupDatalake
+    restore: restoreDatalake
+    cancel: [cancelBackup, cancelRestore]
+    relationships:
+      - {type: belongs_to, target: Datalake, via: datalakeCrn}
+      - {type: has_one, target: DatalakeRestore, via: restoreCrn}
+  - name: DataHubCluster
+    service: datahub
+    file: openapi/cloudera-datahub-openapi.yml
+    key: clusterCrn
+    describe: describeCluster
+    list: listClusters
+    create: [createAWSCluster, createAzureCluster, createGCPCluster, createAWSGovCloudCluster]
+    delete: deleteCluster
+    stop: stopCluster
+    relationships:
+      - {type: belongs_to, target: Environment, via: environmentCrn}
+      - {type: belongs_to, target: ClusterDefinition, via: clusterDefinition}
+      - {type: has_many, target: Recipe, via: recipe}
+    note: >-
+      The ephemeral workload cluster. clusterCrn (52 occurrences) is the second
+      most referenced resource identifier after the environment.
+  - name: ClusterTemplate / ClusterDefinition / Recipe
+    service: datahub
+    note: >-
+      Reusable shapes a Data Hub cluster is built from. Managed by
+      createClusterTemplate, createClusterDefinition, createRecipe and their
+      delete* counterparts, and referenced by name from the create* cluster
+      operations.
+  - name: VirtualWarehouse
+    service: dw
+    file: openapi/cloudera-dw-openapi.yml
+    key: clusterCrn
+    create: [createCluster, createVw, createDbc]
+    delete: [deleteCluster, deleteVw, deleteDbc]
+    relationships:
+      - {type: belongs_to, target: Environment, via: environmentCrn}
+      - {type: belongs_to, target: DatabaseCatalog, via: dbcId}
+    note: >-
+      The largest service in the contract (95 operations). A DW "cluster" is
+      activated onto an environment, then holds database catalogs and virtual
+      warehouses.
+  - name: Workspace
+    service: ml
+    file: openapi/cloudera-ml-openapi.yml
+    key: workspaceCrn
+    describe: describeWorkspace
+    list: listWorkspaces
+    create: createWorkspace
+    delete: deleteWorkspace
+    relationships:
+      - {type: belongs_to, target: Environment, via: environmentCrn}
+    boundary_note: >-
+      THE CONTRACT STOPS HERE. Everything inside a Cloudera AI workspace —
+      projects, jobs, models, experiments, files — is served by the workbench's
+      own API v2 (the cmlapi SDK) and is not described in any published Cloudera
+      Swagger. This is the boundary the MCP crosswalk records.
+  - name: DEService / DEVirtualCluster
+    service: de
+    file: openapi/cloudera-de-openapi.yml
+    key: [clusterId, serviceCrn]
+    list: listServices
+    relationships:
+      - {type: belongs_to, target: Environment, via: environmentCrn}
+      - {type: has_many, target: DEVirtualCluster, via: serviceId}
+  - name: DataFlowProject / Deployment / Flow
+    service: [df, dfworkload]
+    files:
+      - openapi/cloudera-df-openapi.yml
+      - openapi/cloudera-dfworkload-openapi.yml
+    key: [projectCrn, deploymentCrn, flowCrn, flowVersionCrn, deployedFlowCrn]
+    relationships:
+      - {type: belongs_to, target: Environment, via: environmentCrn}
+      - {type: has_many, target: Deployment, via: projectCrn}
+      - {type: has_many, target: FlowVersion, via: flowCrn}
+      - {type: has_one, target: DeployedFlow, via: deployedFlowCrn}
+    note: >-
+      The most deeply linked subgraph in the contract — deploymentCrn (51),
+      projectCrn (31), deployedFlowCrn (17), flowVersionCrn (13), flowCrn (12),
+      readyflowCrn (4) — spread across two services that must be used together.
+  - name: OperationalDatabase
+    service: opdb
+    file: openapi/cloudera-opdb-openapi.yml
+    relationships:
+      - {type: belongs_to, target: Environment, via: environmentCrn}
+  - name: DataCatalogAsset / DataShare
+    service: datacatalog
+    file: openapi/cloudera-datacatalog-openapi.yml
+    key: [assetUpdateRequestCrn, collectionCrn]
+    relationships:
+      - {type: belongs_to, target: Datalake, via: datalakeCrn}
+  - name: User / MachineUser / Group
+    service: iam
+    file: openapi/cloudera-iam-openapi.yml
+    key: [userCrn, actorCrn, crn]
+    relationships:
+      - {type: has_many, target: RoleAssignment, via: actorCrn}
+      - {type: has_many, target: AccessKey, via: actorCrn}
+      - {type: belongs_to, target: SamlProvider, via: identityProviderCrn}
+    note: >-
+      actorCrn (10 occurrences) is the polymorphic reference: a user and a machine
+      user are both actors, and role assignment operates on actors rather than on
+      users specifically.
+  - name: Role / ResourceRole / RoleAssignment
+    service: iam
+    key: resourceRoleCrn
+    relationships:
+      - {type: belongs_to, target: User, via: actorCrn}
+      - {type: has_one, target: Resource, via: resourceCrn}
+    note: >-
+      resourceCrn (20 occurrences) is deliberately untyped — it holds the CRN of
+      ANY resource in the account, which is how one IAM model covers all 19
+      services.
+  - name: ImageCatalog
+    service: imagecatalog
+    file: openapi/cloudera-imagecatalog-openapi.yml
+    note: Custom VM image catalogs consumed by Data Hub and datalake create operations.
+  - name: AuditEvent
+    service: audit
+    file: openapi/cloudera-audit-openapi.yml
+    relationships:
+      - {type: belongs_to, target: Environment, via: environmentCrn}
+    note: >-
+      x-audit is true on 18 of the 19 service definitions, meaning control plane
+      operations are themselves auditable events readable through this service.
+      Only dfworkload is marked x-audit false.
+provisioning_order:
+  note: >-
+    Derived from the belongs_to chain. An agent cannot skip a step; each level
+    requires the CRN of the level above.
+  order:
+    - Credential
+    - Environment
+    - Datalake
+    - [DataHubCluster, VirtualWarehouse, Workspace, DEService, DataFlowProject, OperationalDatabase]
+render:
+  subway: not present in this repo

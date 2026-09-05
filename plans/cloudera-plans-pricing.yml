@@ -1,0 +1,155 @@
+generated: '2026-09-05'
+method: searched
+source: https://www.cloudera.com/products/pricing.html
+http_status: 200
+currency: USD
+model: consumption
+unit:
+  name: CCU
+  expansion: Cloudera Compute Unit
+  note: >-
+    Cloudera meters consumption in CCUs (and, for GPU, CGUs). Pricing is per
+    CCU-hour for cloud services and per CCU-year for on-premises subscriptions.
+    There is NO per-API-call or per-request price anywhere in Cloudera's pricing —
+    the API is a control surface over metered compute, not a metered product in
+    its own right, so an agent's API usage costs nothing directly and everything
+    indirectly through the resources it provisions.
+api_pricing:
+  metered: false
+  note: >-
+    Calls to the CDP control plane API are not billed. What they create is —
+    createAWSEnvironment, createVwCluster and createAWSCluster each start a
+    CCU-hourly meter that runs until the corresponding delete or stop operation.
+    This is the single most important cost fact for an agent operating this API.
+plan_count: 18
+plans:
+  - name: Data Engineering — Core
+    family: Cloudera on Cloud
+    price: 0.07
+    currency: USD
+    unit: CCU
+    period: hour
+  - name: Data Engineering — All-Purpose
+    family: Cloudera on Cloud
+    price: 0.20
+    currency: USD
+    unit: CCU
+    period: hour
+  - name: Data Warehouse
+    family: Cloudera on Cloud
+    price: 0.07
+    currency: USD
+    unit: CCU
+    period: hour
+  - name: Operational Database
+    family: Cloudera on Cloud
+    price: 0.08
+    currency: USD
+    unit: CCU
+    period: hour
+  - name: Machine Learning
+    family: Cloudera on Cloud
+    price: 0.20
+    currency: USD
+    unit: CCU
+    period: hour
+  - name: Data Hub
+    family: Cloudera on Cloud
+    price: 0.04
+    currency: USD
+    unit: CCU
+    period: hour
+  - name: Flow Management on Data Hub
+    family: Cloudera on Cloud
+    price: 0.15
+    currency: USD
+    unit: CCU
+    period: hour
+  - name: DataFlow — Deployments and Test Sessions
+    family: Cloudera on Cloud
+    price: 0.30
+    currency: USD
+    unit: CCU
+    period: hour
+  - name: DataFlow — Functions
+    family: Cloudera on Cloud
+    price: 0.10
+    currency: USD
+    unit: billable invocation
+    period: null
+    note: Starting price; Cloudera states volume discounts apply.
+  - name: AI Workbench
+    family: Cloudera on Cloud
+    price: 0.20
+    currency: USD
+    unit: CCU
+    period: hour
+  - name: AI Inference
+    family: Cloudera on Cloud
+    price: 0.25
+    currency: USD
+    unit: CCU
+    period: hour
+  - name: Observability Premium
+    family: Cloudera on Cloud
+    price: 0.009
+    currency: USD
+    unit: CCU
+    period: hour
+  - name: Private Link Network — VPC
+    family: Cloudera on Cloud
+    price: 0.50
+    currency: USD
+    unit: VPC
+    period: hour
+  - name: Private Link Network — Authorization
+    family: Cloudera on Cloud
+    price: 5.00
+    currency: USD
+    unit: Authorization
+    period: hour
+  - name: Lakehouse Optimizer
+    family: Cloudera on Cloud
+    price: 0.05
+    currency: USD
+    unit: CCU
+    period: hour
+  - name: Observability (on premises)
+    family: Cloudera on Premises
+    price: 80
+    currency: USD
+    unit: CCU
+    period: year
+  - name: Data Visualization (on premises)
+    family: Cloudera on Premises
+    price: 2000
+    currency: USD
+    unit: user
+    period: year
+  - name: GPU Acceleration (on premises)
+    family: Cloudera on Premises
+    price: 7500
+    currency: USD
+    unit: CGU
+    period: year
+contact_sales_only:
+  - Cloudera Data Services and Base (on premises)
+  - Edge, Streams and Flow Management (on premises)
+free_tier:
+  present: false
+  trial:
+    present: true
+    name: Cloudera on cloud trial
+    url: https://www.cloudera.com/campaign/try-cdp-public-cloud.html
+    http_status: 200
+    length_days: 60
+    terms: >-
+      "Try Cloudera on cloud for free for 60-days using your own data and
+      workloads" — quoted verbatim from the trial page. Access is gated behind a
+      lead-capture form, not a self-serve signup.
+    self_serve: false
+note: >-
+  Cloudera publishes real list prices for its cloud services — unusual for an
+  enterprise data platform — and reserves "contact sales" for the on-premises
+  subscription bundles. Plan names, prices and units above are transcribed from
+  the pricing page as published on 2026-09-05.

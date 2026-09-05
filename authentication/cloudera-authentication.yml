@@ -1,18 +1,107 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/cloudera-openapi.yml
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  and https://github.com/cloudera/cdp-dev-docs/blob/master/api-docs/swagger/request_signing.md
+  (CDP API Request Signing Specification V1), corroborated by live probes of
+  https://api.us-west-1.cdp.cloudera.com
 summary:
   types:
-  - apiKey
+    - signature
   api_key_in:
-  - header
+    - header
+  oauth2: false
+  openid_connect: false
+  mutual_tls: false
+note: >-
+  THE PUBLISHED SWAGGER CARRIES NO securityDefinitions. All 19 CDP control plane
+  service definitions omit the block entirely, so a spec-only derivation produces
+  nothing — the auth model here is documented in prose and in a separate signing
+  specification, not in the contract. That is a real gap worth reporting to
+  Cloudera: a client generated straight from these definitions will not sign its
+  requests and will receive 401 AUTHENTICATION_FAILURE on every call.
 schemes:
-- name: altusAuth
-  type: apiKey
-  in: header
-  parameter: x-altus-auth
-  description: |-
-    CDP signature-based authentication. Each request must include an
-    x-altus-auth signature header and an x-altus-date timestamp header.
-  sources:
-  - openapi/cloudera-openapi.yml
+  - name: altusRequestSigning
+    type: signature
+    in: header
+    parameters:
+      - x-altus-auth
+      - x-altus-date
+    spec: https://github.com/cloudera/cdp-dev-docs/blob/master/api-docs/swagger/request_signing.md
+    algorithms:
+      - rsav1
+      - ed25519v1
+    description: >-
+      Every request to the CDP control plane must be signed. The client builds a
+      canonical request string of httpMethod\ncontentType\ntimestamp\npath\nauthMethod,
+      signs it with the private half of a CDP API access key pair, and sends the
+      signature in x-altus-auth with the matching RFC 1123 timestamp in
+      x-altus-date. Control plane requests are always POST with Content-Type
+      application/json.
+    credentials:
+      kind: api-access-key-pair
+      parts:
+        - access key ID
+        - private key
+      issued_by: >-
+        Cloudera Management Console (console.cdp.cloudera.com) — a user account
+        must generate an API access key pair before any API call is possible.
+      docs: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+    tooling:
+      - name: cdpv1sign
+        package: cdpcurl
+        description: >-
+          Cloudera's own signing helper, shipped inside cdpcurl. The API overview
+          names it as the supported way to generate x-altus-auth / x-altus-date
+          for any HTTP client that is not the CDP CLI or SDK.
+        url: https://github.com/cloudera/cdpcurl
+    sources:
+      - https://github.com/cloudera/cdp-dev-docs/blob/master/api-docs/swagger/request_signing.md
+probes:
+  - url: https://api.us-west-1.cdp.cloudera.com/api/v1/iam/listUsers
+    method: POST
+    sent: no auth headers
+    status: 401
+    body: >-
+      {"code":"AUTHENTICATION_FAILURE","message":"No authentication methods used.
+      You must use an authentication method."}
+  - url: https://api.us-west-1.cdp.cloudera.com/api/v1/iam/listUsers
+    method: POST
+    sent: x-altus-auth + malformed x-altus-date
+    status: 401
+    body: >-
+      {"code":"AUTHENTICATION_FAILURE","message":"Cannot parse date time string
+      Fri, 5 Sep 2026 12:00:00 GMT"}
+    observation: >-
+      The gateway validates the timestamp format before the signature, and the
+      error text names the failing component — useful, specific feedback for an
+      agent building a signed request.
+authorization:
+  model: rbac
+  note: >-
+    Authorization is separate from authentication and is managed by the CDP IAM
+    service (openapi/cloudera-iam-openapi.yml, 79 operations) — roles, resource
+    roles, groups, machine users and CRN-scoped resource assignments. There are no
+    OAuth scopes: the API is signed with a key pair and the caller's permissions
+    come from the IAM role assignments attached to that user or machine user, so
+    no scopes/ artifact is produced for this provider.
+  operations:
+    - assignUserRole
+    - unassignUserRole
+    - assignUserResourceRole
+    - unassignUserResourceRole
+    - assignMachineUserRole
+    - assignGroupRole
+    - listRoles
+    - listResourceRoles
+    - listUserAssignedRoles
+    - createMachineUser
+    - createMachineUserAccessKey
+adjacent_surfaces:
+  - name: Cloudera Manager API
+    auth: HTTP basic auth with Cloudera Manager UI credentials; a session cookie may be reused on subsequent requests.
+    docs: https://cloudera.github.io/cm_api/
+  - name: Cloudera AI (CML) workbench API v2
+    auth: API key issued from the workbench, passed to the cmlapi SDK.
+  - name: NiFi via Apache Knox
+    auth: Knox bearer token, cookie or passcode token.

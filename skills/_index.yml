@@ -1,0 +1,63 @@
+generated: '2026-09-05'
+method: generated
+source: >-
+  Authored from openapi/cloudera-*-openapi.yml (19 harvested CDP control plane
+  Swagger definitions) plus conventions/, errors/, sandbox/, rate-limits/ and
+  plans/. Every operationId referenced in every skill was verified present in the
+  harvested contract before the skill was written.
+api: Cloudera CDP Public Cloud Control Plane API
+skill_count: 4
+skills:
+  - name: cloudera-provision-cdp-environment
+    file: skills/cloudera-provision-cdp-environment.md
+    service: environments
+    summary: >-
+      Register a cloud credential and provision a CDP environment on AWS, then
+      poll it to AVAILABLE. The prerequisite for everything else in CDP.
+    operations: [getCredentialPrerequisites, createAWSCredential, listCredentials, createAWSEnvironment, describeEnvironment, listEnvironments, deleteEnvironment]
+  - name: cloudera-manage-datahub-cluster
+    file: skills/cloudera-manage-datahub-cluster.md
+    service: datahub
+    summary: >-
+      Create, inspect, scale, stop, start and delete a Data Hub workload cluster,
+      with the stop-versus-delete reversibility distinction made explicit.
+    operations: [listClusterTemplates, createAWSCluster, describeCluster, listClusters, scaleCluster, stopCluster, startCluster, deleteCluster]
+  - name: cloudera-backup-restore-datalake
+    file: skills/cloudera-backup-restore-datalake.md
+    service: datalake
+    summary: >-
+      Back up, track, cancel and restore a datalake — and state plainly that
+      Cloudera publishes no retention or restore window.
+    operations: [listDatalakes, describeDatalake, backupDatalake, listDatalakeBackups, restoreDatalake, restoreDatalakeStatus, cancelBackup, cancelRestore, deleteDatalake]
+  - name: cloudera-machine-user-access-keys
+    file: skills/cloudera-machine-user-access-keys.md
+    service: iam
+    summary: >-
+      Create a machine user, issue an access key pair, grant least-privilege
+      roles and revoke everything — the right way to credential an agent.
+    operations: [listMachineUsers, createMachineUser, createMachineUserAccessKey, listRoles, assignMachineUserRole, unassignMachineUserRole, deleteAccessKey, deleteMachineUser]
+shared_rules:
+  - Every call is POST with Content-Type application/json, including reads and deletes.
+  - Every call must carry x-altus-auth and x-altus-date; use cdpv1sign, the cdp CLI, or the Java SDK.
+  - >-
+    There is no idempotency mechanism. Never blind-retry a mutating call — list
+    and reconcile first.
+  - >-
+    There is no sandbox and no test mode. Every mutating call provisions real,
+    billed infrastructure.
+  - >-
+    No rate limit is published and no RateLimit-* or Retry-After header is
+    returned. Back off conservatively when polling.
+  - >-
+    Long-running work returns 200 immediately and must be polled; there are no
+    HTTP callbacks anywhere in this API.
+  - Keep the x-cdp-request-id header from every response — it is the only correlation handle.
+not_covered:
+  - >-
+    Cloudera Data Warehouse (dw, 95 operations) and DataFlow (df + dfworkload,
+    137 operations) are the two largest un-skilled services. Both are strong
+    candidates for a later pass.
+  - >-
+    Everything inside a Cloudera AI workspace (jobs, models, experiments) is
+    outside the published contract and can only be reached through the cmlapi
+    SDK or Cloudera's CAI_Workbench MCP server.

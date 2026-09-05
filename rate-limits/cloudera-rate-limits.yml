@@ -1,0 +1,58 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  (the whole of Cloudera's API documentation), the 19 published CDP Swagger
+  definitions, and live header inspection of
+  https://api.us-west-1.cdp.cloudera.com on 2026-09-05
+limit_count: 0
+documented: false
+limits: []
+response_headers:
+  observed: []
+  checked:
+    - X-RateLimit-Limit
+    - X-RateLimit-Remaining
+    - X-RateLimit-Reset
+    - RateLimit
+    - RateLimit-Policy
+    - Retry-After
+  note: >-
+    None present. The full response header set observed on
+    POST https://api.us-west-1.cdp.cloudera.com/api/v1/iam/listUsers was
+    date, content-type, content-length, connection, x-cdp-request-id,
+    content-security-policy, feature-policy, referrer-policy,
+    x-content-type-options, x-frame-options, cache-control, pragma,
+    x-request-id and Strict-Transport-Security. No rate-limit family is emitted.
+exhaustion_status: unknown
+exhaustion_note: >-
+  No 429 is declared anywhere in the contract — in fact no 4xx status at all is
+  declared on any of the 778 operations, which each list only 200 and `default`.
+  Whether the control plane throttles, and what it returns when it does, is not
+  discoverable from anything Cloudera publishes.
+finding: >-
+  AN HONEST ZERO. Cloudera documents no rate limits for the CDP control plane API
+  and emits no rate-limit signalling headers. This is a real gap for agent use:
+  an agent driving 778 operations — many of which are polled repeatedly while
+  provisioning completes — has no published budget, no runtime remaining-count,
+  and no Retry-After to back off against. It cannot distinguish throttling from
+  any other failure, because the error envelope is {code, message} with no
+  documented code vocabulary either.
+adjacent_limits:
+  note: >-
+    Cloudera does document quotas and throttling extensively for components INSIDE
+    a cluster — HBase throttle quotas, Kafka client quotas, YARN queue capacity —
+    and the control plane itself exposes account-level service quotas through the
+    compute and dw services. Those are resource quotas on what you may provision,
+    not request-rate limits on the API, and they are not recorded as rate limits
+    here.
+  in_contract: >-
+    "quota" appears 63 times across the harvested definitions — as request and
+    response FIELDS (QuotaConfig, QuotaRequest) on the compute, de, dw,
+    environments and ml services, never as an operationId. There is no operation
+    for reading your API request budget.
+what_would_fix_it: >-
+  Publishing a per-key request budget and emitting RateLimit / RateLimit-Policy
+  (RFC 9331 style) or X-RateLimit-* headers plus Retry-After on 429. Cloudera
+  already returns x-cdp-request-id on every response, so the header plumbing
+  exists.

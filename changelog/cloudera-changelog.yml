@@ -1,0 +1,93 @@
+generated: '2026-09-05'
+method: searched
+source: https://docs.cloudera.com/cdp-public-cloud/cloud/release-summaries/index.html
+scheme: monthly-release-summary
+format: >-
+  One dated "Cloudera on Cloud Release Summary" per calendar month at
+  /cdp-public-cloud/cloud/release-summaries/topics/announcement-YYYYMM.html,
+  organised by service. This is a product changelog, not an API changelog — it
+  records what shipped in each managed service, and only occasionally mentions
+  API surface changes.
+current_version: 0.9.163
+current_version_note: >-
+  The contract's own version stamp (info.version on all 19 published Swagger
+  definitions, matching cdpcli 0.9.163 released 2026-07-30). There is no separate
+  changelog for the control plane API contract; the way to see what changed is to
+  diff the Swagger in github.com/cloudera/cdp-dev-docs.
+api_changelog_present: false
+api_changelog_note: >-
+  Cloudera publishes no changelog for the control plane API itself. Operations
+  appear and disappear from the Swagger between releases with no accompanying
+  note, and the repository's git history is the only diff available.
+entries:
+  - version: '2026-07'
+    date: '2026-07'
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/release-summaries/topics/announcement-202607.html
+    http_status: 200
+    breaking: false
+    services: [Cloudera AI, Cloudera AI Inference, Cloudera Data Flow]
+    highlights:
+      - >-
+        Cloudera AI Inference service v1.13.0-h2000-b17 adds Kubernetes 1.34
+        support for inference workloads on upgraded environments.
+      - >-
+        Model Hub curation — administrators can filter and enable only
+        business-approved models.
+      - >-
+        Cloudera Data Flow 3.1.0-h4-b4 adds self-healing automatic synchronization
+        for flow drafts, plus shared parameter group performance work.
+    api_changes: none called out
+  - version: '2026-06'
+    date: '2026-06'
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/release-summaries/topics/announcement-202606.html
+    http_status: 200
+    breaking: unknown
+    services:
+      - Cloudera AI
+      - Cloudera AI Inference
+      - Cloudera AI Workbench
+      - Cloudera AI Registry
+      - ML Runtimes
+      - Cloudera AI Control Plane
+      - Cloudera Data Catalog
+      - Cloudera Data Engineering
+      - Cloudera Data Flow
+      - Cloudera Data Warehouse
+    note: >-
+      The broadest month in the recent window — ten service sections, including
+      the Cloudera AI Control Plane.
+  - version: '2026-05'
+    date: '2026-05'
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/release-summaries/topics/announcement-202605.html
+    http_status: 200
+    breaking: unknown
+    services:
+      - Cloudera AI
+      - Cloudera Data Flow
+      - Cloudera Data Warehouse
+      - Cloudera Management Console
+      - Cloudera Observability
+      - Cloudera Operational Database
+  - version: '2026-04'
+    date: '2026-04'
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/release-summaries/topics/announcement-202604.html
+    http_status: 200
+    breaking: unknown
+    services: [Cloudera AI, Cloudera Data Warehouse]
+  - version: '2026-03'
+    date: '2026-03'
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/release-summaries/topics/announcement-202603.html
+    http_status: 200
+    breaking: unknown
+    services:
+      - Cloudera AI
+      - Cloudera Data Catalog
+      - Cloudera Data Engineering
+      - Cloudera Data Flow
+      - Cloudera Data Hub
+      - Cloudera Data Warehouse
+coverage_note: >-
+  Recent window only, verified by probe on 2026-09-05. announcement-202608 and
+  announcement-202609 both returned 404 at that time, so the August and September
+  2026 summaries had not yet published. Summaries reach back to at least November
+  2024 (announcement-202411 returns 200).

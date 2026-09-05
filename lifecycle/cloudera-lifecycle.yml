@@ -1,0 +1,130 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://www.cloudera.com/services-and-support/support-lifecycle-policy.html,
+  https://docs.cloudera.com/cdp-public-cloud/cloud/release-summaries/index.html,
+  https://status.cloudera.com/, and openapi/cloudera-*-openapi.yml
+versioning:
+  scheme: single-major-in-path
+  current: v1
+  path: /api/v1/{service}/{operation}
+  contract_version: 0.9.163
+  contract_version_note: >-
+    info.version on all 19 published Swagger definitions. It tracks the control
+    plane build, not a public API major version — the path has stayed /api/v1
+    across every CDP release. cdpcli 0.9.163 on PyPI carries the same number, so
+    the CLI release IS the contract release.
+  breaking_change_policy: >-
+    Not published for the control plane API. Cloudera's own custom x- extension
+    properties in the Swagger carry an explicit warning that they "are subject to
+    change at any time" and must not be relied on, but there is no equivalent
+    statement of stability for the operations, request bodies or response bodies.
+status_page:
+  present: true
+  url: https://status.cloudera.com/
+  provider: Atlassian Statuspage
+  probed: '2026-09-05'
+  http_status: 200
+  note: >-
+    Also reachable at https://cloudera.statuspage.io/ (200). Covers the CDP
+    control plane and data services by region.
+deprecation:
+  policy_present: true
+  policy_url: https://www.cloudera.com/services-and-support/support-lifecycle-policy.html
+  http_status: 200
+  mechanism: support-lifecycle-phases
+  phases:
+    - name: Full Support
+      description: >-
+        Documentation, knowledge base, case creation, escalation, root cause
+        analysis and cumulative hotfixes.
+    - name: End of Support / End of Maintenance
+      description: >-
+        Limited phase in which, in Cloudera's words, "the only mechanism to
+        assist customers will be upgrades to the latest release".
+    - name: End of Life
+      description: >-
+        Support terminates. Documentation and knowledge base articles may remain
+        accessible.
+  stated_durations:
+    - scope: Cloudera Manager
+      rule: >-
+        A version reaches End of Support a minimum of 18 months following the
+        general availability of the subsequent release.
+    - scope: Cloud data services
+      rule: Six months of full support, then exception phases before end of life.
+    - scope: Long Term Support releases
+      rule: >-
+        Extended — Cloudera Base on premises 7.1.9 carries an end-of-support date
+        of October 2028.
+  forward_dates_caveat: >-
+    Cloudera states that all future dates are for planning purposes only and are
+    subject to change, "but with the expectation that dates may move later but
+    will not move earlier".
+  http_headers:
+    rfc8594_sunset: false
+    deprecation_header: false
+    note: >-
+      No Sunset or Deprecation response header was observed on any probe of
+      https://api.us-west-1.cdp.cloudera.com. Deprecation is announced in
+      documentation and in the Swagger, never at runtime — an agent calling a
+      deprecated operation gets no signal on the wire.
+  in_contract:
+    deprecated_operations: 5
+    note: >-
+      Cloudera does mark deprecation in the contract itself, using the OpenAPI
+      `deprecated: true` flag AND naming the replacement in the summary. All five
+      are in the DataFlow workload service. This is good practice and it is the
+      only machine-readable deprecation signal Cloudera publishes.
+    operations:
+      - operationId: startFlow
+        path: /dfx/api/rpc-v1/deployments/start-flow
+        service: dfworkload
+        replacement: start-flow-in-deployment
+        file: openapi/cloudera-dfworkload-openapi.yml
+      - operationId: stopFlow
+        path: /dfx/api/rpc-v1/deployments/stop-flow
+        service: dfworkload
+        replacement: stop-flow-in-deployment
+        file: openapi/cloudera-dfworkload-openapi.yml
+      - operationId: changeFlowVersion
+        path: /dfx/api/rpc-v1/deployments/change-flow-version
+        service: dfworkload
+        replacement: change-flow-version-in-deployment
+        file: openapi/cloudera-dfworkload-openapi.yml
+      - operationId: cancelChangeFlowVersion
+        path: /dfx/api/rpc-v1/deployments/cancel-change-flow-version
+        service: dfworkload
+        replacement: cancel-change-flow-version-in-deployment
+        file: openapi/cloudera-dfworkload-openapi.yml
+      - operationId: getDefaultCustomNarConfiguration
+        path: /dfx/api/rpc-v1/custom-nar-configurations/get-default-custom-nar-configuration
+        service: dfworkload
+        replacement: none — "Deprecated, no longer supported."
+        file: openapi/cloudera-dfworkload-openapi.yml
+release_cadence:
+  cadence: monthly
+  surface: https://docs.cloudera.com/cdp-public-cloud/cloud/release-summaries/index.html
+  format: One "Cloudera on Cloud Release Summary" per calendar month, grouped by service.
+  most_recent_verified: '2026-07'
+  note: >-
+    Probed 2026-09-05 — announcement-202607 through announcement-202603 all return
+    200; announcement-202608 and announcement-202609 return 404, so the August and
+    September summaries had not published at the time of this pass.
+  see: changelog/cloudera-changelog.yml
+sla:
+  published: false
+  note: >-
+    No public uptime SLA for the CDP control plane API. Service commitments are
+    contractual and sit behind
+    https://www.cloudera.com/legal/commercial-terms-and-conditions.html rather
+    than on a public API SLA page.
+support:
+  channels:
+    - name: My Cloudera support portal
+      url: https://my.cloudera.com/support.html
+      access: customer login required
+    - name: Cloudera Community
+      url: https://community.cloudera.com/
+      access: public
+      note: Fronted by a Cloudflare bot interstitial; a browser reaches it normally.

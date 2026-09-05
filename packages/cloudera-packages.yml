@@ -1,0 +1,143 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  PyPI (pypi.org/pypi/<pkg>/json), Cloudera's own Maven repository
+  (repository.cloudera.com/artifactory/cloudera-repos), the Terraform Registry
+  (registry.terraform.io/v1/providers/cloudera/cdp) and the Cloudera GitHub
+  organization (github.com/cloudera)
+note: >-
+  Cloudera does not publish its Java SDK to Maven Central. cdp-sdk-java is served
+  from Cloudera's own Artifactory at repository.cloudera.com, which the README at
+  github.com/cloudera/cdp-sdk-java instructs consumers to add as a repository —
+  so the version below is read from that repository's maven-metadata.xml, not
+  from Maven Central. cmlapi (the Cloudera AI / CML Python SDK) has no public
+  registry at all: it is installed from the customer's own Cloudera AI workbench
+  instance at runtime, which is why version is null. The npm name "cloudera" is a
+  third-party placeholder package (version 99.9.10) and is NOT first-party; it is
+  excluded. PyPI "cmlutils" is Cisco Modeling Labs tooling from CiscoDevNet, not
+  Cloudera, and is likewise excluded.
+package_count: 9
+official_count: 9
+packages:
+  - name: cdpcli
+    registry: pypi
+    url: https://pypi.org/project/cdpcli/
+    version: 0.9.163
+    published: '2026-07-30'
+    official: true
+    language: python
+    kind: cli
+    repo: https://github.com/cloudera/cdpcli
+    description: >-
+      Cloudera CDP command line interface. Ships the same service definitions
+      (cdpcli/data/<service>/<service>.yaml) that back the published Swagger.
+  - name: cdpcli-beta
+    registry: pypi
+    url: https://pypi.org/project/cdpcli-beta/
+    version: 0.9.163
+    published: '2026-07-30'
+    official: true
+    language: python
+    kind: cli
+    repo: https://github.com/cloudera/cdpcli
+    description: Beta channel of the CDP CLI, covering pre-GA control plane services.
+  - name: cdpcurl
+    registry: pypi
+    url: https://pypi.org/project/cdpcurl/
+    version: 1.1.0
+    published: '2026-06-09'
+    official: true
+    language: python
+    kind: tool
+    repo: https://github.com/cloudera/cdpcurl
+    description: >-
+      curl-like tool that performs CDP request signing (x-altus-auth /
+      x-altus-date). Also ships cdpv1sign, which the API docs name as the way to
+      generate signed headers for any other HTTP client.
+  - name: com.cloudera.cdp:cdp-sdk-java
+    registry: maven
+    url: https://repository.cloudera.com/artifactory/cloudera-repos/com/cloudera/cdp/cdp-sdk-java/
+    version: 0.9.159
+    published: '2026-07-15'
+    official: true
+    language: java
+    kind: sdk
+    repo: https://github.com/cloudera/cdp-sdk-java
+    description: >-
+      Cloudera CDP SDK for Java. Distributed from Cloudera's own Artifactory, not
+      Maven Central; `published` is derived from the maven-metadata.xml
+      lastUpdated stamp (20260715201651).
+  - name: cloudera/cdp
+    registry: terraform
+    url: https://registry.terraform.io/providers/cloudera/cdp/latest
+    version: 0.13.1
+    published: '2026-08-31'
+    official: true
+    language: go
+    kind: provider
+    repo: https://github.com/cloudera/terraform-provider-cdp
+    description: >-
+      First-party Terraform provider for CDP environments, datalakes, data hubs
+      and IAM. Wraps the same control plane API as cdpcli.
+  - name: cmlapi
+    registry: none
+    url: https://docs.cloudera.com/machine-learning/cloud/api/topics/ml-api-v2.html
+    version: null
+    published: null
+    official: true
+    language: python
+    kind: sdk
+    description: >-
+      Cloudera AI (CML) Python SDK. Checked, nothing to record: it is not on PyPI
+      or any other public registry — Cloudera generates it per workbench and the
+      documented install is `pip install <workbench-url>/api/v2/python.tar.gz`,
+      so a consumer cannot pin or date it from a registry.
+  - name: impyla
+    registry: pypi
+    url: https://pypi.org/project/impyla/
+    version: 0.24.0
+    published: '2026-06-19'
+    official: true
+    language: python
+    kind: client
+    repo: https://github.com/cloudera/impyla
+    description: Python DB API 2.0 client for Impala and Hive (HiveServer2 protocol).
+  - name: dbt-impala
+    registry: pypi
+    url: https://pypi.org/project/dbt-impala/
+    version: 1.11.2
+    published: '2026-08-20'
+    official: true
+    language: python
+    kind: adapter
+    repo: https://github.com/cloudera/dbt-impala
+    description: dbt adapter for Apache Impala and the Cloudera Data Platform.
+  - name: dbt-hive
+    registry: pypi
+    url: https://pypi.org/project/dbt-hive/
+    version: 1.11.2
+    published: '2026-08-20'
+    official: true
+    language: python
+    kind: adapter
+    repo: https://github.com/cloudera/dbt-hive
+    description: dbt adapter for Apache Hive and the Cloudera Data Platform.
+excluded:
+  - name: cloudera
+    registry: npm
+    reason: >-
+      Third-party placeholder package (dist-tags.latest 99.9.10, empty author).
+      Not published by Cloudera.
+  - name: cmlutils
+    registry: pypi
+    reason: >-
+      Resolves to CiscoDevNet/virlutils (Cisco Modeling Labs), not the Cloudera
+      cmlutils repository. Name collision, not a Cloudera package.
+currency:
+  note: >-
+    Every first-party package with a public registry was released within 3 months
+    of this probe, and cdpcli 0.9.163 matches the version stamped on the
+    published Swagger definitions (0.9.163) — the CLI and the contract ship
+    together. cdp-sdk-java trails at 0.9.159 (2026-07-15).
+  newest: '2026-08-31'
+  oldest_with_registry: '2026-06-09'

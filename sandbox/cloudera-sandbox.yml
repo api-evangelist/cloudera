@@ -1,0 +1,86 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://www.cloudera.com/campaign/try-cdp-public-cloud.html,
+  https://console.cdp.cloudera.com/,
+  https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+finding: >-
+  THERE IS NO TEST MODE. Cloudera publishes no sandbox environment, no test-mode
+  key prefix, no fixtures and no simulated resources for the CDP control plane
+  API. Every call an agent makes hits the real control plane and provisions real,
+  billed cloud infrastructure in the customer's own AWS, Azure or GCP account.
+  This is the most consequential runtime fact about this API and it is recorded
+  here rather than omitted, because the absence is the finding.
+test_mode:
+  present: false
+  key_prefixes:
+    test: null
+    live: null
+  note: >-
+    CDP API access keys have no test/live distinction. One key pair, generated in
+    the Management Console, signs requests against production.
+test_data:
+  present: false
+  test_cards: null
+  magic_identifiers: null
+  note: >-
+    Not applicable — Cloudera is not a payments provider and publishes no magic
+    test identifiers of the Twilio kind.
+time_simulation:
+  present: false
+console:
+  present: true
+  name: Cloudera Management Console
+  url: https://console.cdp.cloudera.com/
+  http_status: 401
+  status_note: >-
+    Returns 401 with the same AUTHENTICATION_FAILURE body as the API host when
+    fetched without a session; a signed-in browser reaches the console normally.
+  role: >-
+    The console is where an API access key pair is generated, and it is the only
+    interactive surface Cloudera offers over this API. It is a production console,
+    not a sandbox.
+trial:
+  present: true
+  name: Cloudera on cloud trial
+  url: https://www.cloudera.com/campaign/try-cdp-public-cloud.html
+  http_status: 200
+  length_days: 60
+  quote: >-
+    "Try Cloudera on cloud for free for 60-days using your own data and workloads"
+  self_serve: false
+  gate: lead-capture form
+  note: >-
+    The nearest thing to a sandbox Cloudera offers. It is a time-boxed production
+    account, reached through a sales form rather than a signup button — an agent
+    cannot obtain one, and neither can a developer without talking to Cloudera.
+dry_run:
+  present: partial
+  operations:
+    - operationId: getCredentialPrerequisites
+      service: environments
+      description: >-
+        Returns what a cloud credential will need before one is created — the
+        closest thing in the contract to rehearsing a create.
+    - operationId: getGovCloudCredentialPrerequisites
+      service: environments
+    - operationId: validateCluster
+      service: compute
+      description: Validates a cluster definition without creating the cluster.
+  note: >-
+    A handful of validate/prerequisite operations exist, but there is no general
+    dry-run flag on the mutating surface. 414 operations mutate; three of them can
+    be rehearsed.
+free_local_alternative:
+  name: Cloudera Stream Processing Community Edition
+  docs: https://docs.cloudera.com/csp-ce/latest/
+  note: >-
+    A Docker-based community edition exists for stream processing, and is the only
+    Cloudera surface a developer can stand up without an account. It does not
+    expose the CDP control plane API described in openapi/.
+agent_implication: >-
+  An agent operating this API has no rehearsal surface, no replay protection
+  (idempotency.coverage is none) and no published rate limit. Every mutating call
+  is a first and final attempt against billed infrastructure. Reversal operations
+  exist for most creates, but with no stated window — see
+  conventions/cloudera-conventions.yml reversibility.

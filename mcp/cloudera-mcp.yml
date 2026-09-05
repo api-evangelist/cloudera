@@ -1,0 +1,161 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://github.com/cloudera — four first-party MCP servers published under the
+  Cloudera GitHub organization, each Apache-2.0 licensed, plus Cloudera's own MCP
+  server framework (minimcp).
+deployment:
+  mode: local-stdio
+  install: uvx --from git+https://github.com/cloudera/cdv-mcp-server@main run-server
+  package: https://github.com/cloudera/CDV-MCP-Server
+  auth: api-key
+  verified: searched
+  note: >-
+    THERE IS NO HOSTED CLOUDERA MCP ENDPOINT. Every server Cloudera publishes is a
+    stdio process the operator installs and points at THEIR OWN Cloudera
+    deployment — a CDV instance, a NiFi instance behind Knox, an Impala
+    coordinator, or a Cloudera AI workbench. An agent cannot reach any of them
+    without a human first installing the package and supplying a host plus
+    credentials, so `mode` is local-stdio, not remote, and `endpoint` is
+    deliberately empty. The `install` line above is the CDV server because it is
+    the one that covers a whole product API; the three others are listed in
+    servers[] with their own verbatim install lines. Note also that NONE of these
+    servers front the CDP control plane API in openapi/ — the surface Cloudera
+    ships as MCP and the surface it ships as Swagger are disjoint, which is what
+    the tool crosswalk records.
+server_count: 4
+servers:
+  - name: Cloudera Data Visualization MCP Server
+    slug: cdv-mcp-server
+    repo: https://github.com/cloudera/CDV-MCP-Server
+    license: Apache-2.0
+    language: python
+    mode: local-stdio
+    install: uvx --from git+https://github.com/cloudera/cdv-mcp-server@main run-server
+    transports: [stdio, http, sse]
+    transport_note: >-
+      Selected with the MCP_TRANSPORT environment variable; `http` and `sse` are
+      the operator's own self-hosted process, not a Cloudera-hosted endpoint.
+    auth: api-key
+    config:
+      - CDV_BASE_URL
+    tool_count: 52
+    covers: >-
+      The full Cloudera Data Visualization REST API — groups, users, roles,
+      segments, filter associations, workspaces, datasets, visuals, data
+      connections, jobs, extracts, the data API, and operational debugging.
+    tools:
+      [get_group, create_group, update_group, delete_group, get_user, update_user,
+       edit_user_profile, get_role, create_role, update_role, delete_role,
+       get_segment, create_segment, update_segment, delete_segment,
+       get_filter_association, create_filter_association, update_filter_association,
+       delete_filter_association, get_workspace, create_workspace, update_workspace,
+       delete_workspace, get_dataset, create_dataset, update_dataset, delete_dataset,
+       get_visual, create_visual, update_visual, delete_visual, create_smart_visual,
+       get_connection, create_connection, update_connection, delete_connection,
+       export_connection, query_dataapi_get, query_dataapi_post, query_data_get,
+       query_data_post, run_job, run_extract, create_extract, post_gc_monitor,
+       post_gc_stats, set_log_level, get_logger_level, set_logger_level,
+       toggle_cprofile, reset_dataconnection_cache, reset_dataset_cache]
+    tools_source: >-
+      Read from the tool tables in the repository README; the live inputSchema for
+      each tool requires running the server against a CDV instance.
+  - name: Cloudera AI Workbench MCP Server
+    slug: cai-workbench-mcp-server
+    repo: https://github.com/cloudera/CAI_Workbench_MCP_Server
+    license: Apache-2.0
+    language: python
+    mode: local-stdio
+    install: >-
+      uvx --from git+https://github.com/cloudera/CAI_Workbench_MCP_Server.git
+      --with https://ml-xxxx.cloudera.site/api/v2/python.tar.gz
+      cai-workbench-mcp-stdio
+    transports: [stdio, http]
+    auth: api-key
+    config:
+      - CAI_WORKBENCH_HOST
+      - CAI_WORKBENCH_API_KEY
+      - CAI_WORKBENCH_PROJECT_ID
+    tool_count: 106
+    covers: >-
+      Cloudera AI (CML) workbench — project files, jobs and job runs, model build
+      and deployment, experiment tracking, applications, runtimes, quotas and
+      collaborators. Every tool is a thin wrapper over the official cmlapi Python
+      SDK (CMLServiceApi) rather than raw HTTP.
+    tools_source: >-
+      106 *_tool names enumerated from the repository README. Cloudera's HTTP
+      transport mode is documented as having no authentication and is described
+      for development/testing only.
+  - name: NiFi MCP Server (via Knox)
+    slug: nifi-mcp-server
+    repo: https://github.com/cloudera/NiFi-MCP-Server
+    license: Apache-2.0
+    language: python
+    mode: local-stdio
+    install: uvx --from git+https://github.com/cloudera/nifi-mcp-server@main <entrypoint>
+    transports: [stdio]
+    auth: oauth
+    auth_note: >-
+      Apache Knox bearer tokens, cookies or passcode tokens for CDP deployments.
+    config:
+      - NIFI_API_BASE
+      - NIFI_READONLY
+    tool_count: 66
+    tool_breakdown:
+      read_only: 24
+      write: 42
+    covers: >-
+      Apache NiFi 1.x and 2.x flow inspection and construction — process groups,
+      processors, connections, controller services, ports, parameter contexts,
+      bulletins and flow health. Read-only by default; the 42 write operations
+      require NIFI_READONLY=false.
+    safety_note: >-
+      Cloudera's own README flags empty_connection_queue as data loss and
+      terminate_processor as a last resort. This is the strongest agent-safety
+      signal in Cloudera's MCP surface and it is prose in a README, not a
+      machine-readable consequence annotation.
+  - name: Cloudera Iceberg MCP Server (via Impala)
+    slug: iceberg-mcp-server
+    repo: https://github.com/cloudera/iceberg-mcp-server
+    license: Apache-2.0
+    language: python
+    mode: local-stdio
+    install: uvx --from git+https://github.com/cloudera/iceberg-mcp-server@main run-server
+    transports: [stdio]
+    auth: api-key
+    auth_note: IMPALA_USER / IMPALA_PASSWORD against an Impala coordinator.
+    config:
+      - IMPALA_HOST
+      - IMPALA_PORT
+      - IMPALA_USER
+      - IMPALA_PASSWORD
+      - IMPALA_DATABASE
+    tool_count: 2
+    read_only: true
+    covers: Read-only access to Iceberg tables through Apache Impala.
+    tools:
+      - name: execute_query
+        description: Run any SQL query on Impala and return the results as JSON.
+      - name: get_schema
+        description: List all tables available in the current database.
+related:
+  - name: minimcp
+    repo: https://github.com/cloudera/minimcp
+    package: https://pypi.org/project/minimcp/
+    version: 0.5.2
+    published: '2026-03-23'
+    kind: framework
+    note: >-
+      Cloudera also publishes its own minimal, stateless MCP server framework. It
+      is not itself an MCP server for a Cloudera product, so it is recorded here
+      rather than in servers[].
+gaps:
+  - >-
+    No MCP server exists for the CDP Public Cloud control plane (environments,
+    datalake, datahub, dw, de, df, iam) — the 778-operation Swagger surface in
+    openapi/ has no agent binding at all.
+  - >-
+    No tool inputSchema could be captured: every server requires a customer
+    deployment plus credentials before tools/list will answer, so tool names and
+    descriptions here come from Cloudera's own READMEs and the schemas would need
+    authenticated introspection against a live instance.

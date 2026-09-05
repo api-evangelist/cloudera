@@ -7,117 +7,30 @@ artifacts:
     method: generated
     evidence: declared in the artifact
   authentication/cloudera-authentication.yml:
+    method: searched
+    evidence: declared in the artifact
+  changelog/cloudera-changelog.yml:
+    method: searched
+    evidence: declared in the artifact
+  cli/cloudera-cli.yml:
+    method: searched
+    evidence: declared in the artifact
+  conformance/cloudera-conformance.yml:
     method: derived
     evidence: declared in the artifact
-  collections/cloudera-dataengineering-api.opencollection.json:
+  conventions/cloudera-conventions.yml:
     method: derived
-    evidence: openapi/cloudera-dataengineering-api
-  collections/cloudera-dataengineering-api.postman_collection.json:
+    evidence: declared in the artifact
+  data-model/cloudera-data-model.yml:
     method: derived
-    evidence: openapi/cloudera-dataengineering-api
-  collections/cloudera-datahub-api.opencollection.json:
+    evidence: declared in the artifact
+  errors/cloudera-problem-types.yml:
     method: derived
-    evidence: openapi/cloudera-datahub-api
-  collections/cloudera-datahub-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cloudera-datahub-api
-  collections/cloudera-datalake-api.opencollection.json:
-    method: derived
-    evidence: openapi/cloudera-datalake-api
-  collections/cloudera-datalake-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cloudera-datalake-api
-  collections/cloudera-environments-api.opencollection.json:
-    method: derived
-    evidence: openapi/cloudera-environments-api
-  collections/cloudera-environments-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cloudera-environments-api
-  collections/cloudera-iam-api.opencollection.json:
-    method: derived
-    evidence: openapi/cloudera-iam-api
-  collections/cloudera-iam-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cloudera-iam-api
-  collections/cloudera-ml-api.opencollection.json:
-    method: derived
-    evidence: openapi/cloudera-ml-api
-  collections/cloudera-ml-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cloudera-ml-api
-  collections/cloudera.opencollection.json:
-    method: derived
-    evidence: openapi/cloudera
-  collections/cloudera.postman_collection.json:
-    method: derived
-    evidence: openapi/cloudera
+    evidence: declared in the artifact
   json-ld/cloudera-context.jsonld:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-08-28T221322.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-23T094130.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-23T182523.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-26T223651.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-27T083119.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-27T190208.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T115055.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T170848.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T172558.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T192327.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T200725.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-31T133250.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-31T151044.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-31T162206.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-31T202106.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-01T163141.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-01T163302.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-01T171935.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-03T113057.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-03T161012.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-04T083143.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-05T153418.yml:
+  kin/checks-2026-09-05T144739.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-08-06T210741.yml:
@@ -201,30 +114,279 @@ artifacts:
   kin/score-2026-08-28T221322.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  openapi/cloudera-dataengineering-api-openapi.yml:
+  kin/score-2026-08-29T213958.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-08-29T230545.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-08-30T203505.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-08-30T220315.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-08-31T223420.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-01T063623.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-01T210448.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-01T222808.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-02T211804.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-02T224043.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-03T161828.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-03T174231.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-04T062714.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-04T212454.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-04T224856.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T055819.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T072335.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T144739.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  lifecycle/cloudera-lifecycle.yml:
+    method: searched
+    evidence: declared in the artifact
+  llms/cloudera-llms.txt:
     method: unknown
     evidence: no authorship recorded
-  openapi/cloudera-datahub-api-openapi.yml:
-    method: unknown
-    evidence: no authorship recorded
-  openapi/cloudera-datalake-api-openapi.yml:
-    method: unknown
-    evidence: no authorship recorded
-  openapi/cloudera-environments-api-openapi.yml:
-    method: unknown
-    evidence: no authorship recorded
-  openapi/cloudera-iam-api-openapi.yml:
-    method: unknown
-    evidence: no authorship recorded
-  openapi/cloudera-ml-api-openapi.yml:
-    method: unknown
-    evidence: no authorship recorded
+  mcp/cloudera-mcp.yml:
+    method: searched
+    evidence: declared in the artifact
+  mcp/cloudera-tool-crosswalk.yml:
+    method: derived
+    evidence: declared in the artifact
+  openapi/_original/cloudera-audit-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/cloudera-cloudprivatelinks-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/cloudera-compute-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/cloudera-consumption-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/cloudera-datacatalog-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/cloudera-datahub-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/cloudera-datalake-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/cloudera-de-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/cloudera-df-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/cloudera-dfworkload-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/cloudera-drscp-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/cloudera-dw-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/cloudera-environments-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/cloudera-iam-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/cloudera-imagecatalog-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/cloudera-lakehouseopt-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/cloudera-ml-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/cloudera-opdb-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/cloudera-replicationmanager-swagger.yaml:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/cloudera-audit-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudera-cloudprivatelinks-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudera-compute-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudera-consumption-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudera-datacatalog-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudera-datahub-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudera-datalake-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudera-de-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudera-df-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudera-dfworkload-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudera-drscp-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudera-dw-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudera-environments-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudera-iam-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudera-imagecatalog-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudera-lakehouseopt-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudera-ml-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudera-opdb-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/cloudera-replicationmanager-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  overlays/cloudera-audit-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-cloudprivatelinks-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-compute-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-consumption-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-datacatalog-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-datahub-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-datalake-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-de-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-df-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-dfworkload-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-drscp-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-dw-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-environments-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-iam-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-imagecatalog-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-lakehouseopt-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-ml-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-opdb-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-replicationmanager-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  packages/cloudera-packages.yml:
+    method: searched
+    evidence: declared in the artifact
+  plans/cloudera-plans-pricing.yml:
+    method: searched
+    evidence: declared in the artifact
+  rate-limits/cloudera-rate-limits.yml:
+    method: searched
+    evidence: declared in the artifact
   rules/cloudera-rules.yml:
     method: unknown
     evidence: no authorship recorded
+  sandbox/cloudera-sandbox.yml:
+    method: searched
+    evidence: declared in the artifact
   security/cloudera-domain-security.yml:
     method: unknown
     evidence: no authorship recorded
   security/cloudera-trust-center.yml:
     method: searched
     evidence: declared in the artifact
+  skills/_index.yml:
+    method: generated
+    evidence: declared in the artifact
+  skills/cloudera-backup-restore-datalake.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/cloudera-machine-user-access-keys.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/cloudera-manage-datahub-cluster.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/cloudera-provision-cdp-environment.md:
+    method: generated
+    evidence: declared in the artifact
+  well-known/cloudera-well-known.yml:
+    method: unknown
+    evidence: no authorship recorded

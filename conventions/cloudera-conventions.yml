@@ -1,0 +1,251 @@
+generated: '2026-09-05'
+method: derived
+source: >-
+  openapi/cloudera-*-openapi.yml (19 harvested CDP control plane Swagger
+  definitions, 778 operations), the CDP API Request Signing Specification V1, and
+  live probes of https://api.us-west-1.cdp.cloudera.com
+shape:
+  style: rpc-over-http
+  description: >-
+    The CDP control plane is an RPC API wearing REST clothes. Every path is a verb
+    — /api/v1/<service>/<operationName> — every call is POST, every request body
+    is JSON, and every response is JSON. There are no path parameters, no query
+    parameters and no HTTP verb semantics: deleteDatalake is a POST, not a DELETE.
+    Agents that reason about REST resources will get this wrong; the operationId
+    is the unit of meaning here, not the path.
+  transport: 'https only (schemes [https] in all 19 definitions)'
+  content_type: 'application/json (consumes and produces, all 19 definitions)'
+  methods_used: [POST]
+  path_pattern: '/api/v1/{service}/{operationId}'
+  exception: >-
+    The DataFlow workload service is the one deviation — its paths are
+    /dfx/api/rpc-v1/<resource>/<kebab-case-action> rather than
+    /api/v1/dfworkload/<camelCaseAction>. It is still POST-only JSON RPC.
+auth:
+  style: request-signing
+  headers: [x-altus-auth, x-altus-date]
+  see: authentication/cloudera-authentication.yml
+idempotency:
+  coverage: none
+  supported: false
+  header: null
+  scope: []
+  evidence: >-
+    No Idempotency-Key header, no idempotency token field, and no client-supplied
+    request identifier appears anywhere in the 778 operations or the 2,257
+    definitions across all 19 service definitions. A grep for /idempot/i over the
+    entire harvested contract returns nothing.
+  consequence: >-
+    414 of 778 operations are marked x-mutating: true. An agent that retries a
+    timed-out createAWSEnvironment, createVwCluster or createMachineUser has no
+    protocol-level way to know whether the first attempt landed, and Cloudera
+    provides no replay protection to make the retry safe. Some operations are
+    naturally idempotent because they are keyed on a caller-supplied name (an
+    environment name, a cluster name) and will fail the second time rather than
+    duplicate — but that is a side effect of name uniqueness, not a documented
+    guarantee, and it is not stated anywhere in the contract or the docs.
+  what_would_fix_it: >-
+    A documented request-id or Idempotency-Key header honoured across the mutating
+    surface. Cloudera already returns x-cdp-request-id on every response; making
+    it accepted on the request side would close this.
+pagination:
+  style: token
+  supported: true
+  request_fields:
+    - name: pageSize
+      appears_in: 46 request definitions
+      description: Maximum number of items to return in one page.
+    - name: startingToken
+      appears_in: 40 request definitions
+      description: >-
+        Opaque continuation token; pass the value the previous response returned.
+    - name: pageToken
+      appears_in: 5 request definitions
+      description: Alternate continuation field used by the newer services.
+  response_fields:
+    - name: nextPageToken
+      appears_in: 5 response definitions
+      description: Continuation token for the following page; absent on the last page.
+  note: >-
+    Pagination is not uniform. Most services take startingToken + pageSize, a
+    minority take pageToken and return nextPageToken, and a substantial number of
+    list operations take neither and return the whole collection. An agent must
+    read the request definition per operation rather than assume one scheme.
+  in_body: >-
+    Because every call is a POST, pagination fields are properties of the JSON
+    request body, not query parameters.
+error_envelope:
+  format: custom
+  rfc9457: false
+  media_type: application/json
+  schema:
+    code: 'string — the error code'
+    message: 'string — the error message'
+  declared_as: >-
+    Every one of the 778 operations declares exactly two responses: 200 (the typed
+    success schema) and `default` (#/definitions/Error). Only one operation adds a
+    third (405). No 4xx or 5xx status code is enumerated anywhere in the contract.
+  consequence: >-
+    The contract tells a client that errors exist and what shape they take, but
+    never which errors a given operation can produce or under which status codes.
+    Error handling has to be discovered at runtime.
+  see: errors/cloudera-problem-types.yml
+request_tracing:
+  supported: true
+  response_headers:
+    - x-cdp-request-id
+    - x-request-id
+  observed: >-
+    Probed 2026-09-05 against
+    https://api.us-west-1.cdp.cloudera.com/api/v1/iam/listUsers — both headers were
+    present on the 401 response and carried the same UUID
+    (91f6bd98-5b7d-4efd-b5ea-b19ffcfdc812).
+  request_headers: 'none accepted (no client-supplied correlation id documented)'
+versioning:
+  in_path: true
+  scheme: '/api/v1/ — a single major version across every service since CDP GA'
+  contract_version: 0.9.163
+  contract_version_note: >-
+    The version stamped on the Swagger definitions (info.version 0.9.163) tracks
+    the control plane build, not the API's public major version, and every one of
+    the 19 definitions carries the same value. cdpcli 0.9.163 on PyPI matches it,
+    so the CLI and the contract ship together.
+  see: lifecycle/cloudera-lifecycle.yml
+rate_limits:
+  documented: false
+  headers_observed: none
+  see: rate-limits/cloudera-rate-limits.yml
+field_expansion:
+  supported: false
+  note: No sparse-fieldset, expand, or field-selection parameter appears in any definition.
+metadata:
+  supported: partial
+  note: >-
+    Most create operations accept a `tags` array of key/value pairs that is carried
+    through to the cloud provider's own resource tags. This is provider tagging,
+    not free-form API metadata.
+identifiers:
+  scheme: CRN
+  description: >-
+    Cloudera Resource Names — crn:cdp:<service>:<region>:<account>:<resourceType>:<id>
+    — are the universal identifier across every service. Cross-service references
+    (an environment referenced from a datalake, a datalake from a data hub, a
+    resource from an IAM role assignment) are all CRNs, and most operations accept
+    either a CRN or a human name for the same resource.
+  see: data-model/cloudera-data-model.yml
+async_operations:
+  model: poll
+  description: >-
+    Long-running provisioning is asynchronous and is not modelled with 202 or a
+    Location header. A create/delete/scale call returns 200 immediately with the
+    resource in a transitional status; the caller polls the matching describe or
+    list operation and reads a status field until it settles. There is no
+    operation-status resource and no callback.
+  example: >-
+    createAWSEnvironment returns 200 with the environment in CREATION_IN_PROGRESS;
+    the caller polls describeEnvironment until status is AVAILABLE or
+    CREATE_FAILED.
+events:
+  webhooks: false
+  asyncapi: false
+  note: >-
+    Checked and genuinely absent as an agent surface. Cloudera does publish a
+    Notification API Service (18 operations, BETA, at
+    cdp-dev-docs/api-docs-beta/swagger/notification.yaml) with a resource event
+    catalog and per-event subscriptions — but its ChannelType enum delivers to
+    IN_APP and EMAIL, with Slack channel IDs on distribution lists. There is no
+    HTTP callback channel, so no Webhooks pointer is emitted and no AsyncAPI is
+    produced. An agent cannot subscribe to a Cloudera event and receive it.
+dry_run_mode:
+  supported: partial
+  evidence: >-
+    A validation-only class of operation exists rather than a general dry-run
+    flag — for example getCredentialPrerequisites and
+    getGovCloudCredentialPrerequisites in the environments service let a caller
+    check what a credential will need before creating one. There is no
+    x-dry-run parameter and no general rehearse-then-commit mode.
+reversibility:
+  grade: documented
+  applicable: true
+  note: >-
+    Reversal paths are plentiful and well named; stated WINDOWS are almost
+    entirely absent. 109 of 778 operations are reversal-shaped (delete*, cancel*,
+    restore*, revoke*, stop*, abort*, rollback*), so an agent can find the undo
+    for most actions — but Cloudera does not state, in the contract or in the API
+    docs, how long any of them remain available. Backup retention, datalake
+    restore windows and deleted-resource recovery periods are governed by the
+    customer's own configuration and by support policy, not by a published API
+    guarantee. NO WINDOW IS ASSERTED HERE THAT CLOUDERA DOES NOT STATE.
+  surfaces:
+    - action: createAWSEnvironment / createAzureEnvironment / createGCPEnvironment
+      reversal: deleteEnvironment
+      window: null
+      window_note: >-
+        Immediate and permanent. Deleting an environment cascades to its datalake
+        and data hubs; there is no undelete and no stated grace period.
+      service: environments
+    - action: createAWSDatalake / createAzureDatalake / createGCPDatalake
+      reversal: deleteDatalake
+      window: null
+      service: datalake
+    - action: backupDatalake
+      reversal: restoreDatalake
+      window: null
+      window_note: >-
+        restoreDatalake, restoreDatalakeStatus, cancelBackup and cancelRestore all
+        exist, so restore from a backup is a first-class operation. How long a
+        backup is retained is not stated in the contract.
+      service: datalake
+    - action: createAWSCluster / createAzureCluster / createGCPCluster (Data Hub)
+      reversal: deleteCluster
+      soft_reversal: stopCluster
+      window: null
+      window_note: >-
+        stopCluster is the recoverable option (the cluster can be started again);
+        deleteCluster is not.
+      service: datahub
+    - action: assignUserRole / assignUserResourceRole / assignGroupRole
+      reversal: unassignUserRole / unassignUserResourceRole / unassignGroupRole
+      window: unlimited
+      window_note: >-
+        Role assignment is pure state — unassigning restores the prior condition
+        at any time. This is the one reversal on the surface with no time limit,
+        and it is inherent rather than documented.
+      service: iam
+    - action: createMachineUserAccessKey
+      reversal: deleteAccessKey
+      window: unlimited
+      service: iam
+    - action: createVwCluster / createDbc
+      reversal: deleteVwCluster / deleteDbc
+      window: null
+      service: dw
+    - action: createProject (DataFlow)
+      reversal: deleteProject
+      soft_reversal: cancelDeleteProject
+      window: null
+      window_note: >-
+        cancelDeleteProject implies a deletion is staged rather than instant, but
+        the contract does not say for how long it can be cancelled.
+      service: df
+    - action: startFlowInDeployment / changeFlowVersionInDeployment
+      reversal: abortFlowRequestInDeployment / cancelChangeFlowVersionInDeployment
+      window: null
+      service: dfworkload
+    - action: empty_connection_queue (NiFi MCP tool, not a control plane operation)
+      reversal: none
+      window: none
+      window_note: >-
+        Cloudera's own NiFi MCP README marks this as data loss. There is no
+        reversal. Recorded here because it is the sharpest irreversible action in
+        Cloudera's agent surface.
+  gap: >-
+    To reach `verified` Cloudera would need to state, in the API docs, the retention
+    or grace window for datalake backups, deleted DataFlow projects, and deleted
+    control plane resources. The operations exist; the clock is undocumented.
+cross_links:
+  errors: errors/cloudera-problem-types.yml
+  lifecycle: lifecycle/cloudera-lifecycle.yml
+  authentication: authentication/cloudera-authentication.yml
+  rate_limits: rate-limits/cloudera-rate-limits.yml
+  data_model: data-model/cloudera-data-model.yml

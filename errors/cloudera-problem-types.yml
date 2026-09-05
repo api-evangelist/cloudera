@@ -1,0 +1,112 @@
+generated: '2026-09-05'
+method: derived
+source: >-
+  openapi/cloudera-*-openapi.yml (778 operations across 19 CDP control plane
+  Swagger definitions), enriched with live probes of
+  https://api.us-west-1.cdp.cloudera.com on 2026-09-05
+format: custom
+rfc9457: false
+media_type: application/json
+envelope:
+  definition: '#/definitions/Error'
+  description: An object returned on an error.
+  properties:
+    code:
+      type: string
+      description: The error code.
+    message:
+      type: string
+      description: The error message.
+  note: >-
+    Identical in all 19 service definitions. It is NOT application/problem+json —
+    there is no type, title, status, detail or instance member, so RFC 9457
+    tooling will not read it.
+contract_finding:
+  operations_total: 778
+  declaring_default_error: 778
+  declaring_any_explicit_4xx: 0
+  declaring_any_explicit_5xx: 0
+  note: >-
+    Every operation declares exactly two responses — 200 and `default` — except
+    one, which adds a 405. Not a single 4xx or 5xx status code is enumerated
+    anywhere in the contract, and the `code` field is typed as a bare string with
+    no enum. The contract therefore says errors are shaped {code, message} and
+    says nothing at all about which errors any operation can return. Everything
+    below the probes section was discovered at runtime, not read from the spec.
+    This is the single largest quality gap in Cloudera's published contract.
+problem_types:
+  - code: AUTHENTICATION_FAILURE
+    status: 401
+    title: Authentication failure
+    detail: >-
+      The request carried no CDP signature, or the signature or its timestamp
+      could not be validated.
+    method: probed
+    evidence:
+      - url: https://api.us-west-1.cdp.cloudera.com/api/v1/iam/listUsers
+        status: 401
+        body: >-
+          {"code":"AUTHENTICATION_FAILURE","message":"No authentication methods
+          used. You must use an authentication method."}
+      - url: https://api.us-west-1.cdp.cloudera.com/api/v1/iam/listUsers
+        status: 401
+        body: >-
+          {"code":"AUTHENTICATION_FAILURE","message":"Cannot parse date time
+          string Fri, 5 Sep 2026 12:00:00 GMT"}
+    observed_messages:
+      - No authentication methods used. You must use an authentication method.
+      - Cannot parse date time string {value}
+    remediation: >-
+      Sign the request per the CDP Request Signing Specification V1 — send
+      x-altus-auth with the signature and x-altus-date with an RFC 1123 timestamp
+      in GMT. cdpv1sign (shipped in cdpcurl) generates both.
+    agent_note: >-
+      This code is returned for EVERY unauthenticated request regardless of path,
+      including paths that do not exist. An agent cannot use a 401 to distinguish
+      a bad credential from a wrong URL, and cannot probe the surface at all
+      without credentials.
+  - code: NOT_FOUND
+    status: unknown
+    title: Resource not found
+    detail: The named or CRN-addressed resource does not exist in this account.
+    method: derived
+    evidence: >-
+      Appears 4 times in the harvested definitions as descriptive prose on
+      operation or property descriptions. Not enumerated as a response code.
+    remediation: >-
+      Confirm the CRN or resource name with the matching list* operation before
+      addressing it.
+  - code: UNKNOWN
+    status: unknown
+    title: Unclassified value or error
+    detail: >-
+      Used across the contract as the default member of status and type enums
+      (31 occurrences) — a resource whose state the control plane could not
+      classify. It is an enum sentinel, not exclusively an error code.
+    method: derived
+    evidence: 31 occurrences across the 19 definitions
+transport_signals:
+  - header: x-cdp-request-id
+    always_present: true
+    description: >-
+      Server-generated UUID returned on every response including errors. It is
+      the identifier Cloudera support asks for, and the only correlation handle
+      an agent has.
+    method: probed
+    evidence:
+      url: https://api.us-west-1.cdp.cloudera.com/api/v1/iam/listUsers
+      value_seen: 91f6bd98-5b7d-4efd-b5ea-b19ffcfdc812
+  - header: x-request-id
+    always_present: true
+    description: Duplicate of x-cdp-request-id in every response observed.
+    method: probed
+gaps:
+  - No published error-code reference for the CDP control plane API.
+  - No enum on Error.code, so the vocabulary of codes is not discoverable.
+  - No status codes in the contract; a client cannot map an operation to its failure modes.
+  - >-
+    No rate-limit or quota error code observed or documented, so an agent has no
+    way to recognise throttling as distinct from any other failure.
+related:
+  conventions: conventions/cloudera-conventions.yml
+  decline_codes: not applicable — Cloudera is not a payments or authorization provider
