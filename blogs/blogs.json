@@ -1,0 +1,14 @@
+{
+  "repo": "cloudera",
+  "feeds": [
+    {
+      "source": "https://www.cloudera.com/services-and-support/support-lifecycle-policy.html",
+      "feed_url": "https://www.cloudera.com/services-and-support/support-lifecycle-policy.html",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-09-06T19:17:18Z"
+}
