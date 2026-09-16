@@ -59,385 +59,6 @@ tags_raw:
 - Machine Learning
 - Streaming
 apis:
-- aid: cloudera:cloudera-audit-api
-  name: Cloudera Audit Service API
-  description: Read, archive and configure retention for CDP control plane audit events. 11 operations.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - Audit
-  - Compliance
-  - Logging
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-audit-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-audit-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-cloudprivatelinks-api
-  name: Cloudera Private Links API
-  description: Create and authorize private-link endpoints between a customer VPC and the Cloudera control
-    plane. 9 operations.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - Networking
-  - Private Link
-  - Security
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-cloudprivatelinks-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-cloudprivatelinks-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-compute-api
-  name: Cloudera Compute Service API
-  description: Manage the shared compute (Kubernetes) clusters that Cloudera data services run on, including
-    validate, upgrade, suspend and resume. 15 operations.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - Compute
-  - Kubernetes
-  - Clusters
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-compute-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-compute-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-consumption-api
-  name: Cloudera Consumption API
-  description: Retrieve CCU consumption records for a CDP account. 1 operation.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - Billing
-  - Consumption
-  - FinOps
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-consumption-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-consumption-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-datacatalog-api
-  name: Cloudera Data Catalog API
-  description: Browse and update catalogued data assets, collections and data shares across a CDP account.
-    20 operations.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - Data Catalog
-  - Governance
-  - Metadata
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-datacatalog-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-datacatalog-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-datahub-api
-  name: Cloudera Data Hub API
-  description: Create, scale, stop, start and delete Data Hub workload clusters on AWS, Azure, GCP and
-    AWS GovCloud, plus the cluster templates, definitions and recipes they are built from. 75 operations.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - Data Hub
-  - Clusters
-  - Workloads
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-datahub-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-datahub-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-datalake-api
-  name: Cloudera Datalake API
-  description: Provision the datalake that carries an environment’s shared metadata, security and governance
-    context, and back it up, restore it and cancel those runs. 56 operations.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - Data Lake
-  - Backup
-  - Governance
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-datalake-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-datalake-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-dataengineering-api
-  name: Cloudera Data Engineering API
-  description: Enable and manage Cloudera Data Engineering services and their virtual clusters. 24 operations.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - Data Engineering
-  - Spark
-  - Virtual Clusters
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-de-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-de-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-dataflow-api
-  name: Cloudera DataFlow API
-  description: Manage DataFlow projects, flow definitions, versions, readyflows and deployment requests.
-    66 operations.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - DataFlow
-  - NiFi
-  - Streaming
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-df-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-df-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-dataflow-workload-api
-  name: Cloudera DataFlow Workload API
-  description: Operate running DataFlow deployments — start, stop, change flow version, manage custom
-    NAR and Python configurations and parameter groups. 71 operations. The one service whose paths use
-    /dfx/api/rpc-v1/ rather than /api/v1/.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - DataFlow
-  - NiFi
-  - Deployments
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-dfworkload-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-dfworkload-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-datarecovery-api
-  name: Cloudera Control Plane Data Recovery API
-  description: Back up and restore the CDP control plane itself. Private-cloud form factor only. 9 operations.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - Backup
-  - Disaster Recovery
-  - Private Cloud
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-drscp-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-drscp-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-datawarehouse-api
-  name: Cloudera Data Warehouse API
-  description: The largest service in the CDP contract — activate DW clusters on an environment and manage
-    database catalogs, virtual warehouses, backups and events. 95 operations. Marked EXPERIMENTAL by Cloudera.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - Data Warehouse
-  - SQL
-  - Analytics
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-dw-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-dw-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-environments-api
-  name: Cloudera Environments API
-  description: The tenancy root of CDP. Register cloud credentials and create, describe and delete environments
-    on AWS, Azure, GCP and AWS GovCloud, including FreeIPA, proxies, telemetry and audit credentials.
-    104 operations and the most referenced identifier in the whole contract.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - Environments
-  - Cloud
-  - Credentials
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-environments-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-environments-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-iam-api
-  name: Cloudera IAM API
-  description: Users, machine users, groups, roles, resource roles, access keys, SAML identity providers
-    and SCIM access tokens for a CDP account. 79 operations.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - IAM
-  - Identity
-  - SAML
-  - SCIM
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-iam-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-iam-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-imagecatalog-api
-  name: Cloudera Image Catalog API
-  description: Manage the custom VM image catalogs that datalake and Data Hub provisioning draws from.
-    11 operations.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - Images
-  - Catalog
-  - Provisioning
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-imagecatalog-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-imagecatalog-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-lakehouse-optimizer-api
-  name: Cloudera Lakehouse Optimizer API
-  description: Configure and monitor automatic table maintenance and optimization for Iceberg lakehouse
-    tables. 30 operations.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - Lakehouse
-  - Iceberg
-  - Optimization
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-lakehouseopt-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-lakehouseopt-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-ml-api
-  name: Cloudera AI API
-  description: Provision and manage Cloudera AI (formerly Machine Learning) workspaces on an environment.
-    59 operations. Note that everything INSIDE a workspace — projects, jobs, models, experiments — is
-    served by the workbench’s own API v2 and is not described here.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - Machine Learning
-  - Cloudera AI
-  - Workspaces
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-ml-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-ml-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-operational-database-api
-  name: Cloudera Operational Database API
-  description: Create and manage Cloudera Operational Database (HBase) instances on an environment. 19
-    operations.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - Operational Database
-  - HBase
-  - NoSQL
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-opdb-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-opdb-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-replicationmanager-api
-  name: Cloudera Replication Manager API
-  description: Register clusters and run replication policies between CDP deployments. 24 operations.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - Replication
-  - Migration
-  - Disaster Recovery
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-replicationmanager-openapi.yml
-  - type: Overlay
-    url: overlays/cloudera-replicationmanager-overlay.yaml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
 - aid: cloudera:manager
   name: Cloudera Manager API
   tags:
@@ -451,12 +72,13 @@ apis:
     type: Documentation
   - url: https://cloudera.github.io/cm_api/apidocs/v19/
     type: Reference
-  - url: https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/concepts/topics/cm-api-overview.html
+  - url: >-
+      https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/concepts/topics/cm-api-overview.html
     type: GettingStarted
-  description: Cloudera Manager exposes a JSON REST API at /api/v{N} for managing clusters, services,
-    roles, configurations, hosts, parcels, tags and audits. Authentication uses HTTP basic auth with the
-    same credentials as the Cloudera Manager web UI; subsequent requests can use the session cookie returned
-    on authentication.
+  description: >-
+    Cloudera Manager exposes a JSON REST API at /api/v{N} for managing clusters, services, roles, configurations,
+    hosts, parcels, tags and audits. Authentication uses HTTP basic auth with the same credentials as
+    the Cloudera Manager web UI; subsequent requests can use the session cookie returned on authentication.
 - aid: cloudera:cruise-control
   name: Cloudera Cruise Control REST API
   tags:
@@ -468,8 +90,9 @@ apis:
   properties:
   - url: https://docs.cloudera.com/runtime/7.2.18/cctrl-managing/topics/cctrl-using-rest-api.html
     type: Documentation
-  description: Cruise Control on CDP exposes REST endpoints for rebalancing Kafka clusters, monitoring
-    partition load, and triggering anomaly checks.
+  description: >-
+    Cruise Control on CDP exposes REST endpoints for rebalancing Kafka clusters, monitoring partition
+    load, and triggering anomaly checks.
 - aid: cloudera:srm
   name: Streams Replication Manager Service REST API
   tags:
@@ -477,12 +100,15 @@ apis:
   - Replication
   - Streaming
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/srm-overview/topics/srm-rest-api-overview.html
+  humanURL: >-
+    https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/srm-overview/topics/srm-rest-api-overview.html
   properties:
-  - url: https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/srm-overview/topics/srm-rest-api-overview.html
+  - url: >-
+      https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/srm-overview/topics/srm-rest-api-overview.html
     type: Documentation
-  description: Streams Replication Manager (SRM) exposes a REST API for inspecting cross-cluster Kafka
-    replication topology, lag, and metrics.
+  description: >-
+    Streams Replication Manager (SRM) exposes a REST API for inspecting cross-cluster Kafka replication
+    topology, lag, and metrics.
 - aid: cloudera:hbase-rest
   name: HBase REST Server
   tags:
@@ -490,12 +116,15 @@ apis:
   - NoSQL
   - REST
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-private-cloud-base/latest/accessing-hbase/topics/hbase-installing-rest-server-using-cm.html
+  humanURL: >-
+    https://docs.cloudera.com/cdp-private-cloud-base/latest/accessing-hbase/topics/hbase-installing-rest-server-using-cm.html
   properties:
-  - url: https://docs.cloudera.com/cdp-private-cloud-base/latest/accessing-hbase/topics/hbase-installing-rest-server-using-cm.html
+  - url: >-
+      https://docs.cloudera.com/cdp-private-cloud-base/latest/accessing-hbase/topics/hbase-installing-rest-server-using-cm.html
     type: Documentation
-  description: The HBase REST Server provides a REST front-end to HBase tables for get/put/scan/delete,
-    namespace and table management - installable via Cloudera Manager.
+  description: >-
+    The HBase REST Server provides a REST front-end to HBase tables for get/put/scan/delete, namespace
+    and table management - installable via Cloudera Manager.
 - aid: cloudera:yarn-queue-manager
   name: YARN Queue Manager API
   tags:
@@ -503,13 +132,321 @@ apis:
   - Resource Management
   - Scheduling
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/yarn-reference/topics/yarn-qm-using-api.html
+  humanURL: >-
+    https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/yarn-reference/topics/yarn-qm-using-api.html
   properties:
-  - url: https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/yarn-reference/topics/yarn-qm-using-api.html
+  - url: >-
+      https://docs.cloudera.com/cdp-private-cloud-base/7.1.9/yarn-reference/topics/yarn-qm-using-api.html
     type: Documentation
-  description: YARN Queue Manager exposes a REST API for managing capacity scheduler queues, ACLs, and
-    resource allocations on a CDP cluster.
+  description: >-
+    YARN Queue Manager exposes a REST API for managing capacity scheduler queues, ACLs, and resource allocations
+    on a CDP cluster.
+- aid: cloudera:cloudera-audit-api
+  name: Cloudera Audit API
+  description: The Audit API from Cloudera — 11 operation(s) for audit.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Audit
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-audit-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-cdflocalrpcapiversion1-api
+  name: Cloudera CDF Local RPCAPI Version1 API
+  description: >-
+    The CDFLocalRPCAPIVersion1 API from Cloudera — 71 operation(s) for cdflocalrpcapiversion1.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - CDFLocalRPCAPIVersion1
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-cdflocalrpcapiversion1-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-cloudprivatelinks-api
+  name: Cloudera Cloudprivatelinks API
+  description: The Cloudprivatelinks API from Cloudera — 9 operation(s) for cloudprivatelinks.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Cloudprivatelinks
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-cloudprivatelinks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-compute-api
+  name: Cloudera Compute API
+  description: The Compute API from Cloudera — 15 operation(s) for compute.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Compute
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-compute-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-consumption-api
+  name: Cloudera Consumption API
+  description: The Consumption API from Cloudera — 1 operation(s) for consumption.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Consumption
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-consumption-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-datacatalog-api
+  name: Cloudera Datacatalog API
+  description: The Datacatalog API from Cloudera — 20 operation(s) for datacatalog.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Datacatalog
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-datacatalog-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-datahub-api
+  name: Cloudera Datahub API
+  description: The Datahub API from Cloudera — 75 operation(s) for datahub.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Datahub
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-datahub-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-datalake-api
+  name: Cloudera Datalake API
+  description: The Datalake API from Cloudera — 56 operation(s) for datalake.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Datalake
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-datalake-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-de-api
+  name: Cloudera De API
+  description: The De API from Cloudera — 24 operation(s) for de.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - De
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-de-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-df-api
+  name: Cloudera Df API
+  description: The Df API from Cloudera — 66 operation(s) for df.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Df
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-df-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-drscp-api
+  name: Cloudera Drscp API
+  description: The Drscp API from Cloudera — 9 operation(s) for drscp.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Drscp
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-drscp-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-dw-api
+  name: Cloudera Dw API
+  description: The Dw API from Cloudera — 95 operation(s) for dw.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Dw
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-dw-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-environments2-api
+  name: Cloudera Environments2 API
+  description: The Environments2 API from Cloudera — 104 operation(s) for environments2.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Environments2
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-environments2-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-iam-api
+  name: Cloudera Iam API
+  description: The Iam API from Cloudera — 79 operation(s) for iam.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Iam
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-iam-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-imagecatalog-api
+  name: Cloudera Imagecatalog API
+  description: The Imagecatalog API from Cloudera — 11 operation(s) for imagecatalog.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Imagecatalog
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-imagecatalog-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-lakehouseopt-api
+  name: Cloudera Lakehouseopt API
+  description: The Lakehouseopt API from Cloudera — 30 operation(s) for lakehouseopt.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Lakehouseopt
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-lakehouseopt-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-ml-api
+  name: Cloudera Ml API
+  description: The Ml API from Cloudera — 59 operation(s) for ml.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Ml
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-ml-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-opdb-api
+  name: Cloudera Opdb API
+  description: The Opdb API from Cloudera — 19 operation(s) for opdb.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Opdb
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-opdb-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-replicationmanager-api
+  name: Cloudera Replicationmanager API
+  description: The Replicationmanager API from Cloudera — 24 operation(s) for replicationmanager.
+  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Replicationmanager
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-replicationmanager-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
 common:
+- type: Overlay
+  url: overlays/cloudera-audit-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-cloudprivatelinks-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-compute-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-consumption-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-datacatalog-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-datahub-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-datalake-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-de-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-df-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-dfworkload-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-drscp-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-dw-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-environments-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-iam-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-imagecatalog-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-lakehouseopt-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-ml-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-opdb-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-replicationmanager-overlay.yaml
 - type: AgenticAccess
   url: agentic-access/cloudera-agentic-access.yml
 - type: TrustCenter
