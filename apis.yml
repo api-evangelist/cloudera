@@ -212,34 +212,6 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-datacatalog-api
-  name: Cloudera Datacatalog API
-  description: The Datacatalog API from Cloudera — 20 operation(s) for datacatalog.
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - Datacatalog
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-datacatalog-api-openapi.yml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- aid: cloudera:cloudera-datahub-api
-  name: Cloudera Datahub API
-  description: The Datahub API from Cloudera — 75 operation(s) for datahub.
-  humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  baseURL: https://api.us-west-1.cdp.cloudera.com
-  tags:
-  - Datahub
-  properties:
-  - type: OpenAPI
-    url: openapi/cloudera-datahub-api-openapi.yml
-  - type: Documentation
-    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
-  - type: APIReference
-    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
 - aid: cloudera:cloudera-datalake-api
   name: Cloudera Datalake API
   description: The Datalake API from Cloudera — 56 operation(s) for datalake.
@@ -404,6 +376,34 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/cloudera-replicationmanager-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-data-catalog-api
+  name: Cloudera Data Catalog API
+  description: The Data Catalog API from Cloudera — 20 operation(s) for data catalog.
+  humanURL: https://cloudera.github.io/cm_api/
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Data Catalog
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-data-catalog-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
+  - type: APIReference
+    url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- aid: cloudera:cloudera-data-hub-api
+  name: Cloudera Data Hub API
+  description: The Data Hub API from Cloudera — 75 operation(s) for data hub.
+  humanURL: https://cloudera.github.io/cm_api/
+  baseURL: https://api.us-west-1.cdp.cloudera.com
+  tags:
+  - Data Hub
+  properties:
+  - type: OpenAPI
+    url: openapi/cloudera-data-hub-api-openapi.yml
   - type: Documentation
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
