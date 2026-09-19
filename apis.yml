@@ -218,6 +218,8 @@ apis:
   humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   baseURL: https://api.us-west-1.cdp.cloudera.com
   tags:
+  - Data Lake
+  tags_raw:
   - Datalake
   properties:
   - type: OpenAPI
@@ -302,6 +304,8 @@ apis:
   humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   baseURL: https://api.us-west-1.cdp.cloudera.com
   tags:
+  - Identity and Access Management
+  tags_raw:
   - Iam
   properties:
   - type: OpenAPI
@@ -344,6 +348,8 @@ apis:
   humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   baseURL: https://api.us-west-1.cdp.cloudera.com
   tags:
+  - Machine-Learning
+  tags_raw:
   - Ml
   properties:
   - type: OpenAPI
