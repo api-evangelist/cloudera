@@ -1,0 +1,677 @@
+openapi: 3.2.0
+info:
+  version: 0.9.163
+  title: Image catalog service Imagecatalog API
+  license:
+    name: Apache 2.0
+  description: Service for managing custom image catalogs and their associated Cloudera Runtime and FreeIPA images.
+  termsOfService: https://www.cloudera.com/legal/commercial-terms-and-conditions.html
+tags:
+- name: Imagecatalog
+paths:
+  /api/v1/imagecatalog/createCustomCatalog:
+    post:
+      summary: Create custom image catalog
+      description: Creates a new image catalog for Cloudera Runtime and FreeIPA images.
+      operationId: createCustomCatalog
+      responses:
+        200:
+          description: Expected response to a valid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCustomCatalogResponse'
+        default:
+          description: The default response on an error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-mutating: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomCatalogRequest'
+        required: true
+      tags:
+      - Imagecatalog
+  /api/v1/imagecatalog/deleteCustomCatalog:
+    post:
+      summary: Delete custom image catalog
+      description: Deletes an existing image catalog.
+      operationId: deleteCustomCatalog
+      responses:
+        200:
+          description: Expected response to a valid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteCustomCatalogResponse'
+        default:
+          description: The default response on an error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-mutating: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteCustomCatalogRequest'
+        required: true
+      tags:
+      - Imagecatalog
+  /api/v1/imagecatalog/deleteFreeipaImage:
+    post:
+      summary: Delete FreeIPA image
+      description: Deletes a FreeIPA image from a given catalog.
+      operationId: deleteFreeipaImage
+      responses:
+        200:
+          description: Expected response to a valid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteFreeipaImageResponse'
+        default:
+          description: The default response on an error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-mutating: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteFreeipaImageRequest'
+        required: true
+      tags:
+      - Imagecatalog
+  /api/v1/imagecatalog/deleteRuntimeImage:
+    post:
+      summary: Delete Cloudera Runtime image
+      description: Deletes a Cloudera Runtime image from a given catalog.
+      operationId: deleteRuntimeImage
+      responses:
+        200:
+          description: Expected response to a valid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteRuntimeImageResponse'
+        default:
+          description: The default response on an error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-mutating: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteRuntimeImageRequest'
+        required: true
+      tags:
+      - Imagecatalog
+  /api/v1/imagecatalog/describeCustomCatalog:
+    post:
+      summary: Describe custom image catalog
+      description: Retrieves data about an existing image catalog.
+      operationId: describeCustomCatalog
+      responses:
+        200:
+          description: Expected response to a valid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DescribeCustomCatalogResponse'
+        default:
+          description: The default response on an error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-mutating: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DescribeCustomCatalogRequest'
+        required: true
+      tags:
+      - Imagecatalog
+  /api/v1/imagecatalog/describeCustomImage:
+    post:
+      summary: Describe custom image
+      description: Retrieves data about a specific image from a given catalog.
+      operationId: describeCustomImage
+      responses:
+        200:
+          description: Expected response to a valid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DescribeCustomImageResponse'
+        default:
+          description: The default response on an error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-mutating: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DescribeCustomImageRequest'
+        required: true
+      tags:
+      - Imagecatalog
+  /api/v1/imagecatalog/describeDefaultImage:
+    post:
+      summary: Describe default image
+      description: Retrieves an image directly by id from the default catalog.
+      operationId: describeDefaultImage
+      responses:
+        200:
+          description: Expected response to a valid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DescribeDefaultImageResponse'
+        default:
+          description: The default response on an error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-mutating: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DescribeDefaultImageRequest'
+        required: true
+      tags:
+      - Imagecatalog
+  /api/v1/imagecatalog/findDefaultImage:
+    post:
+      summary: Find default image
+      description: Retrieves an image based on the filters from the default catalog.
+      operationId: findDefaultImage
+      responses:
+        200:
+          description: Expected response to a valid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindDefaultImageResponse'
+        default:
+          description: The default response on an error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-mutating: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindDefaultImageRequest'
+        required: true
+      tags:
+      - Imagecatalog
+  /api/v1/imagecatalog/listCustomCatalogs:
+    post:
+      summary: List custom image catalogs
+      description: Lists all the Cloudera Runtime/FreeIPA image catalogs accessible for the user.
+      operationId: listCustomCatalogs
+      responses:
+        200:
+          description: Expected response to a valid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCustomCatalogsResponse'
+        default:
+          description: The default response on an error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-mutating: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListCustomCatalogsRequest'
+        required: true
+      tags:
+      - Imagecatalog
+  /api/v1/imagecatalog/setFreeipaImage:
+    post:
+      summary: Add or update FreeIPA image
+      description: Adds or updates a FreeIPA image in the catalog.
+      operationId: setFreeipaImage
+      responses:
+        200:
+          description: Expected response to a valid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetFreeipaImageResponse'
+        default:
+          description: The default response on an error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-mutating: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetFreeipaImageRequest'
+        required: true
+      tags:
+      - Imagecatalog
+  /api/v1/imagecatalog/setRuntimeImage:
+    post:
+      summary: Add or update Cloudera Runtime image
+      description: Adds or updates a Cloudera Runtime image in the catalog.
+      operationId: setRuntimeImage
+      responses:
+        200:
+          description: Expected response to a valid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetRuntimeImageResponse'
+        default:
+          description: The default response on an error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-mutating: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetRuntimeImageRequest'
+        required: true
+      tags:
+      - Imagecatalog
+components:
+  schemas:
+    Error:
+      type: object
+      description: An object returned on an error.
+      properties:
+        code:
+          type: string
+          description: The error code.
+        message:
+          type: string
+          description: The error message.
+    CustomImageCatalog:
+      type: object
+      description: Basic image catalog data.
+      properties:
+        name:
+          type: string
+          description: Image catalog name
+        description:
+          type: string
+          description: Image catalog description
+    VmImageRequest:
+      type: object
+      description: Model holding information about a custom VM image and the cloud region it belongs to. The format of the image reference is specific to the cloud provider, e.g. URL in case of Azure, AMI ID in case of AWS.
+      required:
+      - region
+      - imageReference
+      properties:
+        region:
+          type: string
+          description: Region
+        imageReference:
+          type: string
+          description: Image reference
+          x-no-paramfile: true
+    FindDefaultImageRequest:
+      type: object
+      description: The request object to filter data that is used for retrieving an image from the default image catalog.
+      required:
+      - provider
+      - imageType
+      properties:
+        provider:
+          description: Cloud provider - either AWS, AZURE or GCP
+          $ref: '#/components/schemas/VmImageProvider'
+        imageType:
+          description: Image type - either "FREEIPA" or "RUNTIME"
+          $ref: '#/components/schemas/VmImageType'
+        runtimeVersion:
+          type: string
+          description: Cloudera runtime version
+        architecture:
+          type: string
+          default: X86_64
+          description: Specifies the CPU architecture. Values are ARM64, X86_64. Default is X86_64.
+          enum:
+          - ARM64
+          - X86_64
+    SetFreeipaImageResponse:
+      type: object
+      description: The response object holding data about the added or updated FreeIPA image.
+      properties:
+        imageId:
+          type: string
+          description: Image UUID
+    DeleteRuntimeImageRequest:
+      type: object
+      description: The request object to delete Cloudera Runtime image from a catalog.
+      required:
+      - catalogName
+      - imageId
+      properties:
+        catalogName:
+          type: string
+          description: Image catalog name
+        imageId:
+          type: string
+          description: Image UUID
+    SetFreeipaImageRequest:
+      type: object
+      description: The request object to add or update a FreeIPA image in a catalog.
+      required:
+      - catalogName
+      - sourceImageId
+      - vmImages
+      properties:
+        catalogName:
+          type: string
+          description: Image catalog name
+        sourceImageId:
+          type: string
+          description: UUID of the image customized by the current image
+        vmImages:
+          type: array
+          items:
+            $ref: '#/components/schemas/VmImageRequest'
+          description: List of images
+        imageId:
+          type: string
+          description: Image UUID. If this is empty, a randomly generated UUID is used
+        baseParcelUrl:
+          type: string
+          description: Base parcel URL
+          x-no-paramfile: true
+    SetRuntimeImageRequest:
+      type: object
+      description: The request object to add or update a Cloudera Runtime image in a catalog.
+      required:
+      - catalogName
+      - sourceImageId
+      - vmImages
+      properties:
+        catalogName:
+          type: string
+          description: Image catalog name
+        sourceImageId:
+          type: string
+          description: UUID of the image customized by the current image
+        vmImages:
+          type: array
+          items:
+            $ref: '#/components/schemas/VmImageRequest'
+          description: List of images
+        imageId:
+          type: string
+          description: Image UUID. If this is empty, a randomly generated UUID is used
+        baseParcelUrl:
+          type: string
+          description: Base parcel URL
+          x-no-paramfile: true
+    DescribeDefaultImageRequest:
+      type: object
+      description: The request object to retrieve an image from the default image catalog.
+      required:
+      - imageId
+      properties:
+        imageId:
+          type: string
+          description: Image UUID
+    ListCustomCatalogsRequest:
+      type: object
+      description: The request object to list the registered custom image catalogs.
+    VmImageType:
+      type: string
+      description: "Object representing a valid VM image type.\n `FREEIPA` - FreeIPA image `RUNTIME` - Cloudera Runtime image"
+      enum:
+      - FREEIPA
+      - RUNTIME
+    DescribeDefaultImageResponse:
+      type: object
+      description: The response object for holding data about an image retrieved from the default image catalog.
+      properties:
+        imageId:
+          type: string
+          description: Image UUID
+        vmImages:
+          type: array
+          items:
+            $ref: '#/components/schemas/VmImageResponse'
+          description: List of images
+    DescribeCustomImageResponse:
+      type: object
+      description: The response object holding the data of the image retrieved from the given custom catalog.
+      properties:
+        imageId:
+          type: string
+          description: Image UUID
+        imageDate:
+          type: integer
+          format: int64
+          description: Image creation date
+        imageType:
+          description: Image type - either "FREEIPA" or "RUNTIME"
+          $ref: '#/components/schemas/VmImageType'
+        sourceImageId:
+          type: string
+          description: Customized image UUID
+        sourceImageDate:
+          type: integer
+          format: int64
+          description: Customized image creation date
+        versions:
+          type: object
+          description: Package versions
+          additionalProperties:
+            type: string
+        provider:
+          description: Cloud provider - either AWS, AZURE or GCP
+          $ref: '#/components/schemas/VmImageProvider'
+        baseParcelUrl:
+          type: string
+          description: Base parcel URL
+        vmImages:
+          type: array
+          items:
+            $ref: '#/components/schemas/VmImageResponse'
+          description: List of images
+    DescribeCustomCatalogRequest:
+      type: object
+      description: The request object to retrieve data about a custom catalog.
+      required:
+      - catalogName
+      properties:
+        catalogName:
+          type: string
+          description: Image catalog name
+    ListCustomCatalogsResponse:
+      type: object
+      description: The response object for the list of registered image catalogs.
+      properties:
+        imageCatalogs:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomImageCatalog'
+          description: The list of registered image catalogs
+    DescribeCustomImageRequest:
+      type: object
+      description: The request object to retrieve data of an image from the given catalog.
+      required:
+      - catalogName
+      - imageId
+      properties:
+        catalogName:
+          type: string
+          description: Image catalog name
+        imageId:
+          type: string
+          description: Image UUID
+    CreateCustomCatalogResponse:
+      type: object
+      description: The response object returned in case the custom image catalog has been successfully created.
+    DeleteFreeipaImageRequest:
+      type: object
+      description: The request object to delete FreeIPA image from a catalog.
+      required:
+      - catalogName
+      - imageId
+      properties:
+        catalogName:
+          type: string
+          description: Image catalog name
+        imageId:
+          type: string
+          description: Image UUID
+    VmImageProvider:
+      type: string
+      description: "Object representing a valid cloud provider name.\n `AWS` - The image is an AWS VM image `AZURE` - The image is an Azure VM image `GCP` - The image is a GCP VM image"
+      enum:
+      - AWS
+      - AZURE
+      - GCP
+    DescribeCustomCatalogResponse:
+      type: object
+      description: The response object holding the retrieved data of a custom catalog.
+      properties:
+        catalogName:
+          type: string
+          description: Image catalog name
+        description:
+          type: string
+          description: Image catalog description
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageItemResponse'
+          description: Detailed information of the images contained within
+    DeleteCustomCatalogResponse:
+      type: object
+      description: The response object returned in case of successful custom image catalog deletion.
+    DeleteFreeipaImageResponse:
+      type: object
+      description: The response object returned in case the FreeIPA image has been successfully removed from the catalog.
+      properties:
+        imageId:
+          type: string
+          description: Image UUID
+    FindDefaultImageResponse:
+      type: object
+      description: The response object for holding data about an image retrieved from the default image catalog.
+      properties:
+        imageId:
+          type: string
+          description: Image UUID
+        vmImages:
+          type: array
+          items:
+            $ref: '#/components/schemas/VmImageResponse'
+          description: List of images
+    CreateCustomCatalogRequest:
+      type: object
+      description: The request object to create a custom image catalog.
+      required:
+      - catalogName
+      properties:
+        catalogName:
+          type: string
+          description: Image catalog name
+        description:
+          type: string
+          description: Image catalog description
+    ImageItemResponse:
+      type: object
+      description: Model holding detailed information about a custom VM image.
+      properties:
+        imageId:
+          type: string
+          description: Image UUID
+        imageDate:
+          type: integer
+          format: int64
+          description: Image creation date
+        imageType:
+          description: Image type - either "FREEIPA" or "RUNTIME"
+          $ref: '#/components/schemas/VmImageType'
+        sourceImageId:
+          type: string
+          description: Customized image UUID
+        sourceImageDate:
+          type: integer
+          format: int64
+          description: Customized image creation date
+        versions:
+          type: object
+          description: Package versions
+          additionalProperties:
+            type: string
+        provider:
+          description: Cloud provider - either AWS, AZURE or GCP
+          $ref: '#/components/schemas/VmImageProvider'
+    DeleteCustomCatalogRequest:
+      type: object
+      description: The request object to delete a custom image catalog.
+      required:
+      - catalogName
+      properties:
+        catalogName:
+          type: string
+          description: Image catalog name
+    SetRuntimeImageResponse:
+      type: object
+      description: The response object holding data about the added or updated Cloudera Runtime image.
+      properties:
+        imageId:
+          type: string
+          description: Image UUID
+    VmImageResponse:
+      type: object
+      description: Model holding information about a custom VM image and the cloud region it belongs to. The format of the image reference is specific to the cloud provider, e.g. URL in case of Azure, AMI ID in case of AWS.
+      properties:
+        region:
+          type: string
+          description: Region
+        imageReference:
+          type: string
+          description: Image reference
+    DeleteRuntimeImageResponse:
+      type: object
+      description: The response object returned in case the Cloudera Runtime image has been successfully removed from the catalog.
+      properties:
+        imageId:
+          type: string
+          description: Image UUID
+x-generated: Automatically generated by CDP protoc plugin. Do not edit manually.
+x-endpoint-name: imagecatalog
+x-products: CDP
+x-form-factors: public
+x-cdp-releases: PUBLIC
+x-audit: true

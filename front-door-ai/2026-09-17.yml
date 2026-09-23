@@ -1,0 +1,32 @@
+# Front Door AI Index — cloudera — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: cloudera
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.cloudera.com
+  final_host: www.cloudera.com
+  ownership: own
+  owner: cloudera
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 52
+  host_score: 52
+  density: 37.96
+  words: 1370
+  tiers:
+    agentic: 5
+    core: 45
+    model: 2
+  ambiguous: 6
+  top_terms:
+    AI: 45
+    agentic: 3
+    Mistral: 2
+    agent: 2
+    inference: 2
+    intelligence: 2
+    predictive: 1
+    smart: 1
