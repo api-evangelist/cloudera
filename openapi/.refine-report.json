@@ -42,7 +42,9 @@
     "cloudera-opdb-api-openapi.yml",
     "cloudera-replicationmanager-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 2 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -792,7 +794,8 @@
     "cloudera-replicationmanager-openapi.yml: tagged paths POST /api/v1/replicationmanager/collectDiagnosticBundle -> Replicationmanager",
     "cloudera-replicationmanager-openapi.yml: tagged paths POST /api/v1/replicationmanager/getCommandStatus -> Replicationmanager",
     "cloudera-replicationmanager-openapi.yml: declared missing tag: Replicationmanager",
-    "apis.yml register: already-registered"
+    "superseded outputs removed: cloudera-data-catalog-api-openapi.yml, cloudera-data-hub-api-openapi.yml",
+    "apis.yml register: written (+2 apis, 24 total)"
   ],
   "skipped": [
     "_original/cloudera-replicationmanager-swagger.yaml: archived document superseded by a larger archived document",
@@ -819,8 +822,8 @@
     "cloudera-cloudprivatelinks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cloudera-compute-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cloudera-consumption-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "cloudera-datacatalog-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "cloudera-datahub-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cloudera-data-catalog-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cloudera-data-hub-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cloudera-datalake-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cloudera-de-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cloudera-df-api-openapi.yml: previously refined output, superseded by openapi/_original/",

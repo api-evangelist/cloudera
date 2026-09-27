@@ -46,7 +46,7 @@ tags:
 - Data Warehouse
 - Hadoop
 - Hybrid Cloud
-- Machine-Learning
+- Machine Learning
 - Streaming
 tags_raw:
 - Big Data
@@ -58,6 +58,7 @@ tags_raw:
 - Hybrid Cloud
 - Machine Learning
 - Streaming
+- Machine-Learning
 apis:
 - aid: cloudera:manager
   name: Cloudera Manager API
@@ -348,9 +349,10 @@ apis:
   humanURL: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   baseURL: https://api.us-west-1.cdp.cloudera.com
   tags:
-  - Machine-Learning
+  - Machine Learning
   tags_raw:
   - Ml
+  - Machine-Learning
   properties:
   - type: OpenAPI
     url: openapi/cloudera-ml-api-openapi.yml

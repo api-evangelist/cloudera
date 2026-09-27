@@ -41,6 +41,16 @@ paths:
       - Consumption
 components:
   schemas:
+    Error:
+      type: object
+      description: An object returned on an error.
+      properties:
+        code:
+          type: string
+          description: The error code.
+        message:
+          type: string
+          description: The error message.
     ListComputeUsageRecordsRequest:
       type: object
       description: Request object for ListComputeUsageRecords method.
@@ -67,16 +77,6 @@ components:
           type: string
           x-paging-input-token: true
           description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    Error:
-      type: object
-      description: An object returned on an error.
-      properties:
-        code:
-          type: string
-          description: The error code.
-        message:
-          type: string
-          description: The error message.
     ComputeUsageRecord:
       type: object
       description: Record of compute usage values aggregated hourly.
