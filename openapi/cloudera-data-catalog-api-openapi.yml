@@ -572,76 +572,65 @@ paths:
       - Data Catalog
 components:
   schemas:
-    UpdateDataShareResponse:
+    DeleteDataShareResponse:
       type: object
-      description: Response of the Update Data Share operation.
-    AssetResponse:
+      description: Response of the Delete Data Share operation.
+    RevokeExternalUserCredentialsResponse:
       type: object
-      description: Details of an asset to be included in the Data Share.
+      description: Response of the Revoke external user credentials operation.
       properties:
-        resourceId:
-          type: string
-          description: The unique identifier of the resource.
-        guid:
-          type: string
-          description: The unique identifier of the asset (asset guid from the Atlas).
-        createTime:
-          type: string
-          format: date-time
-          description: The date and time when the asset was created.
-        createdBy:
-          type: string
-          description: The user who created the asset.
-        updateTime:
-          type: string
-          format: date-time
-          description: The date and time when the asset was last updated.
-        updatedBy:
-          type: string
-          description: The user who last updated the asset.
-        databaseName:
-          type: string
-          description: The name of the database containing the asset.
-        tableName:
-          type: string
-          description: The name of the table containing the asset.
-        columns:
-          type: array
-          description: List of columns in the asset (default all is included).
-          items:
-            type: string
-            description: Name of the column.
-    ExternalUserAccessUpdate:
+        success:
+          type: boolean
+          description: Indicates whether the external user credentials were successfully revoked.
+    ReviewSuggestedTagsRequest:
       type: object
-      description: Specifies the updated access expiration time for an external user on a specific Data Share.
-      properties:
-        externalUserId:
-          type: integer
-          format: int64
-          description: The unique identifier of the external user.
-        expiryTime:
-          type: string
-          format: date-time
-          description: The date and time when the access of Data Share will expire for the external user.
-    GetSuggestedTagsRequest:
-      type: object
-      description: Get the tags suggested by the Data Compliance Profiler.
+      description: Request to review suggested tags.
       required:
       - datalakeCrn
+      - assets
+      - action
       properties:
         datalakeCrn:
           type: string
           description: The CRN of the Datalake.
-        tableFQN:
+        assets:
+          type: array
+          description: List of assets for which tags are being reviewed.
+          items:
+            $ref: '#/components/schemas/AssetsToReviewRequest'
+        action:
           type: string
-          description: The fully qualified name of the table.
-        columnFQN:
+          description: Action to be taken on the suggested tags. (ACCEPT, REJECT)
+          enum:
+          - ACCEPT
+          - REJECT
+    ListDataSharesRequest:
+      type: object
+      description: List Data Shares request.
+      required:
+      - datalakeCrn
+      - environmentCrn
+      properties:
+        datalakeCrn:
           type: string
-          description: The fully qualified name of the column.
-        profiledSince:
+          description: The CRN of the Data Lake where the Data Share is located.
+        environmentCrn:
           type: string
-          format: date-time
-          description: Tags suggested by the profiler since this date.
+          description: The CRN of the Environment where the Data Share is located.
+        name:
+          type: string
+          description: The name of the Data Share.
+        pageSize:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+          x-paging-page-size: true
+          description: The size of each page.
+        startingToken:
+          type: string
+          x-paging-input-token: true
+          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     GrantAccessToExternalUsersOnDataShareRequest:
       type: object
       description: Grant access to external users on Data Share request.
@@ -665,6 +654,30 @@ components:
           description: List of external users with updated access permissions.
           items:
             $ref: '#/components/schemas/ExternalUserAccessUpdate'
+    ShareDataShareRequest:
+      type: object
+      description: Share the Data Share request.
+      required:
+      - datalakeCrn
+      - environmentCrn
+      - dataShareId
+      properties:
+        datalakeCrn:
+          type: string
+          description: The CRN of the Data Lake where the Data Share is located.
+        environmentCrn:
+          type: string
+          description: The CRN of the Environment where the Data Share is located.
+        dataShareId:
+          type: string
+          description: The unique identifier of the Data Share to be shared.
+    RegenerateExternalUserCredentialsResponse:
+      type: object
+      description: Response of the Regenerate external user credentials operation.
+      properties:
+        externalUser:
+          description: The external user with regenerated credentials.
+          $ref: '#/components/schemas/ExternalUser'
     UnshareDataShareRequest:
       type: object
       description: Unshare the Data Share request.
@@ -717,22 +730,101 @@ components:
         error:
           type: string
           description: Error message if any occurred during the creation of the external user.
-    ListDataSharesRequest:
+    AssetRequest:
       type: object
-      description: List Data Shares request.
+      description: Details of an asset to be included in the Data Share.
+      required:
+      - databaseName
+      - tableName
+      properties:
+        databaseName:
+          type: string
+          description: The name of the database containing the asset.
+        tableName:
+          type: string
+          description: The name of the table containing the asset.
+        guid:
+          type: string
+          description: The unique identifier of the asset (asset guid from the Atlas).
+        columns:
+          type: array
+          description: List of columns in the asset (default all is included).
+          items:
+            type: string
+            description: Name of the column.
+    GetSuggestedTagsResponse:
+      type: object
+      description: Tags suggested by the Data Compliance Profiler.
+      properties:
+        suggestedTags:
+          type: array
+          description: List of suggested tags.
+          items:
+            type: object
+            description: Details of the suggested tags.
+            properties:
+              qualifiedName:
+                type: string
+                description: The fully qualified name of the asset.
+              tags:
+                type: array
+                description: List of suggested tags.
+                items:
+                  type: string
+                  description: The name of the suggested tag.
+    LaunchProfilersResponse:
+      type: object
+      description: Profiler launch operation response.
+      properties:
+        datahubCluster:
+          $ref: '#/components/schemas/Cluster'
+          description: Datahub cluster details.
+    AssetsToReviewRequest:
+      type: object
+      description: Asset details for which tags are being reviewed.
+      required:
+      - qualifiedName
+      - tags
+      properties:
+        qualifiedName:
+          type: string
+          description: The fully qualified name of the asset.
+        tags:
+          type: array
+          description: List of tags to be reviewed.
+          items:
+            type: string
+            description: The name of the tag to be reviewed.
+    ListDataSharesResponse:
+      type: object
+      description: List Data Shares response.
+      properties:
+        dataShares:
+          type: array
+          description: List of Data Shares.
+          x-paging-result: true
+          items:
+            $ref: '#/components/schemas/DataShareResponse'
+        nextToken:
+          type: string
+          x-paging-output-token: true
+          description: The token to use when requesting the next set of results. If there are no additional results, the string is empty.
+    ListExternalUsersRequest:
+      type: object
+      description: List external users request.
       required:
       - datalakeCrn
       - environmentCrn
       properties:
         datalakeCrn:
           type: string
-          description: The CRN of the Data Lake where the Data Share is located.
+          description: The CRN of the Data Lake where the external users need to be listed.
         environmentCrn:
           type: string
-          description: The CRN of the Environment where the Data Share is located.
-        name:
+          description: The CRN of the Environment where the external users need to be listed.
+        searchTerm:
           type: string
-          description: The name of the Data Share.
+          description: A search term to filter the external users by username or email or companyName.
         pageSize:
           type: integer
           format: int32
@@ -744,24 +836,29 @@ components:
           type: string
           x-paging-input-token: true
           description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    RevokeExternalUserCredentialsRequest:
+    Error:
       type: object
-      description: Revoke external user credentials request.
-      required:
-      - datalakeCrn
-      - environmentCrn
-      - externalUserId
+      description: An object returned on an error.
       properties:
+        code:
+          type: string
+          description: The error code.
+        message:
+          type: string
+          description: The error message.
+    CreateDataShareResponse:
+      type: object
+      description: Response of the Create Data Share operation.
+      properties:
+        dataShareId:
+          type: string
+          description: The unique identifier of the created Data Share.
+        dataShareName:
+          type: string
+          description: The name of the created Data Share.
         datalakeCrn:
           type: string
-          description: The CRN of the Data Lake where the external user credentials will be revoked.
-        environmentCrn:
-          type: string
-          description: The CRN of the Environment where the external user credentials will be revoked.
-        externalUserId:
-          type: integer
-          format: int64
-          description: The unique identifier of the external user whose credentials are to be revoked.
+          description: The CRN of the Data Lake where the Data Share was created.
     DeleteDataShareRequest:
       type: object
       description: Delete Data Share request.
@@ -779,166 +876,16 @@ components:
         dataShareId:
           type: string
           description: The unique identifier of the Data Share to be deleted.
-    CreateExternalUsersResponse:
-      type: object
-      description: Response of the Create external users operation.
-      properties:
-        externalUsers:
-          type: array
-          description: List of external users created.
-          items:
-            $ref: '#/components/schemas/ExternalUser'
-    ListExternalUsersResponse:
-      type: object
-      description: Response of the List external users operation.
-      properties:
-        externalUsers:
-          type: array
-          description: List of external users.
-          x-paging-result: true
-          items:
-            $ref: '#/components/schemas/ExternalUserListItem'
-        nextToken:
-          type: string
-          x-paging-output-token: true
-          description: The token to use when requesting the next set of results. If there are no additional results, the string is empty.
-    ImageDetails:
-      type: object
-      description: The details of the image used for cluster instances.
-      properties:
-        name:
-          type: string
-          description: The name of the image used for cluster instances.
-        id:
-          type: string
-          description: The ID of the image used for cluster instances. This is internally generated by the cloud provider to uniquely identify the image.
-        catalogUrl:
-          type: string
-          description: The image catalog URL.
-        catalogName:
-          type: string
-          description: The image catalog name.
-    AddAssetsToDataShareRequest:
-      type: object
-      description: Add assets to Data Share request.
-      required:
-      - datalakeCrn
-      - environmentCrn
-      - dataShareId
-      - assets
-      properties:
-        datalakeCrn:
-          type: string
-          description: The CRN of the Data Lake where the Data Share is located.
-        environmentCrn:
-          type: string
-          description: The CRN of the Environment where the Data Share is located.
-        dataShareId:
-          type: string
-          description: The unique identifier of the Data Share to which assets will be added.
-        assets:
-          type: array
-          items:
-            $ref: '#/components/schemas/AssetRequest'
-          description: List of assets to be added to the Data Share.
     GrantAccessToExternalUsersOnDataShareResponse:
       type: object
       description: Response of the Grant access to external users on Data Share operation.
-    CreateDataShareResponse:
+    GetDataShareRequest:
       type: object
-      description: Response of the Create Data Share operation.
-      properties:
-        dataShareId:
-          type: string
-          description: The unique identifier of the created Data Share.
-        dataShareName:
-          type: string
-          description: The name of the created Data Share.
-        datalakeCrn:
-          type: string
-          description: The CRN of the Data Lake where the Data Share was created.
-    ReviewSuggestedTagsResponse:
-      type: object
-      description: Review suggested tags response.
-      properties:
-        reviewedTags:
-          type: array
-          description: List of reviewed tags.
-          items:
-            type: object
-            description: Details of the reviewed tags.
-            properties:
-              qualifiedName:
-                type: string
-                description: The fully qualified name of the asset.
-              tagsUpdated:
-                type: array
-                description: List of tags on which have been reviewed.
-                items:
-                  type: string
-                  description: The name of the reviewed tag.
-              status:
-                type: string
-                description: The current status of the tags. (ACCEPTED, REJECTED, FAILED)
-                enum:
-                - ACCEPTED
-                - REJECTED
-                - FAILED
-    UpdateAccessOfExternalUsersOnDataShareResponse:
-      type: object
-      description: Response of the Update access of external users on Data Share operation.
-    CreateExternalUsersRequest:
-      type: object
-      description: Create external users request.
-      required:
-      - datalakeCrn
-      - externalUsers
-      - environmentCrn
-      properties:
-        datalakeCrn:
-          type: string
-          description: The CRN of the Data lake where the external users will be created.
-        environmentCrn:
-          type: string
-          description: The CRN of the Environment where the external users will be created.
-        externalUsers:
-          type: array
-          description: List of external users to be created.
-          items:
-            $ref: '#/components/schemas/CreateExternalUser'
-    DeleteExternalUserRequest:
-      type: object
-      description: Delete external user request.
-      required:
-      - datalakeCrn
-      - environmentCrn
-      - externalUserId
-      properties:
-        datalakeCrn:
-          type: string
-          description: The CRN of the Data Lake where the external user will be deleted.
-        environmentCrn:
-          type: string
-          description: The CRN of the Environment where the external user will be deleted.
-        externalUserId:
-          type: integer
-          format: int64
-          description: The unique identifier of the external user to be deleted.
-    LaunchProfilersResponse:
-      type: object
-      description: Profiler launch operation response.
-      properties:
-        datahubCluster:
-          $ref: '#/components/schemas/Cluster'
-          description: Datahub cluster details.
-    RemoveAssetsFromDataShareRequest:
-      type: object
-      description: Remove assets from Data Share request.
+      description: Get Data Share request.
       required:
       - datalakeCrn
       - environmentCrn
       - dataShareId
-      - resourceIds
       properties:
         datalakeCrn:
           type: string
@@ -948,75 +895,26 @@ components:
           description: The CRN of the Environment where the Data Share is located.
         dataShareId:
           type: string
-          description: The unique identifier of the Data Share from which assets will be removed.
-        resourceIds:
-          type: array
-          items:
-            type: string
-          description: List of asset resource IDs to be removed from the Data Share.
-    RegenerateExternalUserCredentialsRequest:
+          description: The unique identifier of the Data Share to be retrieved.
+    GetSuggestedTagsRequest:
       type: object
-      description: Regenerate external user credentials request.
+      description: Get the tags suggested by the Data Compliance Profiler.
       required:
       - datalakeCrn
-      - environmentCrn
-      - externalUserId
       properties:
         datalakeCrn:
           type: string
-          description: The CRN of the Data Lake where the external user credentials will be regenerated.
-        environmentCrn:
-          type: string
-          description: The CRN of the Environment where the external user credentials will be regenerated.
-        externalUserId:
-          type: integer
-          format: int64
-          description: The unique identifier of the external user whose credentials are to be regenerated.
-    RemoveAssetsFromDataShareResponse:
-      type: object
-      description: Response of the Remove assets from Data Share operation.
-    LaunchProfilersRequest:
-      type: object
-      description: Launch Profilers request.
-      required:
-      - datalake
-      properties:
-        datalake:
-          type: string
           description: The CRN of the Datalake.
-        enableHA:
-          type: boolean
-          description: Enables High Availability (HA) for datacatalog profilers (default value is false). The High Availability (HA) Profiler cluster provides failure resilience and scalability but incurs additional cost.
-        profilers:
-          description: List of profiler names that need to be launched. (Applicable only for compute cluster enabled environments).
-          type: array
-          items:
-            type: string
-        instanceTypes:
-          description: List of instance types to be used for the auto-scaling node group setup (Applicable only for compute cluster enabled environments).
-          type: array
-          items:
-            type: string
-        maxNodes:
-          description: Maximum number of nodes that can be spawned inside the auto-scaling node group, in the range of 30 to 100 (both inclusive). (Applicable only for compute cluster enabled environments).
-          type: integer
-          format: int64
-    AssetsToReviewRequest:
-      type: object
-      description: Asset details for which tags are being reviewed.
-      required:
-      - qualifiedName
-      - tags
-      properties:
-        qualifiedName:
+        tableFQN:
           type: string
-          description: The fully qualified name of the asset.
-        tags:
-          type: array
-          description: List of tags to be reviewed.
-          items:
-            type: string
-            description: The name of the tag to be reviewed.
+          description: The fully qualified name of the table.
+        columnFQN:
+          type: string
+          description: The fully qualified name of the column.
+        profiledSince:
+          type: string
+          format: date-time
+          description: Tags suggested by the profiler since this date.
     CreateExternalUser:
       type: object
       description: Details of an External user.
@@ -1058,6 +956,74 @@ components:
           items:
             type: integer
             format: int64
+    UnshareDataShareResponse:
+      type: object
+      description: Response of the Unshare Data Share operation.
+    AssetResponse:
+      type: object
+      description: Details of an asset to be included in the Data Share.
+      properties:
+        resourceId:
+          type: string
+          description: The unique identifier of the resource.
+        guid:
+          type: string
+          description: The unique identifier of the asset (asset guid from the Atlas).
+        createTime:
+          type: string
+          format: date-time
+          description: The date and time when the asset was created.
+        createdBy:
+          type: string
+          description: The user who created the asset.
+        updateTime:
+          type: string
+          format: date-time
+          description: The date and time when the asset was last updated.
+        updatedBy:
+          type: string
+          description: The user who last updated the asset.
+        databaseName:
+          type: string
+          description: The name of the database containing the asset.
+        tableName:
+          type: string
+          description: The name of the table containing the asset.
+        columns:
+          type: array
+          description: List of columns in the asset (default all is included).
+          items:
+            type: string
+            description: Name of the column.
+    DataShareResponse:
+      type: object
+      description: Data Share response.
+      properties:
+        dataShareId:
+          type: string
+          description: The unique identifier of the Data Share.
+        dataShareName:
+          type: string
+          description: The name of the Data Share.
+        isShared:
+          type: boolean
+          description: Indicates whether the Data Share is in Shared state or not.
+        createdAt:
+          type: string
+          format: date-time
+          description: The date and time when the Data Share was created.
+        createdBy:
+          type: string
+          description: The CDP user who created the Data Share.
+        keywords:
+          type: array
+          items:
+            type: string
+          description: List of keywords associated with the Data Share.
+        expiryTime:
+          type: string
+          format: date-time
+          description: The date and time when the Data Share will expire.
     DataShareExternalUser:
       type: object
       description: Details of an external user with access to a Data Share.
@@ -1088,6 +1054,104 @@ components:
           type: string
           format: date-time
           description: The date and time when the access of Data Share will expire for the external user.
+    LaunchProfilersRequest:
+      type: object
+      description: Launch Profilers request.
+      required:
+      - datalake
+      properties:
+        datalake:
+          type: string
+          description: The CRN of the Datalake.
+        enableHA:
+          type: boolean
+          description: Enables High Availability (HA) for datacatalog profilers (default value is false). The High Availability (HA) Profiler cluster provides failure resilience and scalability but incurs additional cost.
+        profilers:
+          description: List of profiler names that need to be launched. (Applicable only for compute cluster enabled environments).
+          type: array
+          items:
+            type: string
+        instanceTypes:
+          description: List of instance types to be used for the auto-scaling node group setup (Applicable only for compute cluster enabled environments).
+          type: array
+          items:
+            type: string
+        maxNodes:
+          description: Maximum number of nodes that can be spawned inside the auto-scaling node group, in the range of 30 to 100 (both inclusive). (Applicable only for compute cluster enabled environments).
+          type: integer
+          format: int64
+    CreateExternalUsersRequest:
+      type: object
+      description: Create external users request.
+      required:
+      - datalakeCrn
+      - externalUsers
+      - environmentCrn
+      properties:
+        datalakeCrn:
+          type: string
+          description: The CRN of the Data lake where the external users will be created.
+        environmentCrn:
+          type: string
+          description: The CRN of the Environment where the external users will be created.
+        externalUsers:
+          type: array
+          description: List of external users to be created.
+          items:
+            $ref: '#/components/schemas/CreateExternalUser'
+    ExternalUserListItem:
+      type: object
+      description: Details of an external user in a list response.
+      properties:
+        userId:
+          type: integer
+          format: int64
+          description: The unique identifier of the external user.
+        username:
+          type: string
+          description: The username of the external user.
+        email:
+          type: string
+          description: The email address of the external user.
+        companyName:
+          type: string
+          description: The company name of the external user.
+        clientId:
+          type: string
+          description: The Client ID of the external user that will be used for authentication.
+        createdAt:
+          type: string
+          format: date-time
+          description: The date and time when the external user was created.
+        isActive:
+          type: boolean
+          description: Indicates whether the external user's credentials are revoked or not.
+    ListExternalUsersResponse:
+      type: object
+      description: Response of the List external users operation.
+      properties:
+        externalUsers:
+          type: array
+          description: List of external users.
+          x-paging-result: true
+          items:
+            $ref: '#/components/schemas/ExternalUserListItem'
+        nextToken:
+          type: string
+          x-paging-output-token: true
+          description: The token to use when requesting the next set of results. If there are no additional results, the string is empty.
+    ExternalUserAccessUpdate:
+      type: object
+      description: Specifies the updated access expiration time for an external user on a specific Data Share.
+      properties:
+        externalUserId:
+          type: integer
+          format: int64
+          description: The unique identifier of the external user.
+        expiryTime:
+          type: string
+          format: date-time
+          description: The date and time when the access of Data Share will expire for the external user.
     AddAssetsToDataShareResponse:
       type: object
       description: Response of the Add assets to Data Share operation.
@@ -1097,116 +1161,64 @@ components:
           items:
             $ref: '#/components/schemas/AssetResponse'
           description: List of assets added to the Data Share.
-    CreateDataShareRequest:
+    UpdateAccessOfExternalUsersOnDataShareRequest:
       type: object
-      description: Create Data Share request.
+      description: Update access of external users on Data Share request.
       required:
       - datalakeCrn
       - environmentCrn
-      - dataShareName
-      - assets
+      - dataShareId
+      - externalUsers
       properties:
         datalakeCrn:
           type: string
-          description: The CRN of the Data Lake where the Data Share will be created.
+          description: The CRN of the Data Lake where the Data Share is located.
         environmentCrn:
           type: string
-          description: The CRN of the Environment where the Data Share will be created.
+          description: The CRN of the Environment where the Data Share is located.
+        dataShareId:
+          type: string
+          description: The unique identifier of the Data Share for which external user access will be updated.
+        externalUsers:
+          type: array
+          description: List of external users with updated access permissions.
+          items:
+            $ref: '#/components/schemas/ExternalUserAccessUpdate'
+    UpdateDataShareRequest:
+      type: object
+      description: Update Data Share request.
+      required:
+      - datalakeCrn
+      - environmentCrn
+      - dataShareId
+      properties:
+        datalakeCrn:
+          type: string
+          description: The CRN of the Data Lake where the Data Share is located.
+        environmentCrn:
+          type: string
+          description: The CRN of the Environment where the Data Share is located.
+        dataShareId:
+          type: string
+          description: The unique identifier of the Data Share to be updated.
         dataShareName:
           type: string
-          description: The name of the Data Share to be created (Max length is 512 characters).
-          maxLength: 512
-        assets:
+          description: The name of the Data Share.
+        keywords:
           type: array
-          description: List of assets to be included in the Data Share.
           items:
-            $ref: '#/components/schemas/AssetRequest'
+            type: string
+          description: List of keywords associated with the Data Share.
+        expiryTime:
+          type: string
+          format: date-time
+          description: The date and time when the Data Share will expire.
         summary:
           type: string
           description: A brief summary of the Data Share.
         termsOfUse:
           type: string
           description: The terms of use for the Data Share.
-        keywords:
-          type: array
-          description: List of keywords associated with the Data Share.
-          items:
-            type: string
-        expiryTime:
-          type: string
-          format: date-time
-          description: The date and time when the Data Share will expire.
-        externalUsers:
-          type: array
-          description: List of external users to be granted access to the Data Share.
-          items:
-            $ref: '#/components/schemas/ExternalUserAccessUpdate'
-    DeleteDataShareResponse:
-      type: object
-      description: Response of the Delete Data Share operation.
-    DataShareResponse:
-      type: object
-      description: Data Share response.
-      properties:
-        dataShareId:
-          type: string
-          description: The unique identifier of the Data Share.
-        dataShareName:
-          type: string
-          description: The name of the Data Share.
-        isShared:
-          type: boolean
-          description: Indicates whether the Data Share is in Shared state or not.
-        createdAt:
-          type: string
-          format: date-time
-          description: The date and time when the Data Share was created.
-        createdBy:
-          type: string
-          description: The CDP user who created the Data Share.
-        keywords:
-          type: array
-          items:
-            type: string
-          description: List of keywords associated with the Data Share.
-        expiryTime:
-          type: string
-          format: date-time
-          description: The date and time when the Data Share will expire.
-    RegenerateExternalUserCredentialsResponse:
-      type: object
-      description: Response of the Regenerate external user credentials operation.
-      properties:
-        externalUser:
-          description: The external user with regenerated credentials.
-          $ref: '#/components/schemas/ExternalUser'
-    GetSuggestedTagsResponse:
-      type: object
-      description: Tags suggested by the Data Compliance Profiler.
-      properties:
-        suggestedTags:
-          type: array
-          description: List of suggested tags.
-          items:
-            type: object
-            description: Details of the suggested tags.
-            properties:
-              qualifiedName:
-                type: string
-                description: The fully qualified name of the asset.
-              tags:
-                type: array
-                description: List of suggested tags.
-                items:
-                  type: string
-                  description: The name of the suggested tag.
-    DeleteExternalUserResponse:
-      type: object
-      description: Response of the Delete external user operation.
-      properties:
-        success:
-          type: boolean
-          description: Indicates whether the external user was successfully deleted.
     GetDataShareResponse:
       type: object
       description: Response of the Get Data Share operation.
@@ -1261,35 +1273,38 @@ components:
         termsOfUse:
           type: string
           description: The terms of use for the Data Share.
-    AssetRequest:
+    RemoveAssetsFromDataShareRequest:
       type: object
-      description: Details of an asset to be included in the Data Share.
+      description: Remove assets from Data Share request.
       required:
-      - databaseName
-      - tableName
+      - datalakeCrn
+      - environmentCrn
+      - dataShareId
+      - resourceIds
       properties:
-        databaseName:
+        datalakeCrn:
           type: string
-          description: The name of the database containing the asset.
-        tableName:
+          description: The CRN of the Data Lake where the Data Share is located.
+        environmentCrn:
           type: string
-          description: The name of the table containing the asset.
-        guid:
+          description: The CRN of the Environment where the Data Share is located.
+        dataShareId:
           type: string
-          description: The unique identifier of the asset (asset guid from the Atlas).
-        columns:
+          description: The unique identifier of the Data Share from which assets will be removed.
+        resourceIds:
           type: array
-          description: List of columns in the asset (default all is included).
           items:
             type: string
-            description: Name of the column.
-    RevokeExternalUserCredentialsResponse:
+          description: List of asset resource IDs to be removed from the Data Share.
+    CreateExternalUsersResponse:
       type: object
-      description: Response of the Revoke external user credentials operation.
+      description: Response of the Create external users operation.
       properties:
-        success:
-          type: boolean
-          description: Indicates whether the external user credentials were successfully revoked.
+        externalUsers:
+          type: array
+          description: List of external users created.
+          items:
+            $ref: '#/components/schemas/ExternalUser'
     Cluster:
       type: object
       description: Information about a cluster.
@@ -1332,106 +1347,153 @@ components:
         clusterTemplateCrn:
           type: string
           description: The CRN of the cluster template used for the cluster creation.
-    UpdateAccessOfExternalUsersOnDataShareRequest:
+    DeleteExternalUserResponse:
       type: object
-      description: Update access of external users on Data Share request.
+      description: Response of the Delete external user operation.
+      properties:
+        success:
+          type: boolean
+          description: Indicates whether the external user was successfully deleted.
+    UpdateAccessOfExternalUsersOnDataShareResponse:
+      type: object
+      description: Response of the Update access of external users on Data Share operation.
+    ImageDetails:
+      type: object
+      description: The details of the image used for cluster instances.
+      properties:
+        name:
+          type: string
+          description: The name of the image used for cluster instances.
+        id:
+          type: string
+          description: The ID of the image used for cluster instances. This is internally generated by the cloud provider to uniquely identify the image.
+        catalogUrl:
+          type: string
+          description: The image catalog URL.
+        catalogName:
+          type: string
+          description: The image catalog name.
+    DeleteExternalUserRequest:
+      type: object
+      description: Delete external user request.
       required:
       - datalakeCrn
       - environmentCrn
-      - dataShareId
-      - externalUsers
+      - externalUserId
       properties:
         datalakeCrn:
           type: string
-          description: The CRN of the Data Lake where the Data Share is located.
+          description: The CRN of the Data Lake where the external user will be deleted.
         environmentCrn:
           type: string
-          description: The CRN of the Environment where the Data Share is located.
-        dataShareId:
-          type: string
-          description: The unique identifier of the Data Share for which external user access will be updated.
-        externalUsers:
-          type: array
-          description: List of external users with updated access permissions.
-          items:
-            $ref: '#/components/schemas/ExternalUserAccessUpdate'
-    ReviewSuggestedTagsRequest:
+          description: The CRN of the Environment where the external user will be deleted.
+        externalUserId:
+          type: integer
+          format: int64
+          description: The unique identifier of the external user to be deleted.
+    RemoveAccessOfExternalUsersOnDataShareResponse:
       type: object
-      description: Request to review suggested tags.
+      description: Response of the Remove access of external users on Data Share operation.
+    RevokeExternalUserCredentialsRequest:
+      type: object
+      description: Revoke external user credentials request.
       required:
       - datalakeCrn
+      - environmentCrn
+      - externalUserId
+      properties:
+        datalakeCrn:
+          type: string
+          description: The CRN of the Data Lake where the external user credentials will be revoked.
+        environmentCrn:
+          type: string
+          description: The CRN of the Environment where the external user credentials will be revoked.
+        externalUserId:
+          type: integer
+          format: int64
+          description: The unique identifier of the external user whose credentials are to be revoked.
+    ReviewSuggestedTagsResponse:
+      type: object
+      description: Review suggested tags response.
+      properties:
+        reviewedTags:
+          type: array
+          description: List of reviewed tags.
+          items:
+            type: object
+            description: Details of the reviewed tags.
+            properties:
+              qualifiedName:
+                type: string
+                description: The fully qualified name of the asset.
+              tagsUpdated:
+                type: array
+                description: List of tags on which have been reviewed.
+                items:
+                  type: string
+                  description: The name of the reviewed tag.
+              status:
+                type: string
+                description: The current status of the tags. (ACCEPTED, REJECTED, FAILED)
+                enum:
+                - ACCEPTED
+                - REJECTED
+                - FAILED
+    CreateDataShareRequest:
+      type: object
+      description: Create Data Share request.
+      required:
+      - datalakeCrn
+      - environmentCrn
+      - dataShareName
       - assets
-      - action
       properties:
         datalakeCrn:
           type: string
-          description: The CRN of the Datalake.
-        assets:
-          type: array
-          description: List of assets for which tags are being reviewed.
-          items:
-            $ref: '#/components/schemas/AssetsToReviewRequest'
-        action:
-          type: string
-          description: Action to be taken on the suggested tags. (ACCEPT, REJECT)
-          enum:
-          - ACCEPT
-          - REJECT
-    UpdateDataShareRequest:
-      type: object
-      description: Update Data Share request.
-      required:
-      - datalakeCrn
-      - environmentCrn
-      - dataShareId
-      properties:
-        datalakeCrn:
-          type: string
-          description: The CRN of the Data Lake where the Data Share is located.
+          description: The CRN of the Data Lake where the Data Share will be created.
         environmentCrn:
           type: string
-          description: The CRN of the Environment where the Data Share is located.
-        dataShareId:
-          type: string
-          description: The unique identifier of the Data Share to be updated.
+          description: The CRN of the Environment where the Data Share will be created.
         dataShareName:
           type: string
-          description: The name of the Data Share.
-        keywords:
+          description: The name of the Data Share to be created (Max length is 512 characters).
+          maxLength: 512
+        assets:
           type: array
+          description: List of assets to be included in the Data Share.
           items:
-            type: string
-          description: List of keywords associated with the Data Share.
-        expiryTime:
-          type: string
-          format: date-time
-          description: The date and time when the Data Share will expire.
+            $ref: '#/components/schemas/AssetRequest'
         summary:
           type: string
           description: A brief summary of the Data Share.
         termsOfUse:
           type: string
           description: The terms of use for the Data Share.
-    RemoveAccessOfExternalUsersOnDataShareResponse:
-      type: object
-      description: Response of the Remove access of external users on Data Share operation.
-    Error:
-      type: object
-      description: An object returned on an error.
-      properties:
-        code:
+        keywords:
+          type: array
+          description: List of keywords associated with the Data Share.
+          items:
+            type: string
+        expiryTime:
           type: string
-          description: The error code.
-        message:
-          type: string
-          description: The error message.
-    GetDataShareRequest:
+          format: date-time
+          description: The date and time when the Data Share will expire.
+        externalUsers:
+          type: array
+          description: List of external users to be granted access to the Data Share.
+          items:
+            $ref: '#/components/schemas/ExternalUserAccessUpdate'
+    RemoveAssetsFromDataShareResponse:
       type: object
-      description: Get Data Share request.
+      description: Response of the Remove assets from Data Share operation.
+    AddAssetsToDataShareRequest:
+      type: object
+      description: Add assets to Data Share request.
       required:
       - datalakeCrn
       - environmentCrn
       - dataShareId
+      - assets
       properties:
         datalakeCrn:
           type: string
@@ -1441,7 +1503,33 @@ components:
           description: The CRN of the Environment where the Data Share is located.
         dataShareId:
           type: string
-          description: The unique identifier of the Data Share to be retrieved.
+          description: The unique identifier of the Data Share to which assets will be added.
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetRequest'
+          description: List of assets to be added to the Data Share.
+    RegenerateExternalUserCredentialsRequest:
+      type: object
+      description: Regenerate external user credentials request.
+      required:
+      - datalakeCrn
+      - environmentCrn
+      - externalUserId
+      properties:
+        datalakeCrn:
+          type: string
+          description: The CRN of the Data Lake where the external user credentials will be regenerated.
+        environmentCrn:
+          type: string
+          description: The CRN of the Environment where the external user credentials will be regenerated.
+        externalUserId:
+          type: integer
+          format: int64
+          description: The unique identifier of the external user whose credentials are to be regenerated.
+    UpdateDataShareResponse:
+      type: object
+      description: Response of the Update Data Share operation.
     ShareDataShareResponse:
       type: object
       description: Response of the Share Data Share operation.
@@ -1449,94 +1537,6 @@ components:
         success:
           type: boolean
           description: Indicates whether the Data Share was successfully shared with external users.
-    ListDataSharesResponse:
-      type: object
-      description: List Data Shares response.
-      properties:
-        dataShares:
-          type: array
-          description: List of Data Shares.
-          x-paging-result: true
-          items:
-            $ref: '#/components/schemas/DataShareResponse'
-        nextToken:
-          type: string
-          x-paging-output-token: true
-          description: The token to use when requesting the next set of results. If there are no additional results, the string is empty.
-    ShareDataShareRequest:
-      type: object
-      description: Share the Data Share request.
-      required:
-      - datalakeCrn
-      - environmentCrn
-      - dataShareId
-      properties:
-        datalakeCrn:
-          type: string
-          description: The CRN of the Data Lake where the Data Share is located.
-        environmentCrn:
-          type: string
-          description: The CRN of the Environment where the Data Share is located.
-        dataShareId:
-          type: string
-          description: The unique identifier of the Data Share to be shared.
-    ExternalUserListItem:
-      type: object
-      description: Details of an external user in a list response.
-      properties:
-        userId:
-          type: integer
-          format: int64
-          description: The unique identifier of the external user.
-        username:
-          type: string
-          description: The username of the external user.
-        email:
-          type: string
-          description: The email address of the external user.
-        companyName:
-          type: string
-          description: The company name of the external user.
-        clientId:
-          type: string
-          description: The Client ID of the external user that will be used for authentication.
-        createdAt:
-          type: string
-          format: date-time
-          description: The date and time when the external user was created.
-        isActive:
-          type: boolean
-          description: Indicates whether the external user's credentials are revoked or not.
-    ListExternalUsersRequest:
-      type: object
-      description: List external users request.
-      required:
-      - datalakeCrn
-      - environmentCrn
-      properties:
-        datalakeCrn:
-          type: string
-          description: The CRN of the Data Lake where the external users need to be listed.
-        environmentCrn:
-          type: string
-          description: The CRN of the Environment where the external users need to be listed.
-        searchTerm:
-          type: string
-          description: A search term to filter the external users by username or email or companyName.
-        pageSize:
-          type: integer
-          format: int32
-          minimum: 1
-          maximum: 100
-          x-paging-page-size: true
-          description: The size of each page.
-        startingToken:
-          type: string
-          x-paging-input-token: true
-          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    UnshareDataShareResponse:
-      type: object
-      description: Response of the Unshare Data Share operation.
 x-endpoint-name: datacatalog
 x-products: CDP
 x-form-factors: public

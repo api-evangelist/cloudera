@@ -272,54 +272,15 @@ paths:
       - Cloudprivatelinks
 components:
   schemas:
-    ListPrivateLinkServicesForRegionResponse:
+    MigratePrivateLinkEndpointsRequest:
       type: object
-      description: Response object for the ListPrivateLinkServicesForTheRegion method.
-      properties:
-        listPrivateLinkServicesForRegionResults:
-          type: array
-          items:
-            $ref: '#/components/schemas/ListPrivateLinkServicesForRegionResult'
-          description: List of ListPrivateLinkServicesForTheRegionResult objects to be returned.
-    DeletePrivateLinkEndpointRequest:
-      type: object
-      description: Request object for the DeletePrivateLinkEndpoint method.
+      description: Request object for the MigratePrivateLinkEndpoints method.
       required:
-      - cloudServiceProvider
+      - awsAccountInfo
       properties:
-        cloudServiceProvider:
-          description: Cloud Service Provider. Currently supporting AWS and AZURE.
-          $ref: '#/components/schemas/CloudServiceProvider'
         awsAccountInfo:
-          description: The AWS account details from which this Private Link endpoint is to be deleted.
+          description: Migration is AWS-only. AWS account information for the Private Link endpoint migration. Only the VPC ID, region, and credentials are required; subnet and other details are retrieved from the database.
           $ref: '#/components/schemas/AWSAccountInfo'
-        azureAccountInfo:
-          description: The Azure account details from which this Private Link endpoint is to be deleted.
-          $ref: '#/components/schemas/AzureAccountInfo'
-    AWSAccountDetails:
-      type: object
-      description: Details of the cloud network and the cross-account role required to create the Private Link endpoint.
-      properties:
-        cloudAccountId:
-          type: string
-          description: Account ID to authorize access for Private Link.
-        crossAccountRoleDetails:
-          description: Cross account role details.
-          $ref: '#/components/schemas/CrossAccountRoleDetails'
-        credentialCrn:
-          type: string
-          description: CDP Credential CRN to fetch the AWS cross-account RoleArn for the account where the endpoint gets deleted.
-        region:
-          type: string
-          description: Region in which VPC exists.
-        vpcId:
-          type: string
-          description: VPC ID in which the Private Link should be created.
-        subnetIds:
-          type: array
-          items:
-            type: string
-          description: IDs of the private subnets in which the Private Link should be created.
     AWSAccountInfo:
       type: object
       description: Details of the cloud network and the cross-account role required to delete the Private Link endpoint.
@@ -336,31 +297,102 @@ components:
         vpcId:
           type: string
           description: VPC ID in which the vpc endpoint should be deleted.
-    RevokePrivateLinkServiceAccessResponse:
+    AzureClientSecretCredential:
       type: object
-      description: Response object for the RevokePrivateLinkServiceAccess method.
+      description: Azure client secret credential, either this or credential CRN should be passed.
       properties:
+        clientId:
+          type: string
+          description: The client (application) ID of the service principal
+        clientSecret:
+          type: string
+          description: A client secret that was generated for the App Registration used to authenticate the client.
+        tenantId:
+          type: string
+          description: The Azure Active Directory tenant (directory) Id of the service principal.
+    ListPrivateLinkServicesForRegionRequest:
+      type: object
+      description: Request object for the ListPrivateLinkServicesForTheRegion method.
+      required:
+      - region
+      properties:
+        region:
+          type: string
+          description: Region for which the Private Link services are to be queried.
+        serviceGroup:
+          type: string
+          description: CDP service group. Currently supports "CDP-CONTROL-PLANE" for PaaS.
+    PrivateLinkEndpointStatus:
+      type: object
+      description: Details of the Private Link endpoints.
+      properties:
+        serviceComponent:
+          type: string
+          description: CDP service component name [API/DBUSAPI/IAMAPI/CCMV2/CONSOLEAUTH].
         status:
           type: string
-          description: Status of Private Link service access revoke.
-        revokePrivateLinkServiceAccessResults:
+          description: Status of the Private Link endpoints. The status is set to SUCCESS when endpoint is created successfully, IN_PROGRESS when the endpoint creation is underway and ERROR when endpoint creation fails.
+        error:
+          type: string
+          description: Error message on failure.
+        endpointId:
+          type: string
+          description: Private Link endpoint ID on success.
+        dnsNames:
           type: array
           items:
-            $ref: '#/components/schemas/RevokePrivateLinkServiceAccessResult'
-          description: List of RevokePrivateLinkServiceAccessResult objects.
-    ResourceTag:
+            type: string
+          description: List of Private Link endpoint DNS names on successful creation.
+        creationTimestamp:
+          type: string
+          description: Endpoint creation timestamp.
+    AuthorizePrivateLinkServiceAccessResponse:
       type: object
-      description: Tag object which can be passed to add custom tags for the cloud resources.
-      required:
-      - key
-      - value
+      description: Response object for the AuthorizePrivateLinkServicesAccess method.
       properties:
-        key:
+        authorizePrivateLinkServiceAccessResults:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthorizePrivateLinkServiceAccessResult'
+          description: List of AuthorizePrivateLinkServiceAccessResult objects.
+        status:
           type: string
-          description: Key value for the tag.
-        value:
+          description: Status of Private Link service access authorization.
+    Error:
+      type: object
+      description: An object returned on an error.
+      properties:
+        code:
           type: string
-          description: Value for the tag.
+          description: The error code.
+        message:
+          type: string
+          description: The error message.
+    UpdatePrivateLinkEndpointResponse:
+      type: object
+      description: Response object for the UpdatePrivateLinkEndpoint method.
+      properties:
+        trackingId:
+          type: string
+          description: Tracking ID for the update request.
+    ListPrivateLinkServicesForRegionResponse:
+      type: object
+      description: Response object for the ListPrivateLinkServicesForTheRegion method.
+      properties:
+        listPrivateLinkServicesForRegionResults:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListPrivateLinkServicesForRegionResult'
+          description: List of ListPrivateLinkServicesForTheRegionResult objects to be returned.
+    ListPrivateLinkEndpointStatusesRequest:
+      type: object
+      description: Request object for listPrivateLinkEndpointStatuses method.
+      required:
+      - trackingId
+      properties:
+        trackingId:
+          type: string
+          description: Tracking ID of the create or delete endpoint request.
     GetPrivateLinkStatusRequest:
       type: object
       description: Request object for retrieving the status of a Private Link.
@@ -380,83 +412,37 @@ components:
         cloudServiceProvider:
           description: Cloud Service Provider. Supports AWS and AZURE.
           $ref: '#/components/schemas/CloudServiceProvider'
-    AzureAccountDetails:
+    ListPrivateLinkEndpointStatusesResponse:
       type: object
-      description: Details of the cloud network and the cross-account role required to create the Private Link endpoint.
+      description: Response object for listPrivateLinkEndpointStatuses method.
       properties:
-        azureClientSecretCredential:
-          description: Azure client secret credential, either this or credential CRN should be passed.
-          $ref: '#/components/schemas/AzureClientSecretCredential'
-        credentialCrn:
-          type: string
-          description: CDP Credential CRN to fetch the Azure client secret credentials, either this or AzureClientSecretCredential should be passed.
-        subscriptionId:
-          type: string
-          description: The Subscription for which the Private Link service to be allowed/accessible.
-        resourceGroup:
-          type: string
-          description: The resource group under which the private endpoint is to be created.
-        location:
-          type: string
-          description: Azure location where endpoint should be created.
-        vNetId:
-          type: string
-          description: vNet ID in which the Private Link should be created.
-        subnetId:
-          type: string
-          description: ID of the private subnet in which the Private Link should be created.
-    RevokePrivateLinkServiceAccessRequest:
+        privatelinkEndpoints:
+          type: array
+          items:
+            $ref: '#/components/schemas/PrivateLinkEndpointStatus'
+          description: List of statuses of Private Link endpoints.
+    AuthorizePrivateLinkServiceAccessResult:
       type: object
-      description: Request object for the RevokePrivateLinkServiceAccess method.
+      description: Authorization response containing Private Link service name, service component and its authorization status.
       properties:
-        cloudAccountId:
+        privateLinkService:
           type: string
-          description: AWS account ID to authorize access for Private Link.
-        subscriptionId:
+          description: Name of the Private Link service.
+        serviceComponent:
           type: string
-          description: Azure subscription ID to authorize access for Private Link.
-        region:
+          description: CDP service component.
+        authorizationStatus:
           type: string
-          description: Region where the Private Link service exists.
-        serviceGroup:
+          description: Authorization status for the Private Link service.
+        availabilityZoneList:
           type: string
-          description: CDP service group. Currently supports "CDP-CONTROL-PLANE" for PaaS.
-        cloudServiceProvider:
-          description: Cloud Service Provider. Currently supporting AWS and AZURE.
-          $ref: '#/components/schemas/CloudServiceProvider'
-    CreatePrivateLinkEndpointResponse:
-      type: object
-      description: Response object for the CreatePrivateLinkEndpoint method.
-      properties:
-        trackingId:
+          description: Availability zone list.
+        vpceClientTcpPortList:
           type: string
-          description: Tracking ID of the create endpoint request.
-    UpdatePrivateLinkEndpointResponse:
-      type: object
-      description: Response object for the UpdatePrivateLinkEndpoint method.
-      properties:
-        trackingId:
+          description: VPCE Client TCP port list.
+        hostname:
           type: string
-          description: Tracking ID for the update request.
-    AuthorizePrivateLinkServiceAccessRequest:
-      type: object
-      description: Request object for the AuthorizePrivateLinkServicesAccess method.
-      properties:
-        cloudAccountId:
-          type: string
-          description: AWS account ID to authorize access for Private Link.
-        subscriptionId:
-          type: string
-          description: Azure subscription ID to authorize access for Private Link.
-        region:
-          type: string
-          description: Region where the Private Link service exists.
-        serviceGroup:
-          type: string
-          description: CDP service group. Currently supported "CDP-CONTROL-PLANE" for PaaS.
-        cloudServiceProvider:
-          description: Cloud Service Provider. Currently supporting AWS and AZURE.
-          $ref: '#/components/schemas/CloudServiceProvider'
+          description: Hostname of the Private Link Service.
     MigratePrivateLinkEndpointsResponse:
       type: object
       description: Response object for the MigratePrivateLinkEndpoints method.
@@ -493,6 +479,217 @@ components:
         resourceGroup:
           type: string
           description: The resource group in which the private endpoint is already created.
+    ResourceTag:
+      type: object
+      description: Tag object which can be passed to add custom tags for the cloud resources.
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: Key value for the tag.
+        value:
+          type: string
+          description: Value for the tag.
+    AzureAccountInfo:
+      type: object
+      description: Details of the cloud network and the cross-account role required to delete the Private Link endpoint.
+      properties:
+        azureClientSecretCredential:
+          description: Azure client secret credential, either this or credential CRN should be passed.
+          $ref: '#/components/schemas/AzureClientSecretCredential'
+        credentialCrn:
+          type: string
+          description: CDP Credential CRN to fetch the Azure client secret credentials, either this or AzureClientSecretCredential should be passed.
+        location:
+          type: string
+          description: Region in which VPC exists.
+        vNetId:
+          type: string
+          description: vNet ID in which the Private Link should be created.
+    GetPrivateLinkStatusResponse:
+      type: object
+      description: Response object for GetPrivateLinkStatus method.
+      properties:
+        status:
+          description: Status of Private Link - enabled or disabled.
+          $ref: '#/components/schemas/PrivateLinkStatus'
+    RevokePrivateLinkServiceAccessResponse:
+      type: object
+      description: Response object for the RevokePrivateLinkServiceAccess method.
+      properties:
+        status:
+          type: string
+          description: Status of Private Link service access revoke.
+        revokePrivateLinkServiceAccessResults:
+          type: array
+          items:
+            $ref: '#/components/schemas/RevokePrivateLinkServiceAccessResult'
+          description: List of RevokePrivateLinkServiceAccessResult objects.
+    DeletePrivateLinkEndpointRequest:
+      type: object
+      description: Request object for the DeletePrivateLinkEndpoint method.
+      required:
+      - cloudServiceProvider
+      properties:
+        cloudServiceProvider:
+          description: Cloud Service Provider. Currently supporting AWS and AZURE.
+          $ref: '#/components/schemas/CloudServiceProvider'
+        awsAccountInfo:
+          description: The AWS account details from which this Private Link endpoint is to be deleted.
+          $ref: '#/components/schemas/AWSAccountInfo'
+        azureAccountInfo:
+          description: The Azure account details from which this Private Link endpoint is to be deleted.
+          $ref: '#/components/schemas/AzureAccountInfo'
+    CrossAccountRoleDetails:
+      type: object
+      description: Customer cross account role details.
+      properties:
+        crossAccountRole:
+          type: string
+          description: Cross-account role.
+        externalId:
+          type: string
+          description: External ID associated with the cross-account role.
+    AWSAccountDetails:
+      type: object
+      description: Details of the cloud network and the cross-account role required to create the Private Link endpoint.
+      properties:
+        cloudAccountId:
+          type: string
+          description: Account ID to authorize access for Private Link.
+        crossAccountRoleDetails:
+          description: Cross account role details.
+          $ref: '#/components/schemas/CrossAccountRoleDetails'
+        credentialCrn:
+          type: string
+          description: CDP Credential CRN to fetch the AWS cross-account RoleArn for the account where the endpoint gets deleted.
+        region:
+          type: string
+          description: Region in which VPC exists.
+        vpcId:
+          type: string
+          description: VPC ID in which the Private Link should be created.
+        subnetIds:
+          type: array
+          items:
+            type: string
+          description: IDs of the private subnets in which the Private Link should be created.
+    ListPrivateLinkServicesForRegionResult:
+      type: object
+      description: Response object containing PL service name and CDP service component.
+      properties:
+        serviceComponent:
+          type: string
+          description: The CDP Service component.
+        privateLinkService:
+          type: string
+          description: Name of the Private Link service.
+        availabilityZoneList:
+          type: string
+          description: Availability zone list.
+        vpceClientTcpPortList:
+          type: string
+          description: VPCE Client tcp port list.
+        hostname:
+          type: string
+          description: Hostname of the Private Link Service.
+    PrivateLinkStatus:
+      type: string
+      description: "Status of the Private Link.\n `ENABLED` - Private Link is enabled. `DISABLED` - Private Link is disabled. `ERROR` - Error while retrieving the Private Link status."
+      enum:
+      - ENABLED
+      - DISABLED
+      - ERROR
+    CloudServiceProvider:
+      type: string
+      description: "Supported cloud providers\n `AWS` - A value indicating AWS as supported cloud provider for creating Private Links. `AZURE` - A value indicating Azure as supported cloud provider for creating Private Links."
+      enum:
+      - AWS
+      - AZURE
+    RevokePrivateLinkServiceAccessResult:
+      type: object
+      description: Revoke response containing PrivateLink service name, service component and its revocation status.
+      properties:
+        privateLinkService:
+          type: string
+          description: Name of the Private Link service.
+        serviceComponent:
+          type: string
+          description: CDP service component.
+        revocationStatus:
+          type: string
+          description: Revocation status for the Private Link service.
+    AzureAccountDetails:
+      type: object
+      description: Details of the cloud network and the cross-account role required to create the Private Link endpoint.
+      properties:
+        azureClientSecretCredential:
+          description: Azure client secret credential, either this or credential CRN should be passed.
+          $ref: '#/components/schemas/AzureClientSecretCredential'
+        credentialCrn:
+          type: string
+          description: CDP Credential CRN to fetch the Azure client secret credentials, either this or AzureClientSecretCredential should be passed.
+        subscriptionId:
+          type: string
+          description: The Subscription for which the Private Link service to be allowed/accessible.
+        resourceGroup:
+          type: string
+          description: The resource group under which the private endpoint is to be created.
+        location:
+          type: string
+          description: Azure location where endpoint should be created.
+        vNetId:
+          type: string
+          description: vNet ID in which the Private Link should be created.
+        subnetId:
+          type: string
+          description: ID of the private subnet in which the Private Link should be created.
+    AuthorizePrivateLinkServiceAccessRequest:
+      type: object
+      description: Request object for the AuthorizePrivateLinkServicesAccess method.
+      properties:
+        cloudAccountId:
+          type: string
+          description: AWS account ID to authorize access for Private Link.
+        subscriptionId:
+          type: string
+          description: Azure subscription ID to authorize access for Private Link.
+        region:
+          type: string
+          description: Region where the Private Link service exists.
+        serviceGroup:
+          type: string
+          description: CDP service group. Currently supported "CDP-CONTROL-PLANE" for PaaS.
+        cloudServiceProvider:
+          description: Cloud Service Provider. Currently supporting AWS and AZURE.
+          $ref: '#/components/schemas/CloudServiceProvider'
+    RevokePrivateLinkServiceAccessRequest:
+      type: object
+      description: Request object for the RevokePrivateLinkServiceAccess method.
+      properties:
+        cloudAccountId:
+          type: string
+          description: AWS account ID to authorize access for Private Link.
+        subscriptionId:
+          type: string
+          description: Azure subscription ID to authorize access for Private Link.
+        region:
+          type: string
+          description: Region where the Private Link service exists.
+        serviceGroup:
+          type: string
+          description: CDP service group. Currently supports "CDP-CONTROL-PLANE" for PaaS.
+        cloudServiceProvider:
+          description: Cloud Service Provider. Currently supporting AWS and AZURE.
+          $ref: '#/components/schemas/CloudServiceProvider'
+    UpdateOperation:
+      type: string
+      description: "Update Operation to be performed.\n `APPEND` - Append operation - provided subnet IDs are appended. This is taken as default. `REPLACE` - Replace operation - provided subnet IDs replaces the existing ones."
+      enum:
+      - APPEND
+      - REPLACE
     CreatePrivateLinkEndpointRequest:
       type: object
       description: Request object for the CreatePrivateLinkEndpoint method.
@@ -519,76 +716,6 @@ components:
           items:
             $ref: '#/components/schemas/ResourceTag'
           description: Custom tags for the different cloud resources created during Private Links creation.
-    CrossAccountRoleDetails:
-      type: object
-      description: Customer cross account role details.
-      properties:
-        crossAccountRole:
-          type: string
-          description: Cross-account role.
-        externalId:
-          type: string
-          description: External ID associated with the cross-account role.
-    AzureClientSecretCredential:
-      type: object
-      description: Azure client secret credential, either this or credential CRN should be passed.
-      properties:
-        clientId:
-          type: string
-          description: The client (application) ID of the service principal
-        clientSecret:
-          type: string
-          description: A client secret that was generated for the App Registration used to authenticate the client.
-        tenantId:
-          type: string
-          description: The Azure Active Directory tenant (directory) Id of the service principal.
-    GetPrivateLinkStatusResponse:
-      type: object
-      description: Response object for GetPrivateLinkStatus method.
-      properties:
-        status:
-          description: Status of Private Link - enabled or disabled.
-          $ref: '#/components/schemas/PrivateLinkStatus'
-    AuthorizePrivateLinkServiceAccessResponse:
-      type: object
-      description: Response object for the AuthorizePrivateLinkServicesAccess method.
-      properties:
-        authorizePrivateLinkServiceAccessResults:
-          type: array
-          items:
-            $ref: '#/components/schemas/AuthorizePrivateLinkServiceAccessResult'
-          description: List of AuthorizePrivateLinkServiceAccessResult objects.
-        status:
-          type: string
-          description: Status of Private Link service access authorization.
-    MigratePrivateLinkEndpointsRequest:
-      type: object
-      description: Request object for the MigratePrivateLinkEndpoints method.
-      required:
-      - awsAccountInfo
-      properties:
-        awsAccountInfo:
-          description: Migration is AWS-only. AWS account information for the Private Link endpoint migration. Only the VPC ID, region, and credentials are required; subnet and other details are retrieved from the database.
-          $ref: '#/components/schemas/AWSAccountInfo'
-    ListPrivateLinkServicesForRegionResult:
-      type: object
-      description: Response object containing PL service name and CDP service component.
-      properties:
-        serviceComponent:
-          type: string
-          description: The CDP Service component.
-        privateLinkService:
-          type: string
-          description: Name of the Private Link service.
-        availabilityZoneList:
-          type: string
-          description: Availability zone list.
-        vpceClientTcpPortList:
-          type: string
-          description: VPCE Client tcp port list.
-        hostname:
-          type: string
-          description: Hostname of the Private Link Service.
     DeletePrivateLinkEndpointResponse:
       type: object
       description: Response object for the DeletePrivateLinkEndpoint method.
@@ -596,140 +723,13 @@ components:
         trackingId:
           type: string
           description: Tracking ID of the delete endpoint request.
-    AzureAccountInfo:
+    CreatePrivateLinkEndpointResponse:
       type: object
-      description: Details of the cloud network and the cross-account role required to delete the Private Link endpoint.
-      properties:
-        azureClientSecretCredential:
-          description: Azure client secret credential, either this or credential CRN should be passed.
-          $ref: '#/components/schemas/AzureClientSecretCredential'
-        credentialCrn:
-          type: string
-          description: CDP Credential CRN to fetch the Azure client secret credentials, either this or AzureClientSecretCredential should be passed.
-        location:
-          type: string
-          description: Region in which VPC exists.
-        vNetId:
-          type: string
-          description: vNet ID in which the Private Link should be created.
-    ListPrivateLinkEndpointStatusesRequest:
-      type: object
-      description: Request object for listPrivateLinkEndpointStatuses method.
-      required:
-      - trackingId
+      description: Response object for the CreatePrivateLinkEndpoint method.
       properties:
         trackingId:
           type: string
-          description: Tracking ID of the create or delete endpoint request.
-    ListPrivateLinkServicesForRegionRequest:
-      type: object
-      description: Request object for the ListPrivateLinkServicesForTheRegion method.
-      required:
-      - region
-      properties:
-        region:
-          type: string
-          description: Region for which the Private Link services are to be queried.
-        serviceGroup:
-          type: string
-          description: CDP service group. Currently supports "CDP-CONTROL-PLANE" for PaaS.
-    RevokePrivateLinkServiceAccessResult:
-      type: object
-      description: Revoke response containing PrivateLink service name, service component and its revocation status.
-      properties:
-        privateLinkService:
-          type: string
-          description: Name of the Private Link service.
-        serviceComponent:
-          type: string
-          description: CDP service component.
-        revocationStatus:
-          type: string
-          description: Revocation status for the Private Link service.
-    UpdateOperation:
-      type: string
-      description: "Update Operation to be performed.\n `APPEND` - Append operation - provided subnet IDs are appended. This is taken as default. `REPLACE` - Replace operation - provided subnet IDs replaces the existing ones."
-      enum:
-      - APPEND
-      - REPLACE
-    ListPrivateLinkEndpointStatusesResponse:
-      type: object
-      description: Response object for listPrivateLinkEndpointStatuses method.
-      properties:
-        privatelinkEndpoints:
-          type: array
-          items:
-            $ref: '#/components/schemas/PrivateLinkEndpointStatus'
-          description: List of statuses of Private Link endpoints.
-    Error:
-      type: object
-      description: An object returned on an error.
-      properties:
-        code:
-          type: string
-          description: The error code.
-        message:
-          type: string
-          description: The error message.
-    PrivateLinkStatus:
-      type: string
-      description: "Status of the Private Link.\n `ENABLED` - Private Link is enabled. `DISABLED` - Private Link is disabled. `ERROR` - Error while retrieving the Private Link status."
-      enum:
-      - ENABLED
-      - DISABLED
-      - ERROR
-    AuthorizePrivateLinkServiceAccessResult:
-      type: object
-      description: Authorization response containing Private Link service name, service component and its authorization status.
-      properties:
-        privateLinkService:
-          type: string
-          description: Name of the Private Link service.
-        serviceComponent:
-          type: string
-          description: CDP service component.
-        authorizationStatus:
-          type: string
-          description: Authorization status for the Private Link service.
-        availabilityZoneList:
-          type: string
-          description: Availability zone list.
-        vpceClientTcpPortList:
-          type: string
-          description: VPCE Client TCP port list.
-        hostname:
-          type: string
-          description: Hostname of the Private Link Service.
-    PrivateLinkEndpointStatus:
-      type: object
-      description: Details of the Private Link endpoints.
-      properties:
-        serviceComponent:
-          type: string
-          description: CDP service component name [API/DBUSAPI/IAMAPI/CCMV2/CONSOLEAUTH].
-        status:
-          type: string
-          description: Status of the Private Link endpoints. The status is set to SUCCESS when endpoint is created successfully, IN_PROGRESS when the endpoint creation is underway and ERROR when endpoint creation fails.
-        error:
-          type: string
-          description: Error message on failure.
-        endpointId:
-          type: string
-          description: Private Link endpoint ID on success.
-        dnsNames:
-          type: array
-          items:
-            type: string
-          description: List of Private Link endpoint DNS names on successful creation.
-        creationTimestamp:
-          type: string
-          description: Endpoint creation timestamp.
-    CloudServiceProvider:
-      type: string
-      description: "Supported cloud providers\n `AWS` - A value indicating AWS as supported cloud provider for creating Private Links. `AZURE` - A value indicating Azure as supported cloud provider for creating Private Links."
-      enum:
-      - AWS
-      - AZURE
+          description: Tracking ID of the create endpoint request.
 x-generated: Automatically generated by CDP protoc plugin. Do not edit manually.
 x-endpoint-name: cloudprivatelinks
 x-products: CDP

@@ -2299,15 +2299,76 @@ paths:
       - IAM
 components:
   schemas:
-    ListGroupMembersRequest:
+    AssignUserRoleRequest:
       type: object
-      description: Request object for a list group members request.
+      description: Request object for an assign user role request.
       required:
-      - groupName
+      - user
+      - role
       properties:
-        groupName:
+        user:
           type: string
-          description: The name or CRN of the group to list the membership of.
+          description: The user the role is assigned to. Can be the user's CRN or id.
+        role:
+          type: string
+          description: The role to assign to the user. Can be the role's CRN or name.
+    ListUsersRequest:
+      type: object
+      description: Request object for a list users request.
+      properties:
+        userIds:
+          type: array
+          items:
+            type: string
+          description: The user IDs or CRNs of the users.
+        pageSize:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 500
+          x-paging-page-size: true
+          description: The size of each page.
+        startingToken:
+          type: string
+          x-paging-input-token: true
+          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+    SetWorkloadPasswordPolicyResponse:
+      type: object
+      description: Response object for a set workload password policy request.
+    ListGroupsResponse:
+      type: object
+      description: Response object for a list groups request.
+      required:
+      - groups
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
+          x-paging-result: true
+          description: The list of groups.
+        nextToken:
+          type: string
+          x-paging-output-token: true
+          description: The token to use when requesting the next set of results. If not present, there are no additional results.
+    CreateGroupResponse:
+      type: object
+      description: Response object for create group request.
+      required:
+      - group
+      properties:
+        group:
+          $ref: '#/components/schemas/Group'
+          description: Information about the group.
+    ListMachineUserAssignedRolesRequest:
+      type: object
+      description: Request object for a list machine user assigned roles request.
+      required:
+      - machineUserName
+      properties:
+        machineUserName:
+          type: string
+          description: The machine user to list the assigned roles for. Can be the machine user's name or CRN.
         pageSize:
           type: integer
           format: int32
@@ -2319,22 +2380,109 @@ components:
           type: string
           x-paging-input-token: true
           description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    AddUserToGroupResponse:
+    CreateLdapProviderRequest:
       type: object
-      description: Response object for an add user to group request.
-    CreateLdapProviderResponse:
-      type: object
-      description: Create LDAP provider response
+      description: Create an LDAP Provider for account.
       x-form-factors: private
       required:
-      - ldapProvider
+      - ldapProviderName
+      - url
+      - userSearchBase
+      - userSearchFilter
+      - groupSearchBase
+      - groupSearchFilter
+      - usernameMappingAttribute
       properties:
-        ldapProvider:
-          description: The created LDAP identity provider connector configuration details.
-          $ref: '#/components/schemas/LdapProvider'
-    ListGroupAssignedResourceRolesResponse:
+        ldapProviderName:
+          type: string
+          description: The name of LDAP provider to create.
+        url:
+          type: string
+          description: The URL of the LDAP server. The URL must be prefixed with ldap:// or ldaps://. The URL can optionally specify a custom port, for example ldaps://ldap.example.org:663.
+        userSearchBase:
+          type: string
+          description: Part of the directory tree under which to search for users. For example, ou=users,dc=example,dc=org.
+        userSearchFilter:
+          type: string
+          description: The search filter to use for finding users. For example, (uid={{username}}).
+        groupSearchBase:
+          type: string
+          description: The distinguished name indicating the path within the directory information tree to begin user searches from. For example, ou=groups,dc=example,dc=com.
+        groupSearchFilter:
+          type: string
+          description: The search filter to use for finding groups for authorization of authenticated users.
+        usernameMappingAttribute:
+          type: string
+          description: The LDAP displayName attribute name, will be used as the user's name. For example, uid, sAMAccountName.
+        bindDn:
+          type: string
+          description: Bind DN. For example, uid=myapp,ou=users,dc=example,dc=org. Optional. Required if bind is not anonymous.
+        bindPassword:
+          type: string
+          description: The password of the bind user.
+          x-sensitive: true
+        userBindProperty:
+          type: string
+          description: Property of the LDAP user object to use when binding to verify the password. For example, dn.
+        groupDnProperty:
+          type: string
+          description: The property of user object to use in {{dn}} interpolation of groupSearchFilter.
+        emailMappingAttribute:
+          type: string
+          description: The LDAP email attribute name, will be used as the user's email. For example, mail.
+        firstNameMappingAttribute:
+          type: string
+          description: The LDAP attribute used as firstname , will be used as the user's firstname. For example, givenName.
+        lastNameMappingAttribute:
+          type: string
+          description: The LDAP sn attribute name, will be used as the user's lastname. For example, sn.
+        groupNameMappingAttribute:
+          type: string
+          description: The LDAP group attribute name, will be used as for user's group. For example, cn, name.
+        tlsCaCertificates:
+          type: array
+          items:
+            type: string
+          description: If the ldaps:// server uses a self-signed SSL certificate or a certificate issued by a private Certificate Authority (CA), then provide the trusted certificates that can be used to validate the LDAP server certificate.
+          x-sensitive: true
+        skipGroupSyncOnLogin:
+          type: boolean
+          description: Whether to skip group sync.
+        startTls:
+          type: boolean
+          description: Whether a start TLS request should be initiated on connecting to ldap.
+    ListResourceRolesRequest:
       type: object
-      description: Response object for a list group assigned resource roles request.
+      description: Request object for a list resource roles request.
+      properties:
+        resourceRoleNames:
+          type: array
+          items:
+            type: string
+          description: The resource roles CRNs to retrieve. If empty all resource roles will be returned.
+        pageSize:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+          x-paging-page-size: true
+          description: The size of each page.
+        startingToken:
+          type: string
+          x-paging-input-token: true
+          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+    DeleteAccessKeyRequest:
+      type: object
+      description: Request object for a delete access key request.
+      required:
+      - accessKeyId
+      properties:
+        accessKeyId:
+          type: string
+          description: The ID of the access key.
+    ListMachineUserAssignedResourceRolesResponse:
+      type: object
+      description: Response object for a list machine user assigned roles request.
       required:
       - resourceAssignments
       properties:
@@ -2343,67 +2491,203 @@ components:
           items:
             $ref: '#/components/schemas/ResourceAssignment'
           x-paging-result: true
-          description: The group's resource assignments.
+          description: The user's resource assignments.
         nextToken:
           type: string
           x-paging-output-token: true
           description: The token to use when requesting the next set of results. If not present, there are no additional results.
-    ListScimAccessTokensResponse:
+    UnlockUserInControlPlaneResponse:
       type: object
-      description: Response object to list the SCIM access tokens.
+      description: Response object for unlocking the user in the CDP control plane.
       required:
-      - accessTokens
+      - user
       properties:
-        accessTokens:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScimAccessToken'
-          x-paging-result: true
-          description: The SCIM access tokens.
-        nextToken:
-          type: string
-          x-paging-output-token: true
-          description: The token to use when requesting the next set of results. If not present, there are no additional results.
-    GetDefaultIdentityProviderRequest:
+        user:
+          $ref: '#/components/schemas/User'
+          description: The unlocked user.
+    UnsetWorkloadPasswordMinLifetimeResponse:
       type: object
-      description: Request object to get the default identity provider.
-    EnableUserWorkloadPasswordChangedNotificationsRequest:
+      description: Response object for an unset workload password minimum lifetime request.
+    RemoveUserFromGroupResponse:
       type: object
-      description: Request object to enable user workload password changed notifications.
-    GetAccessKeyRequest:
+      description: Response object for a remove user from group request.
+    MachineUser:
       type: object
-      description: Request object for a get access key request.
-      properties:
-        accessKeyId:
-          type: string
-          description: The ID of the access key to get information about. If it is not included, it defaults to the access key used to make the request.
-    DescribeSamlProviderResponse:
-      type: object
-      description: Response object for a describe SAML request.
+      description: Information about a Cloudera CDP machine user.
       required:
-      - samlProvider
-      properties:
-        samlProvider:
-          $ref: '#/components/schemas/SamlProvider'
-          description: The SAML provider.
-    UnassignUserRoleResponse:
-      type: object
-      description: Response object for an unassign user role request.
-    GetDefaultIdentityProviderResponse:
-      type: object
-      description: Response object to get the default identity provider.
-      required:
+      - machineUserName
       - crn
+      - creationDate
+      x-limits:
+      - scope: account
+        value: 100
+        doc: The maximum number of machine users that can be created in an account.
       properties:
+        machineUserName:
+          type: string
+          description: The machine user name.
         crn:
           type: string
-          description: The CRN of the identity provider used for CDP initiated login requests. The CRN could be a user defined identity provider's CRN or one of the CDP built-ins (like Cloudera SSO). To retrieve more information about your own user-defined saml providers (or other provider types, not the default ones) call the relevant describeXXXProvider, e.g. for SAML providers call describeSamlProvider.
-    AddMachineUserToGroupResponse:
+          description: The CRN of the user.
+        creationDate:
+          type: string
+          format: date-time
+          description: The date when this machine user record was created.
+        workloadUsername:
+          type: string
+          description: The username used in all the workload clusters of the machine user.
+          x-no-compatibility-guarantee: true
+        status:
+          type: string
+          description: The current status of the machine user. The possible status values are ACTIVE and CONTROL_PLANE_LOCKED_OUT. ACTIVE indicates that the machine user is active in CDP. An active machine user can authenticate to the CDP control plane and workload clusters. CONTROL_PLANE_LOCKED_OUT indicates that the machine user is locked out of the CDP control plane. The locked-out machine user can no longer authenticate to the control plane but can authenticate to the workload clusters. Note that more statuses could be added in the future. The statuses other than ACTIVE are only returned on Cloudera for Government.
+        workloadPasswordDetails:
+          $ref: '#/components/schemas/WorkloadPasswordDetails'
+          description: Information about the workload password for the machine user.
+    AssignGroupResourceRoleRequest:
       type: object
-      description: Response object for add machine user to group request.
-    ListUserAssignedResourceRolesRequest:
+      description: Request object for an assign group resource role request.
+      required:
+      - groupName
+      - resourceRoleCrn
+      - resourceCrn
+      properties:
+        groupName:
+          type: string
+          description: The group to assign the resource role to. Can be the group's name or CRN.
+        resourceRoleCrn:
+          type: string
+          description: The CRN of the resource role being assigned to the group.
+        resourceCrn:
+          type: string
+          description: The resource for which the resource role rights are granted.
+    ResourceAssignee:
       type: object
-      description: Request object for a list user assigned resource roles request.
+      description: Information about the resource role assignee for the resource.
+      required:
+      - assigneeCrn
+      - resourceRoleCrn
+      properties:
+        assigneeCrn:
+          type: string
+          description: The CRN of the assignee.
+        resourceRoleCrn:
+          type: string
+          description: The assigned resource role CRN.
+    CreateMachineUserAccessKeyResponse:
+      type: object
+      description: Response object for a create machine user access key request.
+      required:
+      - accessKey
+      - privateKey
+      properties:
+        accessKey:
+          $ref: '#/components/schemas/AccessKey'
+          description: The access key that was created.
+        privateKey:
+          type: string
+          description: The private key associated with this access key. This string is the contents of a PEM file containing a PKCS#8 private key.
+          x-sensitive: true
+    DeleteUserRequest:
+      type: object
+      description: Request object to delete a user.
+      required:
+      - userId
+      properties:
+        userId:
+          type: string
+          description: The ID or CRN of the user to delete.
+    SetSamlAuthnRequestSigningKeyResponse:
+      type: object
+      description: Response object for setting the SAML AuthnRequest signing key and verification certificate.
+      x-form-factor: private
+      required:
+      - authnRequestConfigurationLastUpdated
+      - authnRequestSigningKeyDefined
+      - currentAuthnRequestVerificationCertificateDefined
+      - nextAuthnRequestVerificationCertificateDefined
+      properties:
+        authnRequestConfigurationLastUpdated:
+          type: string
+          format: date-time
+          description: The date when SAML AuthnRequest signing key and verification certificates were set or cleared.
+        authnRequestSigningKeyDefined:
+          type: boolean
+          description: Whether the AuthnRequest signing key is set or cleared.
+        currentAuthnRequestVerificationCertificateDefined:
+          type: boolean
+          description: Whether the current AuthnRequest verification certificate is set or cleared.
+        nextAuthnRequestVerificationCertificateDefined:
+          type: boolean
+          description: Whether the next AuthnRequest verification certificate is set or cleared.
+    Group:
+      type: object
+      description: Information about a group.
+      required:
+      - groupName
+      - crn
+      - creationDate
+      properties:
+        groupName:
+          type: string
+          description: The group name.
+        crn:
+          type: string
+          description: The CRN of the group.
+        creationDate:
+          type: string
+          format: date-time
+          description: The date when this group record was created.
+        syncMembershipOnUserLogin:
+          type: boolean
+          description: Whether group membership is synced when a user logs in. The default is to sync group membership.
+    UnassignMachineUserRoleRequest:
+      type: object
+      description: Request object for an unassign machine user role request.
+      required:
+      - machineUserName
+      - role
+      properties:
+        machineUserName:
+          type: string
+          description: The machine user to unassigned the roles from. Can be the machine user's name or CRN.
+        role:
+          type: string
+          description: The role to unassigned from the user. Can be the role's name or CRN.
+    ListUserAssignedResourceRolesResponse:
+      type: object
+      description: Response object for a list user assigned roles request.
+      required:
+      - resourceAssignments
+      properties:
+        resourceAssignments:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceAssignment'
+          x-paging-result: true
+          description: The user's resource assignments.
+        nextToken:
+          type: string
+          x-paging-output-token: true
+          description: The token to use when requesting the next set of results. If not present, there are no additional results.
+    ListMachineUsersResponse:
+      type: object
+      description: Response object for a list machine users request.
+      required:
+      - machineUsers
+      properties:
+        machineUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/MachineUser'
+          x-paging-result: true
+          description: The machine users.
+        nextToken:
+          type: string
+          x-paging-output-token: true
+          description: The token to use when requesting the next set of results. If not present, there are no additional results.
+    ListUserAssignedRolesRequest:
+      type: object
+      description: Request object for a list user assigned roles request.
       properties:
         user:
           type: string
@@ -2419,32 +2703,297 @@ components:
           type: string
           x-paging-input-token: true
           description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    AssignUserRoleResponse:
+    CreateUserAccessKeyResponse:
       type: object
-      description: Response object for an assign user role request.
-    CreateUserAccessKeyRequest:
-      type: object
-      description: Request object for a create user access key request.
-      properties:
-        user:
-          type: string
-          description: The ID or CRN of the user to whom this access key will be associated. If it is not included, it defaults to the user making the request.
-        type:
-          $ref: '#/components/schemas/AccessKeyType'
-          description: The version of an access key to create.
-    ResourceAssignee:
-      type: object
-      description: Information about the resource role assignee for the resource.
+      description: Response object for a create user access key request.
       required:
-      - assigneeCrn
+      - accessKey
+      - privateKey
+      properties:
+        accessKey:
+          $ref: '#/components/schemas/AccessKey'
+          description: The access key that was created.
+        privateKey:
+          type: string
+          description: The private key associated with this access key. This string is the contents of a PEM file containing a PKCS#8 private key.
+          x-sensitive: true
+    DescribeSshPublicKeyResponse:
+      type: object
+      description: Response object for describe user SSH public key.
+      required:
+      - sshPublicKey
+      properties:
+        sshPublicKey:
+          $ref: '#/components/schemas/SshPublicKey'
+          description: Information about the SSH public key.
+    MigrateUsersToIdentityProviderResponse:
+      type: object
+      description: Response object for migrating users from old Identity Provider Connector to a new one.
+      x-form-factor: private
+      required:
+      - numberOfUpdatedUsers
+      properties:
+        numberOfUpdatedUsers:
+          type: integer
+          format: int32
+          description: The number of users that were migrated from the old IdP to the new one.
+    MigrateUsersToIdentityProviderRequest:
+      type: object
+      description: Request object for migrating users from an Identity Provider Connector to a new one.
+      x-form-factor: private
+      required:
+      - originalProviderName
+      - newProviderName
+      properties:
+        originalProviderName:
+          type: string
+          description: The name or CRN of the original IdP provider to migrate from.
+        newProviderName:
+          type: string
+          description: The name or CRN of the new IdP provider to migrate to.
+    UpdateAccessKeyRequest:
+      type: object
+      description: Request object for an update access key request.
+      required:
+      - accessKeyId
+      - status
+      properties:
+        accessKeyId:
+          type: string
+          description: The ID of the access key to update.
+        status:
+          type: string
+          description: The status to assign to the access key.
+          enum:
+          - ACTIVE
+          - INACTIVE
+    UnassignUserResourceRoleResponse:
+      type: object
+      description: Response object for an unassign user role request.
+    ListGroupMembersResponse:
+      type: object
+      description: Response object for a list group members request.
+      required:
+      - memberCrns
+      properties:
+        memberCrns:
+          type: array
+          items:
+            type: string
+          description: The list of group members.
+          x-paging-result: true
+        nextToken:
+          type: string
+          x-paging-output-token: true
+          description: The token to use when requesting the next set of results. If not present, there are no additional results.
+    DisableUserWorkloadPasswordChangedNotificationsResponse:
+      type: object
+      description: Response object to disable user workload password changed notifications.
+      required:
+      - account
+      properties:
+        account:
+          $ref: '#/components/schemas/Account'
+          description: The account object.
+    CreateMachineUserResponse:
+      type: object
+      description: Response object for create machine user request.
+      required:
+      - machineUser
+      properties:
+        machineUser:
+          $ref: '#/components/schemas/MachineUser'
+          description: Information about the machine user.
+    GetAccountRequest:
+      type: object
+      description: Request object for a get account request.
+    ListResourceAssigneesRequest:
+      type: object
+      description: Request object for a list resource assignees request.
+      required:
+      - resourceCrn
+      properties:
+        resourceCrn:
+          type: string
+          description: The resource CRN for which to list the assignees.
+        pageSize:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+          x-paging-page-size: true
+          description: The size of each page.
+        startingToken:
+          type: string
+          x-paging-input-token: true
+          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+    Role:
+      type: object
+      description: Information about a role.
+      required:
+      - crn
+      - policies
+      properties:
+        crn:
+          type: string
+          description: The role's CRN.
+        policies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Policy'
+          description: The list of policies that belong to the role. Cannot be empty.
+    ResourceAssignment:
+      type: object
+      description: Information about a resource assignment.
+      required:
+      - resourceCrn
       - resourceRoleCrn
       properties:
-        assigneeCrn:
+        resourceCrn:
           type: string
-          description: The CRN of the assignee.
+          description: The assigned resource's CRN.
         resourceRoleCrn:
           type: string
           description: The assigned resource role CRN.
+    DeleteSshPublicKeyRequest:
+      type: object
+      description: Request object for delete SSH public key.
+      required:
+      - crnOrFingerprint
+      properties:
+        crnOrFingerprint:
+          type: string
+          description: The SSH public key CRN or the keys SHA256 fingerprint to remove.
+        actorCrn:
+          type: string
+          description: The CRN of the user or machine user that the SSH public key belongs to. If it is not included, it defaults to the actor making the request.
+    CreateSamlProviderResponse:
+      type: object
+      description: Response object for a creating SAML provider request.
+      required:
+      - samlProvider
+      properties:
+        samlProvider:
+          $ref: '#/components/schemas/SamlProvider'
+          description: The SAML provider.
+    CreateUserRequest:
+      type: object
+      description: Request object for creating user request.
+      required:
+      - identityProviderUserId
+      - email
+      properties:
+        identityProviderUserId:
+          type: string
+          description: The identity provider user id for the user. This ID must match the NameId attribute value that will be passed for the user in the SAML response using the associated SAML provider.
+        email:
+          type: string
+          description: The email address for the user. Used for display purposes only.
+        samlProviderName:
+          type: string
+          description: The name or CRN of the SAML provider the user will use for login.
+        groups:
+          type: array
+          items:
+            type: string
+          description: The list of groups the user belongs to. The groups will be created if they do not exist. There are certain restrictions on the group name. Refer to the How To > User Management section in the Management Console documentation for the details.
+        firstName:
+          type: string
+          description: The user first name.
+        lastName:
+          type: string
+          description: The user last name.
+    UnsetWorkloadPasswordMinLifetimeRequest:
+      type: object
+      description: Request object for a unset workload password min lifetime request.
+      required:
+      - actorCrn
+      properties:
+        actorCrn:
+          type: string
+          description: The CRN of the actor for whom to unset the workload password minimum lifetime date.
+    AssignMachineUserRoleResponse:
+      type: object
+      description: Response object for an assign machine user role request.
+    CreateMachineUserAccessKeyRequest:
+      type: object
+      description: Request object for a create machine user access key request.
+      required:
+      - machineUserName
+      properties:
+        machineUserName:
+          type: string
+          description: The name or CRN of the machine user to whom this access key will be associated.
+        type:
+          $ref: '#/components/schemas/AccessKeyType'
+          description: The version of an access key to create.
+    UnassignUserResourceRoleRequest:
+      type: object
+      description: Request object for an unassign user role request.
+      required:
+      - user
+      - resourceRoleCrn
+      - resourceCrn
+      properties:
+        user:
+          type: string
+          description: The user to unassign the resource role from.
+        resourceRoleCrn:
+          type: string
+          description: The CRN of the resource role to unassigned from the user.
+        resourceCrn:
+          type: string
+          description: The CRN of the resource for which the resource role rights will be unassigned.
+    CreateUserResponse:
+      type: object
+      description: Response object for a create user request.
+      required:
+      - user
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+          description: Information about the user.
+    AssignMachineUserResourceRoleRequest:
+      type: object
+      description: Request object for an assign machine user resource role request.
+      required:
+      - machineUserName
+      - resourceRoleCrn
+      - resourceCrn
+      properties:
+        machineUserName:
+          type: string
+          description: The machine user to assign the resource role to. Can be the machine user's name or CRN.
+        resourceRoleCrn:
+          type: string
+          description: The CRN of the resource role to assign to the machine user.
+        resourceCrn:
+          type: string
+          description: The resource for which the resource role rights are granted.
+    UpdateGroupRequest:
+      type: object
+      description: Request object for update group request.
+      required:
+      - groupName
+      properties:
+        groupName:
+          type: string
+          description: The name or CRN of the group to update.
+        syncMembershipOnUserLogin:
+          type: boolean
+          description: Whether group membership is synced when a user logs in. Can be omitted if no update is required.
+    UnlockUserInControlPlaneRequest:
+      type: object
+      description: Request object for unlocking the user in the CDP control plane.
+      required:
+      - user
+      properties:
+        user:
+          type: string
+          description: The ID or CRN of the user to be unlocked in the CDP control plane.
+    UnassignGroupResourceRoleResponse:
+      type: object
+      description: Response object for an unassign group role request.
     ListSshPublicKeysResponse:
       type: object
       description: Response object for list SSH public key.
@@ -2456,22 +3005,6 @@ components:
           items:
             $ref: '#/components/schemas/SshPublicKey'
           description: The list of SSH Public keys.
-    ListResourceAssigneesResponse:
-      type: object
-      description: Response object for a list resource assignees request.
-      required:
-      - resourceAssignees
-      properties:
-        resourceAssignees:
-          type: array
-          items:
-            $ref: '#/components/schemas/ResourceAssignee'
-          x-paging-result: true
-          description: List of resource assignees and their respective resource roles for the resource.
-        nextToken:
-          type: string
-          x-paging-output-token: true
-          description: The token to use when requesting the next set of results. If not present, there are no additional results.
     PasswordPolicy:
       type: object
       description: An object representing password policy options.
@@ -2510,251 +3043,48 @@ components:
           minimum: 0
           maximum: 20
           description: The number of previous passwords that should be remembered. The user or machine user is prevented from reusing these passwords. Can be any number between 0 and 20. The default is 0, this value means all previous passwords may be reused.
-    ListGroupsResponse:
+    DeleteSamlProviderRequest:
       type: object
-      description: Response object for a list groups request.
+      description: Request object for deleting SAML provider request.
       required:
-      - groups
+      - samlProviderName
       properties:
-        groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/Group'
-          x-paging-result: true
-          description: The list of groups.
-        nextToken:
+        samlProviderName:
           type: string
-          x-paging-output-token: true
-          description: The token to use when requesting the next set of results. If not present, there are no additional results.
-    ListSamlProvidersResponse:
+          description: The name or CRN of the SAML provider to delete.
+    AssignUserResourceRoleResponse:
       type: object
-      description: Response object for a list SAML providers request.
+      description: Response object for an assign user resource role request.
+    LdapProvider:
+      type: object
+      description: LDAP Provider details.
+      x-private: true
       required:
-      - samlProviders
+      - identityProviderConnectorId
+      - ldapProviderName
+      - crn
+      - creationDate
+      - skipGroupSyncOnLogin
       properties:
-        samlProviders:
-          type: array
-          items:
-            $ref: '#/components/schemas/SamlProvider'
-          x-paging-result: true
-          description: The SAML providers.
-        nextToken:
+        identityProviderConnectorId:
           type: string
-          x-paging-output-token: true
-          description: The token to use when requesting the next set of results. If not present, there are no additional results.
-    ListResourceRolesRequest:
-      type: object
-      description: Request object for a list resource roles request.
-      properties:
-        resourceRoleNames:
-          type: array
-          items:
-            type: string
-          description: The resource roles CRNs to retrieve. If empty all resource roles will be returned.
-        pageSize:
+          description: The unique ID of the LDAP provider.
+        ldapProviderName:
+          type: string
+          description: Name of the LDAP provider connector.
+        crn:
+          type: string
+          description: The LDAP provider connector CRN.
+        skipGroupSyncOnLogin:
+          type: boolean
+          description: Indicates whether group sync is skipped or not.
+        creationDate:
           type: integer
-          format: int32
-          minimum: 1
-          maximum: 100
-          x-paging-page-size: true
-          description: The size of each page.
-        startingToken:
-          type: string
-          x-paging-input-token: true
-          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    WorkloadPasswordPolicy:
-      type: object
-      description: Information about the workload password policy for an account.
-      required:
-      - maxPasswordLifetimeDays
-      - minPasswordLength
-      - mustIncludeUpperCaseCharacters
-      - mustIncludeLowerCaseCharacters
-      - mustIncludeNumbers
-      - mustIncludeSymbols
-      - minPasswordLifetimeDays
-      - passwordHistorySize
-      properties:
-        maxPasswordLifetimeDays:
-          type: integer
-          format: int32
-          description: The maximum lifetime, in days, of the password. If '0' passwords never expire.
-        minPasswordLength:
-          type: integer
-          format: int32
-          description: The minimum length of a password.
-        mustIncludeUpperCaseCharacters:
-          type: boolean
-          description: Whether passwords must include upper case characters.
-        mustIncludeLowerCaseCharacters:
-          type: boolean
-          description: Whether passwords must include lower case characters.
-        mustIncludeNumbers:
-          type: boolean
-          description: Whether passwords must include numbers.
-        mustIncludeSymbols:
-          type: boolean
-          description: Whether passwords must include symbols. The symbols are '#', '&', '*', '$', '%', '@', '^', '.', '_', and '!'.
-        minPasswordLifetimeDays:
-          type: integer
-          format: int32
-          description: The minimum lifetime of passwords, in days. The password must be used for this duration before it can be changed. If set to '0' the password may be changed any time. The default is 0.
-        passwordHistorySize:
-          type: integer
-          format: int32
-          description: The number of previous passwords that should be remembered. The user or machine user is prevented from reusing these passwords. Can be any number between 0 and 20. The default is 0, this value means all previous passwords may be reused.
-    ListUsersRequest:
-      type: object
-      description: Request object for a list users request.
-      properties:
-        userIds:
-          type: array
-          items:
-            type: string
-          description: The user IDs or CRNs of the users.
-        pageSize:
-          type: integer
-          format: int32
-          minimum: 1
-          maximum: 500
-          x-paging-page-size: true
-          description: The size of each page.
-        startingToken:
-          type: string
-          x-paging-input-token: true
-          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    UnsetWorkloadPasswordPolicyRequest:
-      type: object
-      description: Request object for a unset workload password policy request.
-      properties:
-        unsetGlobalPasswordPolicy:
-          type: boolean
-          description: Whether to unset the global password policy. This will reset the global policy to its defaults.
-        unsetMachineUsersPasswordPolicy:
-          type: boolean
-          description: Whether to unset the machine user password policy, if one exists.
-    DescribeSshPublicKeyRequest:
-      type: object
-      description: Request object for describe SSH public key.
-      required:
-      - crnOrFingerprint
-      properties:
-        crnOrFingerprint:
-          type: string
-          description: The SSH public key CRN or its SHA256 fingerprint.
-        actorCrn:
-          type: string
-          description: The CRN of the user or machine user that the SSH public key belongs to. If it is not included, it defaults to the actor making the request.
-    SetSamlAuthnRequestSigningKeyResponse:
-      type: object
-      description: Response object for setting the SAML AuthnRequest signing key and verification certificate.
-      x-form-factor: private
-      required:
-      - authnRequestConfigurationLastUpdated
-      - authnRequestSigningKeyDefined
-      - currentAuthnRequestVerificationCertificateDefined
-      - nextAuthnRequestVerificationCertificateDefined
-      properties:
-        authnRequestConfigurationLastUpdated:
-          type: string
-          format: date-time
-          description: The date when SAML AuthnRequest signing key and verification certificates were set or cleared.
-        authnRequestSigningKeyDefined:
-          type: boolean
-          description: Whether the AuthnRequest signing key is set or cleared.
-        currentAuthnRequestVerificationCertificateDefined:
-          type: boolean
-          description: Whether the current AuthnRequest verification certificate is set or cleared.
-        nextAuthnRequestVerificationCertificateDefined:
-          type: boolean
-          description: Whether the next AuthnRequest verification certificate is set or cleared.
-    UpdateLdapProviderResponse:
-      type: object
-      description: Update LDAP provider response
-      x-form-factors: private
-      required:
-      - ldapProvider
-      properties:
-        ldapProvider:
-          description: The updated LDAP identity provider connector configuration details.
-          $ref: '#/components/schemas/LdapProvider'
-    CreateUserResponse:
-      type: object
-      description: Response object for a create user request.
-      required:
-      - user
-      properties:
-        user:
-          $ref: '#/components/schemas/User'
-          description: Information about the user.
-    DisableUserWorkloadPasswordChangedNotificationsResponse:
-      type: object
-      description: Response object to disable user workload password changed notifications.
-      required:
-      - account
-      properties:
-        account:
-          $ref: '#/components/schemas/Account'
-          description: The account object.
-    UnassignGroupResourceRoleResponse:
-      type: object
-      description: Response object for an unassign group role request.
-    SetWorkloadPasswordPolicyResponse:
-      type: object
-      description: Response object for a set workload password policy request.
-    AssignGroupResourceRoleRequest:
-      type: object
-      description: Request object for an assign group resource role request.
-      required:
-      - groupName
-      - resourceRoleCrn
-      - resourceCrn
-      properties:
-        groupName:
-          type: string
-          description: The group to assign the resource role to. Can be the group's name or CRN.
-        resourceRoleCrn:
-          type: string
-          description: The CRN of the resource role being assigned to the group.
-        resourceCrn:
-          type: string
-          description: The resource for which the resource role rights are granted.
-    GetAccountMessagesResponse:
-      type: object
-      description: Response object for get account messages.
-      properties:
-        contactYourAdministratorMessage:
-          type: string
-          description: Message shown to user when user does not have sufficient rights.
-    UnsetWorkloadPasswordMinLifetimeRequest:
-      type: object
-      description: Request object for a unset workload password min lifetime request.
-      required:
-      - actorCrn
-      properties:
-        actorCrn:
-          type: string
-          description: The CRN of the actor for whom to unset the workload password minimum lifetime date.
-    ListMachineUsersRequest:
-      type: object
-      description: Request object for a list machine users request.
-      properties:
-        machineUserNames:
-          type: array
-          items:
-            type: string
-          description: The names or the CRNs of the machine users. If not provided all machine users for the account are retrieved.
-        pageSize:
-          type: integer
-          format: int32
-          minimum: 1
-          maximum: 100
-          x-paging-page-size: true
-          description: The size of each page.
-        startingToken:
-          type: string
-          x-paging-input-token: true
-          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+          format: int64
+          description: The creation date in ms from the java epoch of 1970-01-01T00:00:00Z.
+        ldapDetails:
+          description: The updated LDAP identity provider connector configuration detail. This will be empty in listLdapProvidersResponse.
+          $ref: '#/components/schemas/LdapProviderInfo'
     UnlockMachineUserInControlPlaneRequest:
       type: object
       description: Request object for unlocking the machine user in the control plane.
@@ -2764,30 +3094,121 @@ components:
         machineUser:
           type: string
           description: The name or CRN of the machine user to be unlocked in the CDP control plane.
-    Role:
+    AddMachineUserToGroupResponse:
       type: object
-      description: Information about a role.
+      description: Response object for add machine user to group request.
+    GetDefaultIdentityProviderResponse:
+      type: object
+      description: Response object to get the default identity provider.
       required:
       - crn
-      - policies
       properties:
         crn:
           type: string
-          description: The role's CRN.
-        policies:
+          description: The CRN of the identity provider used for CDP initiated login requests. The CRN could be a user defined identity provider's CRN or one of the CDP built-ins (like Cloudera SSO). To retrieve more information about your own user-defined saml providers (or other provider types, not the default ones) call the relevant describeXXXProvider, e.g. for SAML providers call describeSamlProvider.
+    Policy:
+      type: object
+      description: A policy contains a list of one or more policy statements.
+      required:
+      - crn
+      - policyStatements
+      properties:
+        crn:
+          type: string
+          description: The policy crn.
+        policyStatements:
           type: array
           items:
-            $ref: '#/components/schemas/Policy'
-          description: The list of policies that belong to the role. Cannot be empty.
-    ListResourceAssigneesRequest:
+            $ref: '#/components/schemas/PolicyStatement'
+          description: The policy statements.
+    ScimAccessToken:
       type: object
-      description: Request object for a list resource assignees request.
+      description: Information about the SCIM access token.
       required:
-      - resourceCrn
+      - accessTokenId
+      - crn
+      - creationDate
       properties:
-        resourceCrn:
+        accessTokenId:
           type: string
-          description: The resource CRN for which to list the assignees.
+          description: The SCIM access token id.
+        crn:
+          type: string
+          description: The SCIM access token CRN.
+        creationDate:
+          type: string
+          format: date-time
+          description: The date when this SCIM access token was created.
+        expirationDate:
+          type: string
+          format: date-time
+          description: The SCIM access token expiration date. The access token never expires if the value is not set.
+    AddSshPublicKeyRequest:
+      type: object
+      description: Request object for add user ssh public key.
+      required:
+      - publicKey
+      properties:
+        publicKey:
+          type: string
+          description: The RSA or ED25519 public ssh key to add. DSA and ECDSA public keys are not supported. The public key should be in RFC4253 format. (e.g. ssh-rsa AAAAB3NzaC1yc2EAAA.. user@host) as produced, for example, by ssh-keygen.
+        actorCrn:
+          type: string
+          description: The CRN of the user or machine user for whom the SSH public key will be added. If it is not included, it defaults to the user making the request.
+        description:
+          type: string
+          description: An optional description for the public key.
+    DeleteMachineUserResponse:
+      type: object
+      description: Response object for delete machine user request.
+      required:
+      - accessKeysDeleted
+      - groupsModified
+      - rolesUnassigned
+      - resourcesUnassigned
+      properties:
+        accessKeysDeleted:
+          type: array
+          items:
+            type: string
+          description: The list of associated access key CRNs that were deleted.
+        groupsModified:
+          type: array
+          items:
+            type: string
+          description: The list of group CRNs from which the machine user has been removed.
+        rolesUnassigned:
+          type: array
+          items:
+            type: string
+          description: The list of role CRNs unassigned from the machine user.
+        resourcesUnassigned:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceAssignment'
+          description: The list of resource role assignments that have been unassigned from the machine user.
+    Error:
+      type: object
+      description: An object returned on an error.
+      properties:
+        code:
+          type: string
+          description: The error code.
+        message:
+          type: string
+          description: The error message.
+    DeleteAccessKeyResponse:
+      type: object
+      description: Response object for a delete access key request.
+    ListGroupAssignedResourceRolesRequest:
+      type: object
+      description: Request object for a list group assigned resource roles request.
+      required:
+      - groupName
+      properties:
+        groupName:
+          type: string
+          description: The group to list the assigned resource roles for. Can be the group's name or CRN.
         pageSize:
           type: integer
           format: int32
@@ -2799,124 +3220,56 @@ components:
           type: string
           x-paging-input-token: true
           description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    AssignUserRoleRequest:
+    SshPublicKey:
       type: object
-      description: Request object for an assign user role request.
+      description: Information about an SSH public key.
       required:
-      - user
-      - role
+      - crn
+      - publicKeyFingerprint
       properties:
-        user:
+        crn:
           type: string
-          description: The user the role is assigned to. Can be the user's CRN or id.
-        role:
+          description: The SSH public key CRN.
+        publicKeyFingerprint:
           type: string
-          description: The role to assign to the user. Can be the role's CRN or name.
-    CreateUserAccessKeyResponse:
-      type: object
-      description: Response object for a create user access key request.
-      required:
-      - accessKey
-      - privateKey
-      properties:
-        accessKey:
-          $ref: '#/components/schemas/AccessKey'
-          description: The access key that was created.
-        privateKey:
+          description: The SSH public key SHA256 fingerprint. This is identical to the SHA256 produced by running the following command on a public key named 'key.pub'; ssh-keygen -l -E SHA256 -f /home/user/.ssh/key.pub. Note that ssh-keygen removes any padding bytes from the BASE64 fingerprint encoding (the '=' characters at the end of the fingerprint) which is also true for this fingerprint.
+        description:
           type: string
-          description: The private key associated with this access key. This string is the contents of a PEM file containing a PKCS#8 private key.
-          x-sensitive: true
-    AddMachineUserToGroupRequest:
-      type: object
-      description: Request object for an add machine user to group request.
-      required:
-      - machineUserName
-      - groupName
-      properties:
-        machineUserName:
+          description: An optional description for the public key.
+        publicKey:
           type: string
-          description: The name or CRN of the machine user to add to the group.
-        groupName:
-          type: string
-          description: The name or CRN of the group to add the machine user to.
-    UnlockUserInControlPlaneResponse:
+          description: The SSH public key string. Only populated for DescribeSshPublicKeyResponses. This is the same string that was used when the key was added.
+    UnassignMachineUserResourceRoleResponse:
       type: object
-      description: Response object for unlocking the user in the CDP control plane.
+      description: Response object for an unassign machine user role request.
+    ListGroupAssignedResourceRolesResponse:
+      type: object
+      description: Response object for a list group assigned resource roles request.
       required:
-      - user
+      - resourceAssignments
       properties:
-        user:
-          $ref: '#/components/schemas/User'
-          description: The unlocked user.
-    DescribeSshPublicKeyResponse:
-      type: object
-      description: Response object for describe user SSH public key.
-      required:
-      - sshPublicKey
-      properties:
-        sshPublicKey:
-          $ref: '#/components/schemas/SshPublicKey'
-          description: Information about the SSH public key.
-    UnsetWorkloadPasswordPolicyResponse:
-      type: object
-      description: Response object for a unset workload password policy request.
-    UnlockMachineUserInControlPlaneResponse:
-      type: object
-      description: Response object for unlocking the machine user in the CDP control plane.
-      required:
-      - machineUser
-      properties:
-        machineUser:
-          $ref: '#/components/schemas/MachineUser'
-          description: The unlocked machine user.
-    WorkloadName:
-      type: string
-      description: The workload name.
-      enum:
-      - DE
-      - DF
-      - OPDB
-    ListMachineUserAssignedRolesResponse:
-      type: object
-      description: Response object for a list machine user assigned roles request.
-      required:
-      - roleCrns
-      properties:
-        roleCrns:
+        resourceAssignments:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/ResourceAssignment'
           x-paging-result: true
-          description: The role CRNs assigned to the user.
+          description: The group's resource assignments.
         nextToken:
           type: string
           x-paging-output-token: true
           description: The token to use when requesting the next set of results. If not present, there are no additional results.
-    AssignGroupRoleRequest:
+    ListResourceAssigneesResponse:
       type: object
-      description: Request object for an assign group role request.
+      description: Response object for a list resource assignees request.
       required:
-      - groupName
-      - role
+      - resourceAssignees
       properties:
-        groupName:
-          type: string
-          description: The group to which the role is assigned to. Can be the group name or CRN.
-        role:
-          type: string
-          description: The role being assigned to the group. Can be the role's CRN or name.
-    ListResourceRolesResponse:
-      type: object
-      description: Response object for a list resource roles request.
-      required:
-      - resourceRoles
-      properties:
-        resourceRoles:
+        resourceAssignees:
           type: array
           items:
-            $ref: '#/components/schemas/ResourceRole'
+            $ref: '#/components/schemas/ResourceAssignee'
           x-paging-result: true
-          description: The list of resource roles. Cannot be empty.
+          description: List of resource assignees and their respective resource roles for the resource.
         nextToken:
           type: string
           x-paging-output-token: true
@@ -2999,127 +3352,244 @@ components:
           type: boolean
           description: Whether the next decryption key for SAML response is set or cleared.
           x-form-factor: private
-    DeleteScimAccessTokenResponse:
+    ListUserAssignedResourceRolesRequest:
       type: object
-      description: Response object to delete the SCIM access token.
-    AssignMachineUserResourceRoleResponse:
-      type: object
-      description: Response object for an assign machine user resource role request.
-    UpdateGroupRequest:
-      type: object
-      description: Request object for update group request.
-      required:
-      - groupName
+      description: Request object for a list user assigned resource roles request.
       properties:
-        groupName:
+        user:
           type: string
-          description: The name or CRN of the group to update.
-        syncMembershipOnUserLogin:
-          type: boolean
-          description: Whether group membership is synced when a user logs in. Can be omitted if no update is required.
-    UnassignMachineUserResourceRoleResponse:
-      type: object
-      description: Response object for an unassign machine user role request.
-    AccessKeyType:
-      type: string
-      description: The version of an access key. `V1` - Deprecated, use RSA as the request signing algorithm. `V2` - Use ED25519 as the request signing algorithm. `V3` - Use ECDSA as the request signing algorithm. `DEFAULT` - Use the system default signing algorithm (V3 in GovCloud, V2 in other regions).
-      enum:
-      - V1
-      - V2
-      - V3
-    AddSshPublicKeyRequest:
-      type: object
-      description: Request object for add user ssh public key.
-      required:
-      - publicKey
-      properties:
-        publicKey:
+          description: The user to list the assigned roles for. Can be the user's CRN or id. If it is not included, it defaults to the user making the request.
+        pageSize:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+          x-paging-page-size: true
+          description: The size of each page.
+        startingToken:
           type: string
-          description: The RSA or ED25519 public ssh key to add. DSA and ECDSA public keys are not supported. The public key should be in RFC4253 format. (e.g. ssh-rsa AAAAB3NzaC1yc2EAAA.. user@host) as produced, for example, by ssh-keygen.
-        actorCrn:
-          type: string
-          description: The CRN of the user or machine user for whom the SSH public key will be added. If it is not included, it defaults to the user making the request.
-        description:
-          type: string
-          description: An optional description for the public key.
-    SetWorkloadPasswordResponse:
+          x-paging-input-token: true
+          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+    SetAccountMessagesResponse:
       type: object
-      description: Response object for a set workload password request.
-    RemoveMachineUserFromGroupResponse:
+      description: Response object for set account messages.
+    UpdateSamlProviderResponse:
       type: object
-      description: Response object for a remove machine user from group request.
-    DeleteSamlProviderRequest:
-      type: object
-      description: Request object for deleting SAML provider request.
-      required:
-      - samlProviderName
-      properties:
-        samlProviderName:
-          type: string
-          description: The name or CRN of the SAML provider to delete.
-    CreateSamlProviderResponse:
-      type: object
-      description: Response object for a creating SAML provider request.
+      description: Response object for an updating SAML provider request.
       required:
       - samlProvider
       properties:
         samlProvider:
           $ref: '#/components/schemas/SamlProvider'
           description: The SAML provider.
-    DeleteUserResponse:
+    GetUserRequest:
       type: object
-      description: Response object to delete a user.
-      required:
-      - accessKeysDeleted
-      - groupsModified
-      - rolesUnassigned
-      - resourcesUnassigned
+      description: Request object for a get user request.
       properties:
-        accessKeysDeleted:
-          type: array
-          items:
-            type: string
-          description: The list of associated access key CRNs that were deleted.
-        groupsModified:
-          type: array
-          items:
-            type: string
-          description: The list of group CRNs from which the user has been removed.
-        rolesUnassigned:
-          type: array
-          items:
-            type: string
-          description: The list of role CRNs unassigned from the user.
-        resourcesUnassigned:
-          type: array
-          items:
-            $ref: '#/components/schemas/ResourceAssignment'
-          description: The list of resource role assignments that have been unassigned from the user.
-    GetAccountMessagesRequest:
+        userId:
+          type: string
+          description: The ID of the user to get information about. If it is not included, it defaults to the user making the request.
+    AssignUserResourceRoleRequest:
       type: object
-      description: Request object for get account messages.
-    UnlockUserInControlPlaneRequest:
-      type: object
-      description: Request object for unlocking the user in the CDP control plane.
+      description: Request object for an assign user resource role request.
       required:
       - user
+      - resourceRoleCrn
+      - resourceCrn
       properties:
         user:
           type: string
-          description: The ID or CRN of the user to be unlocked in the CDP control plane.
-    ResourceAssignment:
-      type: object
-      description: Information about a resource assignment.
-      required:
-      - resourceCrn
-      - resourceRoleCrn
-      properties:
-        resourceCrn:
-          type: string
-          description: The assigned resource's CRN.
+          description: The user to assign the resource role to. Can be the user's CRN or id.
         resourceRoleCrn:
           type: string
-          description: The assigned resource role CRN.
+          description: The CRN of the resource role to assign to the user.
+        resourceCrn:
+          type: string
+          description: The resource for which the resource role rights are granted.
+    ListMachineUsersRequest:
+      type: object
+      description: Request object for a list machine users request.
+      properties:
+        machineUserNames:
+          type: array
+          items:
+            type: string
+          description: The names or the CRNs of the machine users. If not provided all machine users for the account are retrieved.
+        pageSize:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+          x-paging-page-size: true
+          description: The size of each page.
+        startingToken:
+          type: string
+          x-paging-input-token: true
+          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+    ListAccessKeysRequest:
+      type: object
+      description: Request object for a list access keys request.
+      properties:
+        accessKeyIds:
+          type: array
+          items:
+            type: string
+          description: The access key IDs or CRNs of the access keys.
+        pageSize:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 500
+          x-paging-page-size: true
+          description: The size of each page.
+        startingToken:
+          type: string
+          x-paging-input-token: true
+          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+    DisableClouderaSSOLoginResponse:
+      type: object
+      description: Response object for a disable Cloudera SSO login request.
+    WorkloadPasswordDetails:
+      type: object
+      description: Information about the workload password for a user or machine user.
+      required:
+      - isPasswordSet
+      properties:
+        isPasswordSet:
+          type: boolean
+          description: Whether a workload password is set.
+        passwordExpirationDate:
+          type: string
+          format: date-time
+          description: The date at which the workload password will expire.
+        passwordMinLifetimeDate:
+          type: string
+          format: date-time
+          description: The minimum lifetime date of the workload password. A new password can't be set until this date.
+    AddSshPublicKeyResponse:
+      type: object
+      description: Response object for add ssh public key.
+      required:
+      - sshPublicKey
+      properties:
+        sshPublicKey:
+          $ref: '#/components/schemas/SshPublicKey'
+          description: Information about the SSH public key.
+    GetAccountMessagesRequest:
+      type: object
+      description: Request object for get account messages.
+    SetDefaultIdentityProviderRequest:
+      type: object
+      description: Request object to set the default identity provider.
+      required:
+      - nameOrCrn
+      properties:
+        nameOrCrn:
+          type: string
+          description: The name or CRN of the default identity provider.
+    DisableUserWorkloadPasswordChangedNotificationsRequest:
+      type: object
+      description: Request object to disable user workload password changed notifications.
+    EnableClouderaSSOLoginResponse:
+      type: object
+      description: Response object for an enable Cloudera SSO login request.
+    GetDefaultIdentityProviderRequest:
+      type: object
+      description: Request object to get the default identity provider.
+    SetAccountMessagesRequest:
+      type: object
+      description: Request object for set account messages for account.
+      properties:
+        contactYourAdministratorMessage:
+          type: string
+          description: Message shown to user when user does not have sufficient rights. Length of message cannot be more than 512 characters. If string is empty, default message is displayed.
+    WorkloadName:
+      type: string
+      description: The workload name.
+      enum:
+      - DE
+      - DF
+      - OPDB
+    ListGroupsForUserRequest:
+      type: object
+      description: Request object for a list groups for user request.
+      required:
+      - userId
+      properties:
+        userId:
+          type: string
+          description: The ID or CRN of the user to list the groups of.
+        pageSize:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+          x-paging-page-size: true
+          description: The size of each page.
+        startingToken:
+          type: string
+          x-paging-input-token: true
+          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+    UnassignMachineUserResourceRoleRequest:
+      type: object
+      description: Request object for an unassign machine user role request.
+      required:
+      - machineUserName
+      - resourceRoleCrn
+      - resourceCrn
+      properties:
+        machineUserName:
+          type: string
+          description: The machine user to unassign the resource role from. Can be the machine user's name or CRN.
+        resourceRoleCrn:
+          type: string
+          description: The CRN of the resource role to unassigned from the machine user.
+        resourceCrn:
+          type: string
+          description: The CRN of the resource for which the resource role rights will be unassigned.
+    UnsetWorkloadPasswordPolicyRequest:
+      type: object
+      description: Request object for a unset workload password policy request.
+      properties:
+        unsetGlobalPasswordPolicy:
+          type: boolean
+          description: Whether to unset the global password policy. This will reset the global policy to its defaults.
+        unsetMachineUsersPasswordPolicy:
+          type: boolean
+          description: Whether to unset the machine user password policy, if one exists.
+    RemoveMachineUserFromGroupRequest:
+      type: object
+      description: Request object for a remove machine user from group request.
+      required:
+      - machineUserName
+      - groupName
+      properties:
+        machineUserName:
+          type: string
+          description: The name or CRN of the machine user to add to the group.
+        groupName:
+          type: string
+          description: The name or CRN of the group to remove the machine user from.
+    ListRolesRequest:
+      type: object
+      description: Request object for a list roles request.
+      properties:
+        roleNames:
+          type: array
+          items:
+            type: string
+          description: The roles names or CRNs to retrieve. If empty all roles will be returned.
+        pageSize:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+          x-paging-page-size: true
+          description: The size of each page.
+        startingToken:
+          type: string
+          x-paging-input-token: true
+          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     AccessKeyLastUsage:
       type: object
       description: Information on the last time an access key was used.
@@ -3140,24 +3610,263 @@ components:
         accessKey:
           $ref: '#/components/schemas/AccessKey'
           description: The access key that was updated.
-    AssignGroupRoleResponse:
+    UnassignUserRoleRequest:
       type: object
-      description: Response object for an assign group role request.
-    CreateScimAccessTokenRequest:
-      type: object
-      description: Request object to create the SCIM access token.
+      description: Request object for an unassign user role request.
       required:
-      - identityProviderNameOrCrn
-      - accessTokenLifetimeDays
+      - user
+      - role
       properties:
-        identityProviderNameOrCrn:
+        user:
           type: string
-          description: The name or CRN of the SCIM enabled identity provider.
-        accessTokenLifetimeDays:
-          type: integer
-          format: int32
-          minimum: 1
-          description: The lifetime, in days, of the access token.
+          description: The user to unassigned the roles from. Can be the user CRN or id.
+        role:
+          type: string
+          description: The role to unassigned from the user. Can be the role's CRN or name.
+    AssignMachineUserResourceRoleResponse:
+      type: object
+      description: Response object for an assign machine user resource role request.
+    CreateMachineUserRequest:
+      type: object
+      description: Request object for create machine user request.
+      required:
+      - machineUserName
+      properties:
+        machineUserName:
+          type: string
+          description: The name to use for the new machine user. The name must be an alpha numeric string, including '-' and '_', cannot start with '__' (double underscore) and cannot be longer than 128 characters. Only one machine user with this name can exist in an account at a given time.
+    LdapProviderInfo:
+      type: object
+      description: Information about an LDAP provider connector.
+      x-private: true
+      required:
+      - url
+      - userSearchBase
+      - userSearchFilter
+      - groupSearchBase
+      - groupSearchFilter
+      properties:
+        url:
+          type: string
+          description: The URL of the LDAP server.
+        userSearchBase:
+          type: string
+          description: Part of the directory tree under which to search for users.
+        userSearchFilter:
+          type: string
+          description: The search filter to use for finding users.
+        groupSearchBase:
+          type: string
+          description: Part of the directory tree under which group searches should be performed.
+        groupSearchFilter:
+          type: string
+          description: Filter which is used to search for group membership.
+        bindDn:
+          type: string
+          description: Bind DN.
+        userBindProperty:
+          type: string
+          description: Property of the LDAP user object to use when binding to the LDAP directory.
+        groupDnProperty:
+          type: string
+          description: The property of user object to use in {{dn}} interpolation of groupSearchFilter.
+        usernameMappingAttribute:
+          type: string
+          description: The LDAP displayName attribute name, will be used as the user's name.
+        emailMappingAttribute:
+          type: string
+          description: The LDAP email attribute name, will be used as the user's email.
+        firstNameMappingAttribute:
+          type: string
+          description: The LDAP attribute used as firstname , will be used as the user's firstname.
+        lastNameMappingAttribute:
+          type: string
+          description: The LDAP sn attribute name, will be used as the user's lastname.
+        groupNameMappingAttribute:
+          type: string
+          description: The LDAP group attribute name, will be used as for user's group.
+        tlsCaCertificates:
+          type: array
+          items:
+            type: string
+          description: If your ldaps:// server uses a self-signed SSL certificate or a certificate issued by a private Certificate Authority (CA), you need to provide the trusted certificates that can be used to validate the LDAP server certificate.
+          x-sensitive: true
+        startTls:
+          type: boolean
+          description: Indicates whether a start TLS request should be initiated on connect.
+    SetWorkloadPasswordRequest:
+      type: object
+      description: Request object for a set workload password request.
+      required:
+      - password
+      properties:
+        password:
+          type: string
+          description: The password value to set
+          x-sensitive: true
+        actorCrn:
+          type: string
+          description: The CRN of the user or machine user for whom the password will be set. If it is not included, it defaults to the user making the request.
+    ListUsersResponse:
+      type: object
+      description: Response object for a list users request.
+      required:
+      - users
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+          x-paging-result: true
+          description: The users.
+        nextToken:
+          type: string
+          x-paging-output-token: true
+          description: The token to use when requesting the next set of results. If not present, there are no additional results.
+    GetAccountResponse:
+      type: object
+      description: Response object for a get account response.
+      required:
+      - account
+      properties:
+        account:
+          $ref: '#/components/schemas/Account'
+          description: The account object.
+    UpdateUserResponse:
+      type: object
+      description: Response object to update a user.
+      required:
+      - user
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+          description: Information about the updated user.
+    User:
+      type: object
+      description: Information about a Cloudera CDP user.
+      required:
+      - userId
+      - crn
+      - email
+      - firstName
+      - lastName
+      - creationDate
+      - accountAdmin
+      - identityProviderCrn
+      x-limits:
+      - scope: account
+        value: 100
+        doc: The maximum number of users that can be created in an account.
+      properties:
+        userId:
+          type: string
+          description: The stable, unique identifier of the user.
+        crn:
+          type: string
+          description: The CRN of the user.
+        email:
+          type: string
+          description: The user's email address.
+        firstName:
+          type: string
+          description: The user's first name.
+        lastName:
+          type: string
+          description: The user's last name.
+        creationDate:
+          type: string
+          format: date-time
+          description: The date when this user record was created.
+        accountAdmin:
+          type: boolean
+          description: Whether the user is an administrator of their CDP account.
+        identityProviderCrn:
+          type: string
+          description: The identity provider that the user belongs to. It can be "Cloudera-Default", "Cloudera-Administration", or a customer defined IdP.
+        lastInteractiveLogin:
+          type: string
+          format: date-time
+          description: The date of the user's last interactive login.
+        workloadUsername:
+          type: string
+          description: The username used in all the workload clusters of the user.
+          x-no-compatibility-guarantee: true
+        status:
+          type: string
+          description: The current status of the user. The possible status values are ACTIVE, CONTROL_PLANE_LOCKED_OUT, and DEACTIVATED. ACTIVE indicates that the user is active in CDP. An active user can authenticate to the CDP control plane and workload clusters. CONTROL_PLANE_LOCKED_OUT indicates that the user is locked out of the CDP control plane. The locked-out user can no longer authenticate to the control plane but can authenticate to the workload clusters. DEACTIVATED indicates that the user is deactivated in CDP. A deactivated user can neither authenticate to the control plane nor to the workload clusters. Note that more statuses could be added in the future. The statuses other than ACTIVE are only returned on Cloudera for Government.
+        workloadPasswordDetails:
+          $ref: '#/components/schemas/WorkloadPasswordDetails'
+          description: Information about the workload password for the user.
+    DeleteSshPublicKeyResponse:
+      type: object
+      description: Response object for delete SSH public key.
+    AssignGroupResourceRoleResponse:
+      type: object
+      description: Response object for an assign group resource role request.
+    AddMachineUserToGroupRequest:
+      type: object
+      description: Request object for an add machine user to group request.
+      required:
+      - machineUserName
+      - groupName
+      properties:
+        machineUserName:
+          type: string
+          description: The name or CRN of the machine user to add to the group.
+        groupName:
+          type: string
+          description: The name or CRN of the group to add the machine user to.
+    GetUserResponse:
+      type: object
+      description: Response object for a get user request.
+      required:
+      - user
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+          description: Information about the user.
+    UnassignGroupRoleRequest:
+      type: object
+      description: Request object for an unassign group role request.
+      required:
+      - groupName
+      - role
+      properties:
+        groupName:
+          type: string
+          description: The group to unassign the role from. Can be the group name or CRN.
+        role:
+          type: string
+          description: The role to unassign from the group. Can be the role's CRN or name.
+    ListSshPublicKeysRequest:
+      type: object
+      description: Request object for list SSH public key.
+      properties:
+        actorCrn:
+          type: string
+          description: The CRN of the user or machine user to list SSH public keys for. If it is not included, it defaults to the actor making the request.
+    DeleteGroupResponse:
+      type: object
+      description: Response object for delete group request.
+    GetAccessKeyResponse:
+      type: object
+      description: Response object for a get access key request.
+      required:
+      - accessKey
+      properties:
+        accessKey:
+          $ref: '#/components/schemas/AccessKey'
+          description: Information about the access key.
+    CreateUserAccessKeyRequest:
+      type: object
+      description: Request object for a create user access key request.
+      properties:
+        user:
+          type: string
+          description: The ID or CRN of the user to whom this access key will be associated. If it is not included, it defaults to the user making the request.
+        type:
+          $ref: '#/components/schemas/AccessKeyType'
+          description: The version of an access key to create.
     EnableUserWorkloadPasswordChangedNotificationsResponse:
       type: object
       description: Response object to enable user workload password changed notifications.
@@ -3167,15 +3876,15 @@ components:
         account:
           $ref: '#/components/schemas/Account'
           description: The account object.
-    ListMachineUserAssignedResourceRolesRequest:
+    ListGroupsForMachineUserRequest:
       type: object
-      description: Request object for a list machine user assigned resource roles request.
+      description: Request object for a list groups for machine user request.
       required:
       - machineUserName
       properties:
         machineUserName:
           type: string
-          description: The machine user to list the assigned resource roles for. Can be the machine user's name or CRN.
+          description: The name or CRN of the machine user to list the groups of.
         pageSize:
           type: integer
           format: int32
@@ -3209,140 +3918,6 @@ components:
           type: string
           description: The next private key used for decrypting incoming encrypted SAML responses from the customer's IdP to CDP, during key rotation. It must be in PEM format. It is used for rotating keys without downtime, and is expected to be empty after key rotation completes. When both the current and next decryption keys are set, CDP will try to decrypt with both the keys. Both must be valid keys. Omitting this parameter from the request will remove it.
           x-sensitive: true
-    DescribeSamlProviderRequest:
-      type: object
-      description: Request object for a describe SAML provider request.
-      required:
-      - samlProviderName
-      properties:
-        samlProviderName:
-          type: string
-          description: The name or CRN of the SAML provider to describe.
-    UpdateUserResponse:
-      type: object
-      description: Response object to update a user.
-      required:
-      - user
-      properties:
-        user:
-          $ref: '#/components/schemas/User'
-          description: Information about the updated user.
-    UpdateAccessKeyRequest:
-      type: object
-      description: Request object for an update access key request.
-      required:
-      - accessKeyId
-      - status
-      properties:
-        accessKeyId:
-          type: string
-          description: The ID of the access key to update.
-        status:
-          type: string
-          description: The status to assign to the access key.
-          enum:
-          - ACTIVE
-          - INACTIVE
-    UnassignMachineUserRoleResponse:
-      type: object
-      description: Response object for an unassign machine user role request.
-    ListScimAccessTokensRequest:
-      type: object
-      description: Request object to list the SCIM access tokens.
-      required:
-      - identityProviderNameOrCrn
-      properties:
-        identityProviderNameOrCrn:
-          type: string
-          description: The name or CRN of the identity provider.
-        pageSize:
-          type: integer
-          format: int32
-          minimum: 1
-          maximum: 100
-          x-paging-page-size: true
-          description: The size of each page.
-        startingToken:
-          type: string
-          x-paging-input-token: true
-          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    DeleteMachineUserResponse:
-      type: object
-      description: Response object for delete machine user request.
-      required:
-      - accessKeysDeleted
-      - groupsModified
-      - rolesUnassigned
-      - resourcesUnassigned
-      properties:
-        accessKeysDeleted:
-          type: array
-          items:
-            type: string
-          description: The list of associated access key CRNs that were deleted.
-        groupsModified:
-          type: array
-          items:
-            type: string
-          description: The list of group CRNs from which the machine user has been removed.
-        rolesUnassigned:
-          type: array
-          items:
-            type: string
-          description: The list of role CRNs unassigned from the machine user.
-        resourcesUnassigned:
-          type: array
-          items:
-            $ref: '#/components/schemas/ResourceAssignment'
-          description: The list of resource role assignments that have been unassigned from the machine user.
-    AssignMachineUserRoleResponse:
-      type: object
-      description: Response object for an assign machine user role request.
-    UnassignMachineUserResourceRoleRequest:
-      type: object
-      description: Request object for an unassign machine user role request.
-      required:
-      - machineUserName
-      - resourceRoleCrn
-      - resourceCrn
-      properties:
-        machineUserName:
-          type: string
-          description: The machine user to unassign the resource role from. Can be the machine user's name or CRN.
-        resourceRoleCrn:
-          type: string
-          description: The CRN of the resource role to unassigned from the machine user.
-        resourceCrn:
-          type: string
-          description: The CRN of the resource for which the resource role rights will be unassigned.
-    GetAccessKeyResponse:
-      type: object
-      description: Response object for a get access key request.
-      required:
-      - accessKey
-      properties:
-        accessKey:
-          $ref: '#/components/schemas/AccessKey'
-          description: Information about the access key.
-    ListMachineUserAssignedResourceRolesResponse:
-      type: object
-      description: Response object for a list machine user assigned roles request.
-      required:
-      - resourceAssignments
-      properties:
-        resourceAssignments:
-          type: array
-          items:
-            $ref: '#/components/schemas/ResourceAssignment'
-          x-paging-result: true
-          description: The user's resource assignments.
-        nextToken:
-          type: string
-          x-paging-output-token: true
-          description: The token to use when requesting the next set of results. If not present, there are no additional results.
-    UnassignGroupRoleResponse:
-      type: object
-      description: Response object for an unassign group role request.
     SetSamlAuthnRequestSigningKeyRequest:
       type: object
       description: Request object for setting the SAML AuthnRequest signing key and verification certificate.
@@ -3365,376 +3940,6 @@ components:
           type: string
           description: The next verification certificate used by the SAML provider to verify AuthnRequests sent from CDP. It must be in PEM format. It is used for rotating verification certificate, and is expected to be empty after certification rotation completes. When both the current and next AuthnRequest certificates are set, both will appear in the CDP SP SAML metadata, indicating the Identity Provider should validate if either of the certificates validates the signature of the AuthnRequest. Both must be valid certificates, not expired. Once the Identity Provider has been updated with the new CDP SP SAML metadata to use both certificates, the signing key can be updated to correspond to the next certificate, the current certificate set to what had been next, and the next certificate cleared. The CDP SP SAML metadata can then be updated in the Identity Provider to use only a single certificate before the previous certificate expires. This allows rotating the signing key without downtime. Omitting it from request will remove this certificate.
           x-skip-logging: true
-    SshPublicKey:
-      type: object
-      description: Information about an SSH public key.
-      required:
-      - crn
-      - publicKeyFingerprint
-      properties:
-        crn:
-          type: string
-          description: The SSH public key CRN.
-        publicKeyFingerprint:
-          type: string
-          description: The SSH public key SHA256 fingerprint. This is identical to the SHA256 produced by running the following command on a public key named 'key.pub'; ssh-keygen -l -E SHA256 -f /home/user/.ssh/key.pub. Note that ssh-keygen removes any padding bytes from the BASE64 fingerprint encoding (the '=' characters at the end of the fingerprint) which is also true for this fingerprint.
-        description:
-          type: string
-          description: An optional description for the public key.
-        publicKey:
-          type: string
-          description: The SSH public key string. Only populated for DescribeSshPublicKeyResponses. This is the same string that was used when the key was added.
-    RemoveUserFromGroupRequest:
-      type: object
-      description: Request object for a remove user from group request.
-      required:
-      - userId
-      - groupName
-      properties:
-        userId:
-          type: string
-          description: The ID or CRN of the user to remove from the group.
-        groupName:
-          type: string
-          description: The name or CRN of the group to remove the user from.
-    DeleteSshPublicKeyRequest:
-      type: object
-      description: Request object for delete SSH public key.
-      required:
-      - crnOrFingerprint
-      properties:
-        crnOrFingerprint:
-          type: string
-          description: The SSH public key CRN or the keys SHA256 fingerprint to remove.
-        actorCrn:
-          type: string
-          description: The CRN of the user or machine user that the SSH public key belongs to. If it is not included, it defaults to the actor making the request.
-    CreateScimAccessTokenResponse:
-      type: object
-      description: Response object to create the SCIM access token.
-      required:
-      - accessToken
-      - accessTokenSecret
-      properties:
-        accessToken:
-          $ref: '#/components/schemas/ScimAccessToken'
-          description: The SCIM access token that was created.
-        accessTokenSecret:
-          type: string
-          description: The SCIM access token secret. This secret could be used to authenticate requests sent to SCIM endpoints.
-          x-sensitive: true
-    SetAccountMessagesResponse:
-      type: object
-      description: Response object for set account messages.
-    ListGroupAssignedRolesResponse:
-      type: object
-      description: Response object for a list group assigned roles request.
-      required:
-      - roleCrns
-      properties:
-        roleCrns:
-          type: array
-          items:
-            type: string
-          x-paging-result: true
-          description: The role CRNs assigned to the group.
-        nextToken:
-          type: string
-          x-paging-output-token: true
-          description: The token to use when requesting the next set of results. If not present, there are no additional results.
-    UnassignGroupResourceRoleRequest:
-      type: object
-      description: Request object for an unassign group resource role request.
-      required:
-      - groupName
-      - resourceRoleCrn
-      - resourceCrn
-      properties:
-        groupName:
-          type: string
-          description: The group to unassign the resource role from.
-        resourceRoleCrn:
-          type: string
-          description: The CRN of the resource role to unassign from the group.
-        resourceCrn:
-          type: string
-          description: The CRN of the resource for which the resource role rights will be unassigned.
-    UnassignUserRoleRequest:
-      type: object
-      description: Request object for an unassign user role request.
-      required:
-      - user
-      - role
-      properties:
-        user:
-          type: string
-          description: The user to unassigned the roles from. Can be the user CRN or id.
-        role:
-          type: string
-          description: The role to unassigned from the user. Can be the role's CRN or name.
-    ListGroupsRequest:
-      type: object
-      description: Request object for a list groups request.
-      properties:
-        groupNames:
-          type: array
-          items:
-            type: string
-          description: The group names or CRNs of the groups. If not provided, all groups in the account are retrieved.
-        pageSize:
-          type: integer
-          format: int32
-          minimum: 1
-          maximum: 100
-          x-paging-page-size: true
-          description: The size of each page.
-        startingToken:
-          type: string
-          x-paging-input-token: true
-          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    ScimAccessToken:
-      type: object
-      description: Information about the SCIM access token.
-      required:
-      - accessTokenId
-      - crn
-      - creationDate
-      properties:
-        accessTokenId:
-          type: string
-          description: The SCIM access token id.
-        crn:
-          type: string
-          description: The SCIM access token CRN.
-        creationDate:
-          type: string
-          format: date-time
-          description: The date when this SCIM access token was created.
-        expirationDate:
-          type: string
-          format: date-time
-          description: The SCIM access token expiration date. The access token never expires if the value is not set.
-    Policy:
-      type: object
-      description: A policy contains a list of one or more policy statements.
-      required:
-      - crn
-      - policyStatements
-      properties:
-        crn:
-          type: string
-          description: The policy crn.
-        policyStatements:
-          type: array
-          items:
-            $ref: '#/components/schemas/PolicyStatement'
-          description: The policy statements.
-    UpdateSamlProviderRequest:
-      type: object
-      description: Request object for an updating SAML provider request.
-      required:
-      - samlProviderName
-      properties:
-        samlProviderName:
-          type: string
-          description: The name or CRN of SAML provider to update.
-        samlMetadataDocument:
-          type: string
-          description: SAML metadata document XML file. Length of meta data document cannot be more than 200 KB (200,000 bytes). Can be omitted if no update is required.
-          maxLength: 200000
-        syncGroupsOnLogin:
-          type: boolean
-          description: Whether to sync group information for users federated with this SAML provider. Group membership can be passed using the https://cdp.cloudera.com/SAML/Attributes/groups SAML assertion. The default is to synchronize group membership. Can be omitted if no update is required.
-        generateWorkloadUsernameByEmail:
-          type: boolean
-          description: Whether to generate users' workload username by email. The default is to generate workload usernames by identity provider user ID (SAML NameID).
-        enableScim:
-          type: boolean
-          description: Whether to enable SCIM on this SAML provider. System for Cross-domain Identity Management (SCIM) version 2.0 is a standard for automating the provisioning of user and group identity information from identity provider to CDP. It is not supported for Cloudera for Government.
-          x-form-factors: public
-    DeleteSamlProviderResponse:
-      type: object
-      description: Response object for delete SAML provider request.
-    ListRolesRequest:
-      type: object
-      description: Request object for a list roles request.
-      properties:
-        roleNames:
-          type: array
-          items:
-            type: string
-          description: The roles names or CRNs to retrieve. If empty all roles will be returned.
-        pageSize:
-          type: integer
-          format: int32
-          minimum: 1
-          maximum: 100
-          x-paging-page-size: true
-          description: The size of each page.
-        startingToken:
-          type: string
-          x-paging-input-token: true
-          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    CreateMachineUserRequest:
-      type: object
-      description: Request object for create machine user request.
-      required:
-      - machineUserName
-      properties:
-        machineUserName:
-          type: string
-          description: The name to use for the new machine user. The name must be an alpha numeric string, including '-' and '_', cannot start with '__' (double underscore) and cannot be longer than 128 characters. Only one machine user with this name can exist in an account at a given time.
-    AssignUserResourceRoleResponse:
-      type: object
-      description: Response object for an assign user resource role request.
-    UnassignGroupRoleRequest:
-      type: object
-      description: Request object for an unassign group role request.
-      required:
-      - groupName
-      - role
-      properties:
-        groupName:
-          type: string
-          description: The group to unassign the role from. Can be the group name or CRN.
-        role:
-          type: string
-          description: The role to unassign from the group. Can be the role's CRN or name.
-    ListUserAssignedRolesResponse:
-      type: object
-      description: Response object for a list user assigned roles request.
-      required:
-      - roleCrns
-      properties:
-        roleCrns:
-          type: array
-          items:
-            type: string
-          x-paging-result: true
-          description: The role CRNs assigned to the user.
-        nextToken:
-          type: string
-          x-paging-output-token: true
-          description: The token to use when requesting the next set of results. If not present, there are no additional results.
-    WorkloadPasswordDetails:
-      type: object
-      description: Information about the workload password for a user or machine user.
-      required:
-      - isPasswordSet
-      properties:
-        isPasswordSet:
-          type: boolean
-          description: Whether a workload password is set.
-        passwordExpirationDate:
-          type: string
-          format: date-time
-          description: The date at which the workload password will expire.
-        passwordMinLifetimeDate:
-          type: string
-          format: date-time
-          description: The minimum lifetime date of the workload password. A new password can't be set until this date.
-    DeleteGroupResponse:
-      type: object
-      description: Response object for delete group request.
-    AccessKey:
-      type: object
-      description: Information about a Cloudera CDP access key.
-      required:
-      - accessKeyId
-      - crn
-      - actorCrn
-      - creationDate
-      x-limits:
-      - scope: account
-        value: 200
-        doc: The maximum number of access keys that can be created in an account.
-      properties:
-        accessKeyId:
-          type: string
-          description: The ID of the access key.
-        crn:
-          type: string
-          description: The CRN of the access key.
-        actorCrn:
-          type: string
-          description: The CRN of the actor with which this access key is associated.
-        creationDate:
-          type: string
-          format: date-time
-          description: The date when the access key was created.
-        status:
-          type: string
-          description: The status of an access key.
-          enum:
-          - ACTIVE
-          - INACTIVE
-        type:
-          $ref: '#/components/schemas/AccessKeyType'
-          description: The type of an access key.
-        lastUsage:
-          $ref: '#/components/schemas/AccessKeyLastUsage'
-          description: Information on the last time this access key was used.
-    ListGroupsForUserResponse:
-      type: object
-      description: Response object for a list groups for user request.
-      required:
-      - groupCrns
-      properties:
-        groupCrns:
-          type: array
-          items:
-            type: string
-          x-paging-result: true
-          description: The list of groups.
-        nextToken:
-          type: string
-          x-paging-output-token: true
-          description: The token to use when requesting the next set of results. If not present, there are no additional results.
-    UpdateUserRequest:
-      type: object
-      description: Request object to update a user.
-      required:
-      - user
-      properties:
-        user:
-          type: string
-          description: The CRN or userId of the user to be updated.
-        active:
-          type: boolean
-          description: The active state to which to set the user. When it is 'true', the user will be activated. When it is 'false' the user will be deactivated.
-    ListUserAssignedResourceRolesResponse:
-      type: object
-      description: Response object for a list user assigned roles request.
-      required:
-      - resourceAssignments
-      properties:
-        resourceAssignments:
-          type: array
-          items:
-            $ref: '#/components/schemas/ResourceAssignment'
-          x-paging-result: true
-          description: The user's resource assignments.
-        nextToken:
-          type: string
-          x-paging-output-token: true
-          description: The token to use when requesting the next set of results. If not present, there are no additional results.
-    AssignUserResourceRoleRequest:
-      type: object
-      description: Request object for an assign user resource role request.
-      required:
-      - user
-      - resourceRoleCrn
-      - resourceCrn
-      properties:
-        user:
-          type: string
-          description: The user to assign the resource role to. Can be the user's CRN or id.
-        resourceRoleCrn:
-          type: string
-          description: The CRN of the resource role to assign to the user.
-        resourceCrn:
-          type: string
-          description: The resource for which the resource role rights are granted.
     UpdateLdapProviderRequest:
       type: object
       description: Update LDAP Provider for account.
@@ -3806,466 +4011,39 @@ components:
         startTls:
           type: boolean
           description: Whether a start TLS request should be initiated on connect.
-    DisableClouderaSSOLoginRequest:
+    UnassignGroupRoleResponse:
       type: object
-      description: Request object for a disable Cloudera SSO login request.
-    User:
+      description: Response object for an unassign group role request.
+    GetAccessKeyRequest:
       type: object
-      description: Information about a Cloudera CDP user.
-      required:
-      - userId
-      - crn
-      - email
-      - firstName
-      - lastName
-      - creationDate
-      - accountAdmin
-      - identityProviderCrn
-      x-limits:
-      - scope: account
-        value: 100
-        doc: The maximum number of users that can be created in an account.
-      properties:
-        userId:
-          type: string
-          description: The stable, unique identifier of the user.
-        crn:
-          type: string
-          description: The CRN of the user.
-        email:
-          type: string
-          description: The user's email address.
-        firstName:
-          type: string
-          description: The user's first name.
-        lastName:
-          type: string
-          description: The user's last name.
-        creationDate:
-          type: string
-          format: date-time
-          description: The date when this user record was created.
-        accountAdmin:
-          type: boolean
-          description: Whether the user is an administrator of their CDP account.
-        identityProviderCrn:
-          type: string
-          description: The identity provider that the user belongs to. It can be "Cloudera-Default", "Cloudera-Administration", or a customer defined IdP.
-        lastInteractiveLogin:
-          type: string
-          format: date-time
-          description: The date of the user's last interactive login.
-        workloadUsername:
-          type: string
-          description: The username used in all the workload clusters of the user.
-          x-no-compatibility-guarantee: true
-        status:
-          type: string
-          description: The current status of the user. The possible status values are ACTIVE, CONTROL_PLANE_LOCKED_OUT, and DEACTIVATED. ACTIVE indicates that the user is active in CDP. An active user can authenticate to the CDP control plane and workload clusters. CONTROL_PLANE_LOCKED_OUT indicates that the user is locked out of the CDP control plane. The locked-out user can no longer authenticate to the control plane but can authenticate to the workload clusters. DEACTIVATED indicates that the user is deactivated in CDP. A deactivated user can neither authenticate to the control plane nor to the workload clusters. Note that more statuses could be added in the future. The statuses other than ACTIVE are only returned on Cloudera for Government.
-        workloadPasswordDetails:
-          $ref: '#/components/schemas/WorkloadPasswordDetails'
-          description: Information about the workload password for the user.
-    SetSamlResponseDecryptionKeyResponse:
-      type: object
-      description: Response object for setting the encryption certificate and decryption key for SAML response.
-      x-form-factor: private
-      required:
-      - samlResponseEncryptionDecryptionConfigurationLastUpdated
-      - samlResponseEncryptionCertificateDefined
-      - currentSamlResponseDecryptionKeyDefined
-      - nextSamlResponseDecryptionKeyDefined
-      properties:
-        samlResponseEncryptionDecryptionConfigurationLastUpdated:
-          type: string
-          format: date-time
-          description: The date when SAML response encryption certificate and decryption keys were set or cleared.
-        samlResponseEncryptionCertificateDefined:
-          type: boolean
-          description: Whether the SAML response encryption certificate is set or cleared.
-        currentSamlResponseDecryptionKeyDefined:
-          type: boolean
-          description: Whether the current decryption key for SAML response is set or cleared.
-        nextSamlResponseDecryptionKeyDefined:
-          type: boolean
-          description: Whether the next decryption key for SAML response is set or cleared.
-    DeleteMachineUserRequest:
-      type: object
-      description: Request object for delete machine user request.
-      required:
-      - machineUserName
-      properties:
-        machineUserName:
-          type: string
-          description: The name or CRN of the machine user to delete.
-    GenerateWorkloadAuthTokenRequest:
-      type: object
-      description: Request object for GenerateWorkloadAuthToken method.
-      required:
-      - workloadName
-      properties:
-        workloadName:
-          description: The workload name
-          $ref: '#/components/schemas/WorkloadName'
-        environmentCrn:
-          type: string
-          description: The environment CRN, required by DF.
-        excludeGroups:
-          type: boolean
-          description: Whether to exclude 'groups' claim from the token.
-          x-form-factors: private
-    ListGroupsForMachineUserRequest:
-      type: object
-      description: Request object for a list groups for machine user request.
-      required:
-      - machineUserName
-      properties:
-        machineUserName:
-          type: string
-          description: The name or CRN of the machine user to list the groups of.
-        pageSize:
-          type: integer
-          format: int32
-          minimum: 1
-          maximum: 100
-          x-paging-page-size: true
-          description: The size of each page.
-        startingToken:
-          type: string
-          x-paging-input-token: true
-          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    ListAccessKeysRequest:
-      type: object
-      description: Request object for a list access keys request.
-      properties:
-        accessKeyIds:
-          type: array
-          items:
-            type: string
-          description: The access key IDs or CRNs of the access keys.
-        pageSize:
-          type: integer
-          format: int32
-          minimum: 1
-          maximum: 500
-          x-paging-page-size: true
-          description: The size of each page.
-        startingToken:
-          type: string
-          x-paging-input-token: true
-          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    ListGroupsForUserRequest:
-      type: object
-      description: Request object for a list groups for user request.
-      required:
-      - userId
-      properties:
-        userId:
-          type: string
-          description: The ID or CRN of the user to list the groups of.
-        pageSize:
-          type: integer
-          format: int32
-          minimum: 1
-          maximum: 100
-          x-paging-page-size: true
-          description: The size of each page.
-        startingToken:
-          type: string
-          x-paging-input-token: true
-          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    ListMachineUsersResponse:
-      type: object
-      description: Response object for a list machine users request.
-      required:
-      - machineUsers
-      properties:
-        machineUsers:
-          type: array
-          items:
-            $ref: '#/components/schemas/MachineUser'
-          x-paging-result: true
-          description: The machine users.
-        nextToken:
-          type: string
-          x-paging-output-token: true
-          description: The token to use when requesting the next set of results. If not present, there are no additional results.
-    DeleteSshPublicKeyResponse:
-      type: object
-      description: Response object for delete SSH public key.
-    SetAccountMessagesRequest:
-      type: object
-      description: Request object for set account messages for account.
-      properties:
-        contactYourAdministratorMessage:
-          type: string
-          description: Message shown to user when user does not have sufficient rights. Length of message cannot be more than 512 characters. If string is empty, default message is displayed.
-    SetWorkloadPasswordRequest:
-      type: object
-      description: Request object for a set workload password request.
-      required:
-      - password
-      properties:
-        password:
-          type: string
-          description: The password value to set
-          x-sensitive: true
-        actorCrn:
-          type: string
-          description: The CRN of the user or machine user for whom the password will be set. If it is not included, it defaults to the user making the request.
-    RemoveUserFromGroupResponse:
-      type: object
-      description: Response object for a remove user from group request.
-    ListGroupMembersResponse:
-      type: object
-      description: Response object for a list group members request.
-      required:
-      - memberCrns
-      properties:
-        memberCrns:
-          type: array
-          items:
-            type: string
-          description: The list of group members.
-          x-paging-result: true
-        nextToken:
-          type: string
-          x-paging-output-token: true
-          description: The token to use when requesting the next set of results. If not present, there are no additional results.
-    DeleteUserRequest:
-      type: object
-      description: Request object to delete a user.
-      required:
-      - userId
-      properties:
-        userId:
-          type: string
-          description: The ID or CRN of the user to delete.
-    Error:
-      type: object
-      description: An object returned on an error.
-      properties:
-        code:
-          type: string
-          description: The error code.
-        message:
-          type: string
-          description: The error message.
-    ListRolesResponse:
-      type: object
-      description: Response object for a list roles request.
-      required:
-      - roles
-      properties:
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/Role'
-          x-paging-result: true
-          description: The list of roles in the account.
-        nextToken:
-          type: string
-          x-paging-output-token: true
-          description: The token to use when requesting the next set of results. If not present, there are no additional results.
-    DeleteAccessKeyRequest:
-      type: object
-      description: Request object for a delete access key request.
-      required:
-      - accessKeyId
+      description: Request object for a get access key request.
       properties:
         accessKeyId:
           type: string
-          description: The ID of the access key.
-    DeleteAccessKeyResponse:
+          description: The ID of the access key to get information about. If it is not included, it defaults to the access key used to make the request.
+    UpdateSamlProviderRequest:
       type: object
-      description: Response object for a delete access key request.
-    GetAccountRequest:
-      type: object
-      description: Request object for a get account request.
-    ListSamlProvidersRequest:
-      type: object
-      description: Request object for a list SAML providers request.
-      properties:
-        samlProviderNames:
-          type: array
-          description: The SAML providers names or CRNs to retrieve. If empty all SAML providers will be returned.
-          items:
-            type: string
-            description: The SAML providers names or CRNs to retrieve. If empty all SAML providers will be returned.
-        pageSize:
-          type: integer
-          format: int32
-          minimum: 1
-          maximum: 100
-          x-paging-page-size: true
-          description: The size of each page.
-        startingToken:
-          type: string
-          x-paging-input-token: true
-          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    ListUserAssignedRolesRequest:
-      type: object
-      description: Request object for a list user assigned roles request.
-      properties:
-        user:
-          type: string
-          description: The user to list the assigned roles for. Can be the user's CRN or id. If it is not included, it defaults to the user making the request.
-        pageSize:
-          type: integer
-          format: int32
-          minimum: 1
-          maximum: 100
-          x-paging-page-size: true
-          description: The size of each page.
-        startingToken:
-          type: string
-          x-paging-input-token: true
-          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    AssignGroupResourceRoleResponse:
-      type: object
-      description: Response object for an assign group resource role request.
-    ListGroupsForMachineUserResponse:
-      type: object
-      description: Response object for a list groups for machine user request.
+      description: Request object for an updating SAML provider request.
       required:
-      - groupCrns
+      - samlProviderName
       properties:
-        groupCrns:
-          type: array
-          items:
-            type: string
-          x-paging-result: true
-          description: The list of groups.
-        nextToken:
+        samlProviderName:
           type: string
-          x-paging-output-token: true
-          description: The token to use when requesting the next set of results. If not present, there are no additional results.
-    LdapProviderInfo:
-      type: object
-      description: Information about an LDAP provider connector.
-      x-private: true
-      required:
-      - url
-      - userSearchBase
-      - userSearchFilter
-      - groupSearchBase
-      - groupSearchFilter
-      properties:
-        url:
+          description: The name or CRN of SAML provider to update.
+        samlMetadataDocument:
           type: string
-          description: The URL of the LDAP server.
-        userSearchBase:
-          type: string
-          description: Part of the directory tree under which to search for users.
-        userSearchFilter:
-          type: string
-          description: The search filter to use for finding users.
-        groupSearchBase:
-          type: string
-          description: Part of the directory tree under which group searches should be performed.
-        groupSearchFilter:
-          type: string
-          description: Filter which is used to search for group membership.
-        bindDn:
-          type: string
-          description: Bind DN.
-        userBindProperty:
-          type: string
-          description: Property of the LDAP user object to use when binding to the LDAP directory.
-        groupDnProperty:
-          type: string
-          description: The property of user object to use in {{dn}} interpolation of groupSearchFilter.
-        usernameMappingAttribute:
-          type: string
-          description: The LDAP displayName attribute name, will be used as the user's name.
-        emailMappingAttribute:
-          type: string
-          description: The LDAP email attribute name, will be used as the user's email.
-        firstNameMappingAttribute:
-          type: string
-          description: The LDAP attribute used as firstname , will be used as the user's firstname.
-        lastNameMappingAttribute:
-          type: string
-          description: The LDAP sn attribute name, will be used as the user's lastname.
-        groupNameMappingAttribute:
-          type: string
-          description: The LDAP group attribute name, will be used as for user's group.
-        tlsCaCertificates:
-          type: array
-          items:
-            type: string
-          description: If your ldaps:// server uses a self-signed SSL certificate or a certificate issued by a private Certificate Authority (CA), you need to provide the trusted certificates that can be used to validate the LDAP server certificate.
-          x-sensitive: true
-        startTls:
+          description: SAML metadata document XML file. Length of meta data document cannot be more than 200 KB (200,000 bytes). Can be omitted if no update is required.
+          maxLength: 200000
+        syncGroupsOnLogin:
           type: boolean
-          description: Indicates whether a start TLS request should be initiated on connect.
-    AssignMachineUserResourceRoleRequest:
-      type: object
-      description: Request object for an assign machine user resource role request.
-      required:
-      - machineUserName
-      - resourceRoleCrn
-      - resourceCrn
-      properties:
-        machineUserName:
-          type: string
-          description: The machine user to assign the resource role to. Can be the machine user's name or CRN.
-        resourceRoleCrn:
-          type: string
-          description: The CRN of the resource role to assign to the machine user.
-        resourceCrn:
-          type: string
-          description: The resource for which the resource role rights are granted.
-    GetAccountResponse:
-      type: object
-      description: Response object for a get account response.
-      required:
-      - account
-      properties:
-        account:
-          $ref: '#/components/schemas/Account'
-          description: The account object.
-    AddUserToGroupRequest:
-      type: object
-      description: Request object for an add user to group request.
-      required:
-      - userId
-      - groupName
-      properties:
-        userId:
-          type: string
-          description: The ID or CRN of the user to add to the group.
-        groupName:
-          type: string
-          description: The name or CRN of the group to add the user to.
-    RemoveMachineUserFromGroupRequest:
-      type: object
-      description: Request object for a remove machine user from group request.
-      required:
-      - machineUserName
-      - groupName
-      properties:
-        machineUserName:
-          type: string
-          description: The name or CRN of the machine user to add to the group.
-        groupName:
-          type: string
-          description: The name or CRN of the group to remove the machine user from.
-    UnsetWorkloadPasswordMinLifetimeResponse:
-      type: object
-      description: Response object for an unset workload password minimum lifetime request.
-    UnassignMachineUserRoleRequest:
-      type: object
-      description: Request object for an unassign machine user role request.
-      required:
-      - machineUserName
-      - role
-      properties:
-        machineUserName:
-          type: string
-          description: The machine user to unassigned the roles from. Can be the machine user's name or CRN.
-        role:
-          type: string
-          description: The role to unassigned from the user. Can be the role's name or CRN.
+          description: Whether to sync group information for users federated with this SAML provider. Group membership can be passed using the https://cdp.cloudera.com/SAML/Attributes/groups SAML assertion. The default is to synchronize group membership. Can be omitted if no update is required.
+        generateWorkloadUsernameByEmail:
+          type: boolean
+          description: Whether to generate users' workload username by email. The default is to generate workload usernames by identity provider user ID (SAML NameID).
+        enableScim:
+          type: boolean
+          description: Whether to enable SCIM on this SAML provider. System for Cross-domain Identity Management (SCIM) version 2.0 is a standard for automating the provisioning of user and group identity information from identity provider to CDP. It is not supported for Cloudera for Government.
+          x-form-factors: public
     ListGroupAssignedRolesRequest:
       type: object
       description: Request object for a list group assigned roles request.
@@ -4286,81 +4064,6 @@ components:
           type: string
           x-paging-input-token: true
           description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    CreateMachineUserResponse:
-      type: object
-      description: Response object for create machine user request.
-      required:
-      - machineUser
-      properties:
-        machineUser:
-          $ref: '#/components/schemas/MachineUser'
-          description: Information about the machine user.
-    AssignMachineUserRoleRequest:
-      type: object
-      description: Request object for an assign machine user role request.
-      required:
-      - machineUserName
-      - role
-      properties:
-        machineUserName:
-          type: string
-          description: The machine user the role is assigned to. Can be the machine user's name or CRN.
-        role:
-          type: string
-          description: The role to assign to the machine user. Can be the role's name or CRN.
-    SetWorkloadPasswordPolicyRequest:
-      type: object
-      description: Request object for a set workload password policy request.
-      properties:
-        globalPasswordPolicy:
-          $ref: '#/components/schemas/PasswordPolicy'
-          description: The global password policy object. If set, maxPasswordLifetimeDays is ignored, and if not set the default values for the different password policies are used. See PasswordPolicy for more details on the different default values.
-        machineUsersPasswordPolicy:
-          $ref: '#/components/schemas/PasswordPolicy'
-          description: The password policy object for machine users. If set, this will be used for enforcing password complexity for machine users instead of the global password policy.
-    SetDefaultIdentityProviderRequest:
-      type: object
-      description: Request object to set the default identity provider.
-      required:
-      - nameOrCrn
-      properties:
-        nameOrCrn:
-          type: string
-          description: The name or CRN of the default identity provider.
-    ListGroupAssignedResourceRolesRequest:
-      type: object
-      description: Request object for a list group assigned resource roles request.
-      required:
-      - groupName
-      properties:
-        groupName:
-          type: string
-          description: The group to list the assigned resource roles for. Can be the group's name or CRN.
-        pageSize:
-          type: integer
-          format: int32
-          minimum: 1
-          maximum: 100
-          x-paging-page-size: true
-          description: The size of each page.
-        startingToken:
-          type: string
-          x-paging-input-token: true
-          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    CreateGroupRequest:
-      type: object
-      description: Request object for create group request.
-      required:
-      - groupName
-      properties:
-        groupName:
-          type: string
-          description: The name of the group. This name must be unique. There are certain restrictions on the group name. Refer to the How To > User Management section in the Management Console documentation for the details.
-        syncMembershipOnUserLogin:
-          type:
-          - boolean
-          - 'null'
-          description: Whether group membership is synced when a user logs in. The default is to sync group membership.
     ListAccessKeysResponse:
       type: object
       description: Response object for a list access keys request.
@@ -4377,249 +4080,42 @@ components:
           type: string
           x-paging-output-token: true
           description: The token to use when requesting the next set of results. If not present, there are no additional results.
-    GenerateWorkloadAuthTokenResponse:
+    CreateScimAccessTokenRequest:
       type: object
-      description: Response object for GenerateWorkloadAuthToken method.
-      properties:
-        endpointUrl:
-          type: string
-          description: The workload endpoint URL
-        token:
-          type: string
-          description: The authentication token
-          x-sensitive: true
-        expireAt:
-          type: string
-          format: date-time
-          description: When the information should expire
-    Group:
-      type: object
-      description: Information about a group.
+      description: Request object to create the SCIM access token.
       required:
-      - groupName
-      - crn
-      - creationDate
+      - identityProviderNameOrCrn
+      - accessTokenLifetimeDays
       properties:
-        groupName:
+        identityProviderNameOrCrn:
           type: string
-          description: The group name.
-        crn:
-          type: string
-          description: The CRN of the group.
-        creationDate:
-          type: string
-          format: date-time
-          description: The date when this group record was created.
-        syncMembershipOnUserLogin:
-          type: boolean
-          description: Whether group membership is synced when a user logs in. The default is to sync group membership.
-    ListMachineUserAssignedRolesRequest:
-      type: object
-      description: Request object for a list machine user assigned roles request.
-      required:
-      - machineUserName
-      properties:
-        machineUserName:
-          type: string
-          description: The machine user to list the assigned roles for. Can be the machine user's name or CRN.
-        pageSize:
+          description: The name or CRN of the SCIM enabled identity provider.
+        accessTokenLifetimeDays:
           type: integer
           format: int32
           minimum: 1
-          maximum: 100
-          x-paging-page-size: true
-          description: The size of each page.
-        startingToken:
-          type: string
-          x-paging-input-token: true
-          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    MigrateUsersToIdentityProviderResponse:
+          description: The lifetime, in days, of the access token.
+    CreateGroupRequest:
       type: object
-      description: Response object for migrating users from old Identity Provider Connector to a new one.
-      x-form-factor: private
-      required:
-      - numberOfUpdatedUsers
-      properties:
-        numberOfUpdatedUsers:
-          type: integer
-          format: int32
-          description: The number of users that were migrated from the old IdP to the new one.
-    MigrateUsersToIdentityProviderRequest:
-      type: object
-      description: Request object for migrating users from an Identity Provider Connector to a new one.
-      x-form-factor: private
-      required:
-      - originalProviderName
-      - newProviderName
-      properties:
-        originalProviderName:
-          type: string
-          description: The name or CRN of the original IdP provider to migrate from.
-        newProviderName:
-          type: string
-          description: The name or CRN of the new IdP provider to migrate to.
-    DisableUserWorkloadPasswordChangedNotificationsRequest:
-      type: object
-      description: Request object to disable user workload password changed notifications.
-    CreateGroupResponse:
-      type: object
-      description: Response object for create group request.
-      required:
-      - group
-      properties:
-        group:
-          $ref: '#/components/schemas/Group'
-          description: Information about the group.
-    CreateMachineUserAccessKeyResponse:
-      type: object
-      description: Response object for a create machine user access key request.
-      required:
-      - accessKey
-      - privateKey
-      properties:
-        accessKey:
-          $ref: '#/components/schemas/AccessKey'
-          description: The access key that was created.
-        privateKey:
-          type: string
-          description: The private key associated with this access key. This string is the contents of a PEM file containing a PKCS#8 private key.
-          x-sensitive: true
-    UpdateGroupResponse:
-      type: object
-      description: Response object for update group request.
-      required:
-      - group
-      properties:
-        group:
-          $ref: '#/components/schemas/Group'
-          description: Information about the updated group.
-    UpdateSamlProviderResponse:
-      type: object
-      description: Response object for an updating SAML provider request.
-      required:
-      - samlProvider
-      properties:
-        samlProvider:
-          $ref: '#/components/schemas/SamlProvider'
-          description: The SAML provider.
-    DisableClouderaSSOLoginResponse:
-      type: object
-      description: Response object for a disable Cloudera SSO login request.
-    AddSshPublicKeyResponse:
-      type: object
-      description: Response object for add ssh public key.
-      required:
-      - sshPublicKey
-      properties:
-        sshPublicKey:
-          $ref: '#/components/schemas/SshPublicKey'
-          description: Information about the SSH public key.
-    CreateUserRequest:
-      type: object
-      description: Request object for creating user request.
-      required:
-      - identityProviderUserId
-      - email
-      properties:
-        identityProviderUserId:
-          type: string
-          description: The identity provider user id for the user. This ID must match the NameId attribute value that will be passed for the user in the SAML response using the associated SAML provider.
-        email:
-          type: string
-          description: The email address for the user. Used for display purposes only.
-        samlProviderName:
-          type: string
-          description: The name or CRN of the SAML provider the user will use for login.
-        groups:
-          type: array
-          items:
-            type: string
-          description: The list of groups the user belongs to. The groups will be created if they do not exist. There are certain restrictions on the group name. Refer to the How To > User Management section in the Management Console documentation for the details.
-        firstName:
-          type: string
-          description: The user first name.
-        lastName:
-          type: string
-          description: The user last name.
-    Account:
-      type: object
-      description: Information about a Cloudera CDP account.
-      required:
-      - clouderaSSOLoginEnabled
-      - clouderaSSOAllLoginEnabled
-      - workloadPasswordPolicy
-      properties:
-        clouderaSSOLoginEnabled:
-          type: boolean
-          description: Whether interactive login using Cloudera SSO is enabled for users who are not account administrators. Its default value is 'true'. When it is 'true', the account administrators, as well as non-administrator users can login through Cloudera SSO. When it is 'false', Cloudera SSO users who are not account administrators will not be able to login.
-        clouderaSSOAllLoginEnabled:
-          type: boolean
-          description: Whether login is enabled for Cloudera SSO users. It can only be set by Cloudera upon request and disables interactive login through Cloudera SSO. Note that restricting Cloudera SSO login will prevent account administrators from logging in interactively. Its default value is 'true'. When it is 'true', the Cloudera SSO interactive login behavior is controlled according to the existing `clouderaSSOLoginEnabled` flag. When it is 'false', it overrides the setting for `clouderaSSOLoginEnabled`.
-        workloadPasswordPolicy:
-          $ref: '#/components/schemas/WorkloadPasswordPolicy'
-          description: The workload password policy object.
-        machineUserWorkloadPasswordPolicy:
-          $ref: '#/components/schemas/WorkloadPasswordPolicy'
-          description: The machine user workload password policy object. May be omitted if no such policy was defined.
-    DeleteGroupRequest:
-      type: object
-      description: Request object for delete group request.
+      description: Request object for create group request.
       required:
       - groupName
       properties:
         groupName:
           type: string
-          description: The name or CRN of the group to delete.
-    UnassignUserResourceRoleResponse:
-      type: object
-      description: Response object for an unassign user role request.
-    MachineUser:
-      type: object
-      description: Information about a Cloudera CDP machine user.
-      required:
-      - machineUserName
-      - crn
-      - creationDate
-      x-limits:
-      - scope: account
-        value: 100
-        doc: The maximum number of machine users that can be created in an account.
-      properties:
-        machineUserName:
-          type: string
-          description: The machine user name.
-        crn:
-          type: string
-          description: The CRN of the user.
-        creationDate:
-          type: string
-          format: date-time
-          description: The date when this machine user record was created.
-        workloadUsername:
-          type: string
-          description: The username used in all the workload clusters of the machine user.
-          x-no-compatibility-guarantee: true
-        status:
-          type: string
-          description: The current status of the machine user. The possible status values are ACTIVE and CONTROL_PLANE_LOCKED_OUT. ACTIVE indicates that the machine user is active in CDP. An active machine user can authenticate to the CDP control plane and workload clusters. CONTROL_PLANE_LOCKED_OUT indicates that the machine user is locked out of the CDP control plane. The locked-out machine user can no longer authenticate to the control plane but can authenticate to the workload clusters. Note that more statuses could be added in the future. The statuses other than ACTIVE are only returned on Cloudera for Government.
-        workloadPasswordDetails:
-          $ref: '#/components/schemas/WorkloadPasswordDetails'
-          description: Information about the workload password for the machine user.
-    ResourceRole:
-      type: object
-      description: Information about a resource role. A resource role is a role that grants a collection of rights to a user on resources.
-      required:
-      - crn
-      - rights
-      properties:
-        crn:
-          type: string
-          description: The CRN of the resource role.
-        rights:
-          type: array
-          items:
-            type: string
-          description: The rights granted by this role.
+          description: The name of the group. This name must be unique. There are certain restrictions on the group name. Refer to the How To > User Management section in the Management Console documentation for the details.
+        syncMembershipOnUserLogin:
+          type:
+          - boolean
+          - 'null'
+          description: Whether group membership is synced when a user logs in. The default is to sync group membership.
+    AccessKeyType:
+      type: string
+      description: The version of an access key. `V1` - Deprecated, use RSA as the request signing algorithm. `V2` - Use ED25519 as the request signing algorithm. `V3` - Use ECDSA as the request signing algorithm. `DEFAULT` - Use the system default signing algorithm (V3 in GovCloud, V2 in other regions).
+      enum:
+      - V1
+      - V2
+      - V3
     CreateSamlProviderRequest:
       type: object
       description: Request object for creating SAML provider request.
@@ -4643,27 +4139,295 @@ components:
           type: boolean
           description: Whether to enable SCIM on this SAML provider. System for Cross-domain Identity Management (SCIM) version 2.0 is a standard for automating the provisioning of user and group identity information from identity provider to CDP. It is not supported for Cloudera for Government.
           x-form-factors: public
-    CreateMachineUserAccessKeyRequest:
+    EnableClouderaSSOLoginRequest:
       type: object
-      description: Request object for a create machine user access key request.
+      description: Request object for an enable Cloudera SSO login request.
+    DescribeSamlProviderResponse:
+      type: object
+      description: Response object for a describe SAML request.
+      required:
+      - samlProvider
+      properties:
+        samlProvider:
+          $ref: '#/components/schemas/SamlProvider'
+          description: The SAML provider.
+    ListMachineUserAssignedRolesResponse:
+      type: object
+      description: Response object for a list machine user assigned roles request.
+      required:
+      - roleCrns
+      properties:
+        roleCrns:
+          type: array
+          items:
+            type: string
+          x-paging-result: true
+          description: The role CRNs assigned to the user.
+        nextToken:
+          type: string
+          x-paging-output-token: true
+          description: The token to use when requesting the next set of results. If not present, there are no additional results.
+    ListRolesResponse:
+      type: object
+      description: Response object for a list roles request.
+      required:
+      - roles
+      properties:
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+          x-paging-result: true
+          description: The list of roles in the account.
+        nextToken:
+          type: string
+          x-paging-output-token: true
+          description: The token to use when requesting the next set of results. If not present, there are no additional results.
+    ListGroupsRequest:
+      type: object
+      description: Request object for a list groups request.
+      properties:
+        groupNames:
+          type: array
+          items:
+            type: string
+          description: The group names or CRNs of the groups. If not provided, all groups in the account are retrieved.
+        pageSize:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+          x-paging-page-size: true
+          description: The size of each page.
+        startingToken:
+          type: string
+          x-paging-input-token: true
+          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+    ListResourceRolesResponse:
+      type: object
+      description: Response object for a list resource roles request.
+      required:
+      - resourceRoles
+      properties:
+        resourceRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceRole'
+          x-paging-result: true
+          description: The list of resource roles. Cannot be empty.
+        nextToken:
+          type: string
+          x-paging-output-token: true
+          description: The token to use when requesting the next set of results. If not present, there are no additional results.
+    RemoveMachineUserFromGroupResponse:
+      type: object
+      description: Response object for a remove machine user from group request.
+    ListUserAssignedRolesResponse:
+      type: object
+      description: Response object for a list user assigned roles request.
+      required:
+      - roleCrns
+      properties:
+        roleCrns:
+          type: array
+          items:
+            type: string
+          x-paging-result: true
+          description: The role CRNs assigned to the user.
+        nextToken:
+          type: string
+          x-paging-output-token: true
+          description: The token to use when requesting the next set of results. If not present, there are no additional results.
+    GenerateWorkloadAuthTokenRequest:
+      type: object
+      description: Request object for GenerateWorkloadAuthToken method.
+      required:
+      - workloadName
+      properties:
+        workloadName:
+          description: The workload name
+          $ref: '#/components/schemas/WorkloadName'
+        environmentCrn:
+          type: string
+          description: The environment CRN, required by DF.
+        excludeGroups:
+          type: boolean
+          description: Whether to exclude 'groups' claim from the token.
+          x-form-factors: private
+    DescribeSshPublicKeyRequest:
+      type: object
+      description: Request object for describe SSH public key.
+      required:
+      - crnOrFingerprint
+      properties:
+        crnOrFingerprint:
+          type: string
+          description: The SSH public key CRN or its SHA256 fingerprint.
+        actorCrn:
+          type: string
+          description: The CRN of the user or machine user that the SSH public key belongs to. If it is not included, it defaults to the actor making the request.
+    AddUserToGroupRequest:
+      type: object
+      description: Request object for an add user to group request.
+      required:
+      - userId
+      - groupName
+      properties:
+        userId:
+          type: string
+          description: The ID or CRN of the user to add to the group.
+        groupName:
+          type: string
+          description: The name or CRN of the group to add the user to.
+    UnsetWorkloadPasswordPolicyResponse:
+      type: object
+      description: Response object for a unset workload password policy request.
+    AddUserToGroupResponse:
+      type: object
+      description: Response object for an add user to group request.
+    ListScimAccessTokensResponse:
+      type: object
+      description: Response object to list the SCIM access tokens.
+      required:
+      - accessTokens
+      properties:
+        accessTokens:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScimAccessToken'
+          x-paging-result: true
+          description: The SCIM access tokens.
+        nextToken:
+          type: string
+          x-paging-output-token: true
+          description: The token to use when requesting the next set of results. If not present, there are no additional results.
+    SetSamlResponseDecryptionKeyResponse:
+      type: object
+      description: Response object for setting the encryption certificate and decryption key for SAML response.
+      x-form-factor: private
+      required:
+      - samlResponseEncryptionDecryptionConfigurationLastUpdated
+      - samlResponseEncryptionCertificateDefined
+      - currentSamlResponseDecryptionKeyDefined
+      - nextSamlResponseDecryptionKeyDefined
+      properties:
+        samlResponseEncryptionDecryptionConfigurationLastUpdated:
+          type: string
+          format: date-time
+          description: The date when SAML response encryption certificate and decryption keys were set or cleared.
+        samlResponseEncryptionCertificateDefined:
+          type: boolean
+          description: Whether the SAML response encryption certificate is set or cleared.
+        currentSamlResponseDecryptionKeyDefined:
+          type: boolean
+          description: Whether the current decryption key for SAML response is set or cleared.
+        nextSamlResponseDecryptionKeyDefined:
+          type: boolean
+          description: Whether the next decryption key for SAML response is set or cleared.
+    ListSamlProvidersResponse:
+      type: object
+      description: Response object for a list SAML providers request.
+      required:
+      - samlProviders
+      properties:
+        samlProviders:
+          type: array
+          items:
+            $ref: '#/components/schemas/SamlProvider'
+          x-paging-result: true
+          description: The SAML providers.
+        nextToken:
+          type: string
+          x-paging-output-token: true
+          description: The token to use when requesting the next set of results. If not present, there are no additional results.
+    GetAccountMessagesResponse:
+      type: object
+      description: Response object for get account messages.
+      properties:
+        contactYourAdministratorMessage:
+          type: string
+          description: Message shown to user when user does not have sufficient rights.
+    AssignGroupRoleRequest:
+      type: object
+      description: Request object for an assign group role request.
+      required:
+      - groupName
+      - role
+      properties:
+        groupName:
+          type: string
+          description: The group to which the role is assigned to. Can be the group name or CRN.
+        role:
+          type: string
+          description: The role being assigned to the group. Can be the role's CRN or name.
+    AssignGroupRoleResponse:
+      type: object
+      description: Response object for an assign group role request.
+    DeleteMachineUserRequest:
+      type: object
+      description: Request object for delete machine user request.
       required:
       - machineUserName
       properties:
         machineUserName:
           type: string
-          description: The name or CRN of the machine user to whom this access key will be associated.
-        type:
-          $ref: '#/components/schemas/AccessKeyType'
-          description: The version of an access key to create.
-    GetUserResponse:
+          description: The name or CRN of the machine user to delete.
+    DeleteScimAccessTokenRequest:
       type: object
-      description: Response object for a get user request.
+      description: Request object to delete the SCIM access token.
       required:
-      - user
+      - accessTokenIdOrCrn
       properties:
-        user:
-          $ref: '#/components/schemas/User'
-          description: Information about the user.
+        accessTokenIdOrCrn:
+          type: string
+          description: The ID or CRN of the SCIM access token.
+    SetWorkloadPasswordPolicyRequest:
+      type: object
+      description: Request object for a set workload password policy request.
+      properties:
+        globalPasswordPolicy:
+          $ref: '#/components/schemas/PasswordPolicy'
+          description: The global password policy object. If set, maxPasswordLifetimeDays is ignored, and if not set the default values for the different password policies are used. See PasswordPolicy for more details on the different default values.
+        machineUsersPasswordPolicy:
+          $ref: '#/components/schemas/PasswordPolicy'
+          description: The password policy object for machine users. If set, this will be used for enforcing password complexity for machine users instead of the global password policy.
+    AssignMachineUserRoleRequest:
+      type: object
+      description: Request object for an assign machine user role request.
+      required:
+      - machineUserName
+      - role
+      properties:
+        machineUserName:
+          type: string
+          description: The machine user the role is assigned to. Can be the machine user's name or CRN.
+        role:
+          type: string
+          description: The role to assign to the machine user. Can be the role's name or CRN.
+    ResourceRole:
+      type: object
+      description: Information about a resource role. A resource role is a role that grants a collection of rights to a user on resources.
+      required:
+      - crn
+      - rights
+      properties:
+        crn:
+          type: string
+          description: The CRN of the resource role.
+        rights:
+          type: array
+          items:
+            type: string
+          description: The rights granted by this role.
+    UpdateGroupResponse:
+      type: object
+      description: Response object for update group request.
+      required:
+      - group
+      properties:
+        group:
+          $ref: '#/components/schemas/Group'
+          description: Information about the updated group.
     PolicyStatement:
       type: object
       description: A policy statement is a list of rights and zero or more resources on which the rights are granted.
@@ -4681,172 +4445,408 @@ components:
           items:
             type: string
           description: The resources on which the rights are granted.
-    ListUsersResponse:
+    GenerateWorkloadAuthTokenResponse:
       type: object
-      description: Response object for a list users request.
-      required:
-      - users
+      description: Response object for GenerateWorkloadAuthToken method.
       properties:
-        users:
+        endpointUrl:
+          type: string
+          description: The workload endpoint URL
+        token:
+          type: string
+          description: The authentication token
+          x-sensitive: true
+        expireAt:
+          type: string
+          format: date-time
+          description: When the information should expire
+    UnassignUserRoleResponse:
+      type: object
+      description: Response object for an unassign user role request.
+    CreateScimAccessTokenResponse:
+      type: object
+      description: Response object to create the SCIM access token.
+      required:
+      - accessToken
+      - accessTokenSecret
+      properties:
+        accessToken:
+          $ref: '#/components/schemas/ScimAccessToken'
+          description: The SCIM access token that was created.
+        accessTokenSecret:
+          type: string
+          description: The SCIM access token secret. This secret could be used to authenticate requests sent to SCIM endpoints.
+          x-sensitive: true
+    DescribeSamlProviderRequest:
+      type: object
+      description: Request object for a describe SAML provider request.
+      required:
+      - samlProviderName
+      properties:
+        samlProviderName:
+          type: string
+          description: The name or CRN of the SAML provider to describe.
+    AssignUserRoleResponse:
+      type: object
+      description: Response object for an assign user role request.
+    ListMachineUserAssignedResourceRolesRequest:
+      type: object
+      description: Request object for a list machine user assigned resource roles request.
+      required:
+      - machineUserName
+      properties:
+        machineUserName:
+          type: string
+          description: The machine user to list the assigned resource roles for. Can be the machine user's name or CRN.
+        pageSize:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+          x-paging-page-size: true
+          description: The size of each page.
+        startingToken:
+          type: string
+          x-paging-input-token: true
+          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+    SetDefaultIdentityProviderResponse:
+      type: object
+      description: Response object to set the default identity provider.
+    UpdateLdapProviderResponse:
+      type: object
+      description: Update LDAP provider response
+      x-form-factors: private
+      required:
+      - ldapProvider
+      properties:
+        ldapProvider:
+          description: The updated LDAP identity provider connector configuration details.
+          $ref: '#/components/schemas/LdapProvider'
+    DeleteSamlProviderResponse:
+      type: object
+      description: Response object for delete SAML provider request.
+    ListGroupsForUserResponse:
+      type: object
+      description: Response object for a list groups for user request.
+      required:
+      - groupCrns
+      properties:
+        groupCrns:
           type: array
           items:
-            $ref: '#/components/schemas/User'
+            type: string
           x-paging-result: true
-          description: The users.
+          description: The list of groups.
         nextToken:
           type: string
           x-paging-output-token: true
           description: The token to use when requesting the next set of results. If not present, there are no additional results.
-    EnableClouderaSSOLoginRequest:
+    ListGroupMembersRequest:
       type: object
-      description: Request object for an enable Cloudera SSO login request.
-    CreateLdapProviderRequest:
-      type: object
-      description: Create an LDAP Provider for account.
-      x-form-factors: private
+      description: Request object for a list group members request.
       required:
-      - ldapProviderName
-      - url
-      - userSearchBase
-      - userSearchFilter
-      - groupSearchBase
-      - groupSearchFilter
-      - usernameMappingAttribute
+      - groupName
       properties:
-        ldapProviderName:
+        groupName:
           type: string
-          description: The name of LDAP provider to create.
-        url:
+          description: The name or CRN of the group to list the membership of.
+        pageSize:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+          x-paging-page-size: true
+          description: The size of each page.
+        startingToken:
           type: string
-          description: The URL of the LDAP server. The URL must be prefixed with ldap:// or ldaps://. The URL can optionally specify a custom port, for example ldaps://ldap.example.org:663.
-        userSearchBase:
-          type: string
-          description: Part of the directory tree under which to search for users. For example, ou=users,dc=example,dc=org.
-        userSearchFilter:
-          type: string
-          description: The search filter to use for finding users. For example, (uid={{username}}).
-        groupSearchBase:
-          type: string
-          description: The distinguished name indicating the path within the directory information tree to begin user searches from. For example, ou=groups,dc=example,dc=com.
-        groupSearchFilter:
-          type: string
-          description: The search filter to use for finding groups for authorization of authenticated users.
-        usernameMappingAttribute:
-          type: string
-          description: The LDAP displayName attribute name, will be used as the user's name. For example, uid, sAMAccountName.
-        bindDn:
-          type: string
-          description: Bind DN. For example, uid=myapp,ou=users,dc=example,dc=org. Optional. Required if bind is not anonymous.
-        bindPassword:
-          type: string
-          description: The password of the bind user.
-          x-sensitive: true
-        userBindProperty:
-          type: string
-          description: Property of the LDAP user object to use when binding to verify the password. For example, dn.
-        groupDnProperty:
-          type: string
-          description: The property of user object to use in {{dn}} interpolation of groupSearchFilter.
-        emailMappingAttribute:
-          type: string
-          description: The LDAP email attribute name, will be used as the user's email. For example, mail.
-        firstNameMappingAttribute:
-          type: string
-          description: The LDAP attribute used as firstname , will be used as the user's firstname. For example, givenName.
-        lastNameMappingAttribute:
-          type: string
-          description: The LDAP sn attribute name, will be used as the user's lastname. For example, sn.
-        groupNameMappingAttribute:
-          type: string
-          description: The LDAP group attribute name, will be used as for user's group. For example, cn, name.
-        tlsCaCertificates:
+          x-paging-input-token: true
+          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+    UnlockMachineUserInControlPlaneResponse:
+      type: object
+      description: Response object for unlocking the machine user in the CDP control plane.
+      required:
+      - machineUser
+      properties:
+        machineUser:
+          $ref: '#/components/schemas/MachineUser'
+          description: The unlocked machine user.
+    ListGroupsForMachineUserResponse:
+      type: object
+      description: Response object for a list groups for machine user request.
+      required:
+      - groupCrns
+      properties:
+        groupCrns:
           type: array
           items:
             type: string
-          description: If the ldaps:// server uses a self-signed SSL certificate or a certificate issued by a private Certificate Authority (CA), then provide the trusted certificates that can be used to validate the LDAP server certificate.
-          x-sensitive: true
-        skipGroupSyncOnLogin:
-          type: boolean
-          description: Whether to skip group sync.
-        startTls:
-          type: boolean
-          description: Whether a start TLS request should be initiated on connecting to ldap.
-    LdapProvider:
+          x-paging-result: true
+          description: The list of groups.
+        nextToken:
+          type: string
+          x-paging-output-token: true
+          description: The token to use when requesting the next set of results. If not present, there are no additional results.
+    SetWorkloadPasswordResponse:
       type: object
-      description: LDAP Provider details.
-      x-private: true
+      description: Response object for a set workload password request.
+    RemoveUserFromGroupRequest:
+      type: object
+      description: Request object for a remove user from group request.
       required:
-      - identityProviderConnectorId
-      - ldapProviderName
-      - crn
-      - creationDate
-      - skipGroupSyncOnLogin
-      properties:
-        identityProviderConnectorId:
-          type: string
-          description: The unique ID of the LDAP provider.
-        ldapProviderName:
-          type: string
-          description: Name of the LDAP provider connector.
-        crn:
-          type: string
-          description: The LDAP provider connector CRN.
-        skipGroupSyncOnLogin:
-          type: boolean
-          description: Indicates whether group sync is skipped or not.
-        creationDate:
-          type: integer
-          format: int64
-          description: The creation date in ms from the java epoch of 1970-01-01T00:00:00Z.
-        ldapDetails:
-          description: The updated LDAP identity provider connector configuration detail. This will be empty in listLdapProvidersResponse.
-          $ref: '#/components/schemas/LdapProviderInfo'
-    UnassignUserResourceRoleRequest:
-      type: object
-      description: Request object for an unassign user role request.
-      required:
-      - user
-      - resourceRoleCrn
-      - resourceCrn
-      properties:
-        user:
-          type: string
-          description: The user to unassign the resource role from.
-        resourceRoleCrn:
-          type: string
-          description: The CRN of the resource role to unassigned from the user.
-        resourceCrn:
-          type: string
-          description: The CRN of the resource for which the resource role rights will be unassigned.
-    SetDefaultIdentityProviderResponse:
-      type: object
-      description: Response object to set the default identity provider.
-    GetUserRequest:
-      type: object
-      description: Request object for a get user request.
+      - userId
+      - groupName
       properties:
         userId:
           type: string
-          description: The ID of the user to get information about. If it is not included, it defaults to the user making the request.
-    DeleteScimAccessTokenRequest:
-      type: object
-      description: Request object to delete the SCIM access token.
-      required:
-      - accessTokenIdOrCrn
-      properties:
-        accessTokenIdOrCrn:
+          description: The ID or CRN of the user to remove from the group.
+        groupName:
           type: string
-          description: The ID or CRN of the SCIM access token.
-    EnableClouderaSSOLoginResponse:
+          description: The name or CRN of the group to remove the user from.
+    ListScimAccessTokensRequest:
       type: object
-      description: Response object for an enable Cloudera SSO login request.
-    ListSshPublicKeysRequest:
-      type: object
-      description: Request object for list SSH public key.
+      description: Request object to list the SCIM access tokens.
+      required:
+      - identityProviderNameOrCrn
       properties:
+        identityProviderNameOrCrn:
+          type: string
+          description: The name or CRN of the identity provider.
+        pageSize:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+          x-paging-page-size: true
+          description: The size of each page.
+        startingToken:
+          type: string
+          x-paging-input-token: true
+          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+    DeleteUserResponse:
+      type: object
+      description: Response object to delete a user.
+      required:
+      - accessKeysDeleted
+      - groupsModified
+      - rolesUnassigned
+      - resourcesUnassigned
+      properties:
+        accessKeysDeleted:
+          type: array
+          items:
+            type: string
+          description: The list of associated access key CRNs that were deleted.
+        groupsModified:
+          type: array
+          items:
+            type: string
+          description: The list of group CRNs from which the user has been removed.
+        rolesUnassigned:
+          type: array
+          items:
+            type: string
+          description: The list of role CRNs unassigned from the user.
+        resourcesUnassigned:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceAssignment'
+          description: The list of resource role assignments that have been unassigned from the user.
+    DeleteGroupRequest:
+      type: object
+      description: Request object for delete group request.
+      required:
+      - groupName
+      properties:
+        groupName:
+          type: string
+          description: The name or CRN of the group to delete.
+    ListSamlProvidersRequest:
+      type: object
+      description: Request object for a list SAML providers request.
+      properties:
+        samlProviderNames:
+          type: array
+          description: The SAML providers names or CRNs to retrieve. If empty all SAML providers will be returned.
+          items:
+            type: string
+            description: The SAML providers names or CRNs to retrieve. If empty all SAML providers will be returned.
+        pageSize:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+          x-paging-page-size: true
+          description: The size of each page.
+        startingToken:
+          type: string
+          x-paging-input-token: true
+          description: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+    DisableClouderaSSOLoginRequest:
+      type: object
+      description: Request object for a disable Cloudera SSO login request.
+    DeleteScimAccessTokenResponse:
+      type: object
+      description: Response object to delete the SCIM access token.
+    CreateLdapProviderResponse:
+      type: object
+      description: Create LDAP provider response
+      x-form-factors: private
+      required:
+      - ldapProvider
+      properties:
+        ldapProvider:
+          description: The created LDAP identity provider connector configuration details.
+          $ref: '#/components/schemas/LdapProvider'
+    ListGroupAssignedRolesResponse:
+      type: object
+      description: Response object for a list group assigned roles request.
+      required:
+      - roleCrns
+      properties:
+        roleCrns:
+          type: array
+          items:
+            type: string
+          x-paging-result: true
+          description: The role CRNs assigned to the group.
+        nextToken:
+          type: string
+          x-paging-output-token: true
+          description: The token to use when requesting the next set of results. If not present, there are no additional results.
+    UnassignGroupResourceRoleRequest:
+      type: object
+      description: Request object for an unassign group resource role request.
+      required:
+      - groupName
+      - resourceRoleCrn
+      - resourceCrn
+      properties:
+        groupName:
+          type: string
+          description: The group to unassign the resource role from.
+        resourceRoleCrn:
+          type: string
+          description: The CRN of the resource role to unassign from the group.
+        resourceCrn:
+          type: string
+          description: The CRN of the resource for which the resource role rights will be unassigned.
+    EnableUserWorkloadPasswordChangedNotificationsRequest:
+      type: object
+      description: Request object to enable user workload password changed notifications.
+    WorkloadPasswordPolicy:
+      type: object
+      description: Information about the workload password policy for an account.
+      required:
+      - maxPasswordLifetimeDays
+      - minPasswordLength
+      - mustIncludeUpperCaseCharacters
+      - mustIncludeLowerCaseCharacters
+      - mustIncludeNumbers
+      - mustIncludeSymbols
+      - minPasswordLifetimeDays
+      - passwordHistorySize
+      properties:
+        maxPasswordLifetimeDays:
+          type: integer
+          format: int32
+          description: The maximum lifetime, in days, of the password. If '0' passwords never expire.
+        minPasswordLength:
+          type: integer
+          format: int32
+          description: The minimum length of a password.
+        mustIncludeUpperCaseCharacters:
+          type: boolean
+          description: Whether passwords must include upper case characters.
+        mustIncludeLowerCaseCharacters:
+          type: boolean
+          description: Whether passwords must include lower case characters.
+        mustIncludeNumbers:
+          type: boolean
+          description: Whether passwords must include numbers.
+        mustIncludeSymbols:
+          type: boolean
+          description: Whether passwords must include symbols. The symbols are '#', '&', '*', '$', '%', '@', '^', '.', '_', and '!'.
+        minPasswordLifetimeDays:
+          type: integer
+          format: int32
+          description: The minimum lifetime of passwords, in days. The password must be used for this duration before it can be changed. If set to '0' the password may be changed any time. The default is 0.
+        passwordHistorySize:
+          type: integer
+          format: int32
+          description: The number of previous passwords that should be remembered. The user or machine user is prevented from reusing these passwords. Can be any number between 0 and 20. The default is 0, this value means all previous passwords may be reused.
+    UnassignMachineUserRoleResponse:
+      type: object
+      description: Response object for an unassign machine user role request.
+    AccessKey:
+      type: object
+      description: Information about a Cloudera CDP access key.
+      required:
+      - accessKeyId
+      - crn
+      - actorCrn
+      - creationDate
+      x-limits:
+      - scope: account
+        value: 200
+        doc: The maximum number of access keys that can be created in an account.
+      properties:
+        accessKeyId:
+          type: string
+          description: The ID of the access key.
+        crn:
+          type: string
+          description: The CRN of the access key.
         actorCrn:
           type: string
-          description: The CRN of the user or machine user to list SSH public keys for. If it is not included, it defaults to the actor making the request.
+          description: The CRN of the actor with which this access key is associated.
+        creationDate:
+          type: string
+          format: date-time
+          description: The date when the access key was created.
+        status:
+          type: string
+          description: The status of an access key.
+          enum:
+          - ACTIVE
+          - INACTIVE
+        type:
+          $ref: '#/components/schemas/AccessKeyType'
+          description: The type of an access key.
+        lastUsage:
+          $ref: '#/components/schemas/AccessKeyLastUsage'
+          description: Information on the last time this access key was used.
+    UpdateUserRequest:
+      type: object
+      description: Request object to update a user.
+      required:
+      - user
+      properties:
+        user:
+          type: string
+          description: The CRN or userId of the user to be updated.
+        active:
+          type: boolean
+          description: The active state to which to set the user. When it is 'true', the user will be activated. When it is 'false' the user will be deactivated.
+    Account:
+      type: object
+      description: Information about a Cloudera CDP account.
+      required:
+      - clouderaSSOLoginEnabled
+      - clouderaSSOAllLoginEnabled
+      - workloadPasswordPolicy
+      properties:
+        clouderaSSOLoginEnabled:
+          type: boolean
+          description: Whether interactive login using Cloudera SSO is enabled for users who are not account administrators. Its default value is 'true'. When it is 'true', the account administrators, as well as non-administrator users can login through Cloudera SSO. When it is 'false', Cloudera SSO users who are not account administrators will not be able to login.
+        clouderaSSOAllLoginEnabled:
+          type: boolean
+          description: Whether login is enabled for Cloudera SSO users. It can only be set by Cloudera upon request and disables interactive login through Cloudera SSO. Note that restricting Cloudera SSO login will prevent account administrators from logging in interactively. Its default value is 'true'. When it is 'true', the Cloudera SSO interactive login behavior is controlled according to the existing `clouderaSSOLoginEnabled` flag. When it is 'false', it overrides the setting for `clouderaSSOLoginEnabled`.
+        workloadPasswordPolicy:
+          $ref: '#/components/schemas/WorkloadPasswordPolicy'
+          description: The workload password policy object.
+        machineUserWorkloadPasswordPolicy:
+          $ref: '#/components/schemas/WorkloadPasswordPolicy'
+          description: The machine user workload password policy object. May be omitted if no such policy was defined.
 x-endpoint-name: iam
 x-products: ALTUS,CDP
 x-form-factors: public,private
