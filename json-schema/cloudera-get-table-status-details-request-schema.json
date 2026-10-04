@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-get-table-status-details-request-schema.json",
+  "title": "GetTableStatusDetailsRequest",
+  "description": "Request object to get the table status details.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-lakehouseopt-api-openapi.yml#/components/schemas/GetTableStatusDetailsRequest",
+  "type": "object",
+  "required": [
+    "datahubCrn",
+    "namespace",
+    "tableName",
+    "policyName",
+    "status"
+  ],
+  "properties": {
+    "datahubCrn": {
+      "type": "string",
+      "description": "The CRN of the CLO Data Hub."
+    },
+    "namespace": {
+      "type": "string",
+      "description": "The namespace."
+    },
+    "tableName": {
+      "type": "string",
+      "description": "The table name."
+    },
+    "policyName": {
+      "type": "string",
+      "description": "The policy name."
+    },
+    "status": {
+      "type": "string",
+      "description": "The table status. It can be UNAVAILABLE, SUCCESS, ERROR, PAUSED. UNAVAILABLE if no tasks ran recently, SUCCESS if recent task got completed successfully, ERROR if recent task has failed, PAUSED if the table is in paused state.",
+      "enum": [
+        "UNAVAILABLE",
+        "SUCCESS",
+        "ERROR",
+        "PAUSED"
+      ],
+      "default": "UNAVAILABLE"
+    }
+  }
+}

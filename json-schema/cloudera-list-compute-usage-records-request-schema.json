@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-list-compute-usage-records-request-schema.json",
+  "title": "ListComputeUsageRecordsRequest",
+  "description": "Request object for ListComputeUsageRecords method.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-consumption-api-openapi.yml#/components/schemas/ListComputeUsageRecordsRequest",
+  "type": "object",
+  "required": [
+    "fromTimestamp",
+    "toTimestamp"
+  ],
+  "properties": {
+    "fromTimestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The beginning timestamp for the search range (inclusive)."
+    },
+    "toTimestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The ending timestamp for the search range (exclusive)."
+    },
+    "pageSize": {
+      "type": "integer",
+      "format": "int32",
+      "minimum": 1,
+      "maximum": 5000,
+      "x-paging-page-size": true,
+      "description": "The page size."
+    },
+    "pageToken": {
+      "type": "string",
+      "x-paging-input-token": true,
+      "description": "A token to specify where to start paginating. This is the nextToken from a previously truncated response."
+    }
+  }
+}

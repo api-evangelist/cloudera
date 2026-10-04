@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-enable-service-request-schema.json",
+  "title": "EnableServiceRequest",
+  "description": "Request object for Enable Service method.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-de-api-openapi.yml#/components/schemas/EnableServiceRequest",
+  "type": "object",
+  "required": [
+    "name",
+    "env",
+    "instanceType",
+    "minimumInstances",
+    "maximumInstances"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the CDE Service."
+    },
+    "env": {
+      "type": "string",
+      "description": "CDP environment where cde service should be enabled."
+    },
+    "instanceType": {
+      "type": "string",
+      "description": "Instance type of the cluster for CDE Service."
+    },
+    "minimumInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Minimum Instances for the CDE Service."
+    },
+    "maximumInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Maximum Instances for the CDE Service."
+    },
+    "minimumSpotInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Minimum Spot instances for the CDE Service."
+    },
+    "maximumSpotInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Maximum Spot Instances for the CDE Service."
+    },
+    "initialInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Initial Instances when the service is enabled."
+    },
+    "initialSpotInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Initial spot Instances when the service is enabled."
+    },
+    "rootVolumeSize": {
+      "type": "integer",
+      "format": "int32",
+      "description": "EBS volume size in GB."
+    },
+    "enablePublicEndpoint": {
+      "type": "boolean",
+      "default": false,
+      "description": "Creates a CDE endpoint (Load Balancer) in a publicly accessible subnet. If set false, the endpoint will be created in a private subnet and you will need to setup access to the endpoint manually in your cloud account."
+    },
+    "deployPreviousVersion": {
+      "type": "boolean",
+      "default": false,
+      "description": "If set to \"true\", the previous version of the CDE service will be deployed."
+    },
+    "enableWorkloadAnalytics": {
+      "type": "boolean",
+      "default": false,
+      "description": "If set false, diagnostic information about job and query execution is sent to Cloudera Workload Manager. Anonymization can be configured under Environments / Shared Resources / Telemetry. Refer documentation for more info at https://docs.cloudera.com/workload-manager/cloud/index.html."
+    },
+    "useSsd": {
+      "type": "boolean",
+      "description": "Instance local storage (SSD) would be used for the workload filesystem (Example - spark local directory). In case the workload requires more space than what's available in the instance storage, please use an instance type with sufficient instance local storage or choose an instance type without SSD and configure the EBS volume size. Currently supported only for aws services."
+    },
+    "chartValueOverrides": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ChartValueOverridesRequest"
+      },
+      "description": "Chart overrides for enabling a service."
+    },
+    "whitelistIps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of CIDRs that would be allowed to access kubernetes master API server."
+    },
+    "loadbalancerAllowlist": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of CIDRs that would be allowed to access the load balancer."
+    },
+    "tags": {
+      "type": "object",
+      "description": "User defined labels that tag all provisioned cloud resources.",
+      "additionalProperties": {
+        "type": "string",
+        "description": "User defined labels that tag all provisioned cloud resources."
+      }
+    },
+    "skipValidation": {
+      "type": "boolean",
+      "description": "Skip Validation check.",
+      "default": false
+    },
+    "enablePrivateNetwork": {
+      "type": "boolean",
+      "description": "Create a fully private CDE instance on either Amazon or Azure. This includes services such as Kubernetes, MySQL, etc. For Azure, this will also enable virtual network (VNet) access via private endpoints and private link."
+    },
+    "subnets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of Subnet IDs of CDP subnets to use for the kubernetes worker node."
+    },
+    "azureFilesharePrivateDNSZoneId": {
+      "type": "string",
+      "description": "Resource ID of custom private DNS zone for Azure storage account."
+    },
+    "azureDatabasePrivateDNSZoneId": {
+      "type": "string",
+      "description": "Resource ID of the custom private DNS zone associated with the Azure database."
+    },
+    "customAzureFilesConfigs": {
+      "$ref": "#/$defs/CustomAzureFilesConfigs",
+      "description": "CDE uses a default public File Shares storage provisioned by AKS. Enable this option to use your own public/private File Shares."
+    },
+    "networkOutboundType": {
+      "type": "string",
+      "enum": [
+        "UDR"
+      ],
+      "description": "Network outbound type. Currently 'udr' is the only supported."
+    },
+    "allPurposeInstanceType": {
+      "type": "string",
+      "description": "Instance type of the cluster for CDE Service for the All Purpose Instance Group."
+    },
+    "allPurposeMinimumInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Minimum Instances for the CDE Service for the All Purpose Instance Group."
+    },
+    "allPurposeMaximumInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Maximum Instances for the CDE Service for the All Purpose Instance Group."
+    },
+    "allPurposeMinimumSpotInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Minimum Spot instances for the CDE Service for the All Purpose Instance Group."
+    },
+    "allPurposeMaximumSpotInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Maximum Spot Instances for the CDE Service for the All Purpose Instance Group."
+    },
+    "allPurposeInitialInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Initial Instances when the service is enabled for the All Purpose Instance Group."
+    },
+    "allPurposeInitialSpotInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Initial spot Instances when the service is enabled for the All Purpose Instance Group."
+    },
+    "allPurposeRootVolumeSize": {
+      "type": "integer",
+      "format": "int32",
+      "description": "EBS volume size in GB for the All Purpose Instance Group."
+    },
+    "disableArm64": {
+      "type": "boolean",
+      "description": "When set to true, disables ARM64 (Graviton) instances for the CDE service database. When set to false (default), Graviton instances may be used for the database. If Graviton instances are not available, the system falls back to x86."
+    },
+    "azureServiceManagedIdentity": {
+      "type": "string",
+      "description": "Azure managed identity resource ID for service."
+    },
+    "azureVirtualClusterManagedIdentities": {
+      "type": "string",
+      "description": "Azure managed identity resource IDs for virtual cluster."
+    }
+  },
+  "$defs": {
+    "ChartValueOverridesRequest": {
+      "type": "object",
+      "properties": {
+        "chartName": {
+          "type": "string",
+          "description": "Name of the chart that has to be overridden, for eg- \"dex-app\", \"dex-base\"."
+        },
+        "overrides": {
+          "type": "string",
+          "description": "Space separated key-value pairs for overriding chart values. The key and the value must be separated using a colon(:) For eg- \"airflow.enabled:true safari.enabled:true\"."
+        }
+      },
+      "description": "Object containing chart value overrides for enabling a CDE service or creation of virtual clusters."
+    },
+    "CustomAzureFilesConfigs": {
+      "type": "object",
+      "description": "Override Azure Files Configs.",
+      "required": [
+        "storageAccountName",
+        "resourceGroup"
+      ],
+      "properties": {
+        "storageAccountName": {
+          "type": "string",
+          "description": "Azure Storage Account of the File Share."
+        },
+        "resourceGroup": {
+          "type": "string",
+          "description": "Resource Group of the Storage Account."
+        },
+        "azureFilesFQDN": {
+          "type": "string",
+          "description": "Azure File Share's server address. Defaults to '<storageaccount>.file.core.windows.net'."
+        }
+      }
+    }
+  }
+}

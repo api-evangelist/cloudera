@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-update-ldap-provider-request-schema.json",
+  "title": "UpdateLdapProviderRequest",
+  "description": "Update LDAP Provider for account.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-iam-api-openapi.yml#/components/schemas/UpdateLdapProviderRequest",
+  "type": "object",
+  "x-form-factors": "private",
+  "required": [
+    "ldapProviderName",
+    "url",
+    "userSearchBase",
+    "userSearchFilter",
+    "groupSearchBase",
+    "groupSearchFilter",
+    "usernameMappingAttribute"
+  ],
+  "properties": {
+    "ldapProviderName": {
+      "type": "string",
+      "description": "The name or CRN of LDAP provider to update."
+    },
+    "url": {
+      "type": "string",
+      "description": "The URL of the LDAP server. The URL must be prefixed with ldap:// or ldaps://. The URL can optionally specify a custom port, for example ldaps://ldap.example.org:663."
+    },
+    "userSearchBase": {
+      "type": "string",
+      "description": "Part of the directory tree under which to search for users. For example, ou=users,dc=example,dc=org."
+    },
+    "userSearchFilter": {
+      "type": "string",
+      "description": "The search filter to use for finding users. For example, (uid={{username}})."
+    },
+    "groupSearchBase": {
+      "type": "string",
+      "description": "The distinguished name indicating the path within the directory information tree to begin user searches from. For example, ou=groups,dc=example,dc=com."
+    },
+    "groupSearchFilter": {
+      "type": "string",
+      "description": "The search filter to use for finding groups for authorization of authenticated users."
+    },
+    "usernameMappingAttribute": {
+      "type": "string",
+      "description": "The LDAP displayName attribute name, will be used as the user's name. For example, uid, sAMAccountName."
+    },
+    "bindDn": {
+      "type": "string",
+      "description": "Bind DN. For example, uid=myapp,ou=users,dc=example,dc=org.Optional. It is required if bind is not anonymous."
+    },
+    "bindPassword": {
+      "type": "string",
+      "description": "The password of the bind user.",
+      "x-sensitive": true
+    },
+    "userBindProperty": {
+      "type": "string",
+      "description": "Property of the LDAP user object to use when binding to verify the password. For example, dn."
+    },
+    "groupDnProperty": {
+      "type": "string",
+      "description": "The property of user object to use in {{dn}} interpolation of groupSearchFilter."
+    },
+    "emailMappingAttribute": {
+      "type": "string",
+      "description": "The LDAP email attribute name, will be used as the user's email. For example, mail."
+    },
+    "firstNameMappingAttribute": {
+      "type": "string",
+      "description": "The LDAP attribute used as firstname , will be used as the user's firstname. For example, givenName."
+    },
+    "lastNameMappingAttribute": {
+      "type": "string",
+      "description": "The LDAP sn attribute name, will be used as the user's lastname. For example, sn."
+    },
+    "groupNameMappingAttribute": {
+      "type": "string",
+      "description": "The LDAP group attribute name, will be used for user's group. For example, cn, name."
+    },
+    "tlsCaCertificates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "If the ldaps:// server uses a self-signed SSL certificate or a certificate issued by a private Certificate Authority (CA), you need to provide the trusted certificates that can be used to validate the LDAP server certificate.",
+      "x-sensitive": true
+    },
+    "skipGroupSyncOnLogin": {
+      "type": "boolean",
+      "description": "Whether to skip syncing groups."
+    },
+    "startTls": {
+      "type": "boolean",
+      "description": "Whether a start TLS request should be initiated on connect."
+    }
+  }
+}

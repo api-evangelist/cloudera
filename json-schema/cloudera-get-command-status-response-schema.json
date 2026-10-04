@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-get-command-status-response-schema.json",
+  "title": "GetCommandStatusResponse",
+  "description": "Response object for get command status.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-replicationmanager-api-openapi.yml#/components/schemas/GetCommandStatusResponse",
+  "type": "object",
+  "required": [
+    "commandId"
+  ],
+  "properties": {
+    "commandId": {
+      "description": "Id of the CM command.",
+      "format": "int64",
+      "type": "integer"
+    },
+    "success": {
+      "description": "Whether the diagnostic collection is successful.",
+      "type": "boolean"
+    },
+    "active": {
+      "description": "Whether the command is still active.",
+      "type": "boolean"
+    },
+    "name": {
+      "description": "Name of the policy.",
+      "type": "string"
+    },
+    "startTime": {
+      "description": "Start time of the CM command.",
+      "type": "string"
+    },
+    "endTime": {
+      "description": "End time of the CM command.",
+      "type": "string"
+    },
+    "resultDataUrl": {
+      "description": "Some commands have result data URL for downloading the diagnostic bundle. On certain CM versions the bundle download is only available through this URL, but not with download-diagnostic-bundle operation.",
+      "type": "string"
+    },
+    "resultMessage": {
+      "description": "Result message of the command.",
+      "type": "string"
+    },
+    "bundleStatus": {
+      "description": "The current status of the command.",
+      "type": "string",
+      "enum": [
+        "IN_PROGRESS",
+        "DOWNLOADABLE_WITH_URL",
+        "DOWNLOADABLE_WITH_CLI",
+        "FAILED"
+      ]
+    },
+    "bundleStatusMessage": {
+      "description": "Further information about the current command status.",
+      "type": "string"
+    }
+  }
+}

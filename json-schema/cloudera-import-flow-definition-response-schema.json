@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-import-flow-definition-response-schema.json",
+  "title": "ImportFlowDefinitionResponse",
+  "description": "Response object for ImportFlowDefinition",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-df-api-openapi.yml#/components/schemas/ImportFlowDefinitionResponse",
+  "type": "object",
+  "required": [
+    "crn",
+    "name",
+    "versionCount"
+  ],
+  "properties": {
+    "crn": {
+      "type": "string",
+      "description": "The artifact CRN"
+    },
+    "name": {
+      "type": "string",
+      "description": "The artifact name."
+    },
+    "versionCount": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The number of versions uploaded to the catalog."
+    },
+    "createdTimestamp": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The created timestamp."
+    },
+    "author": {
+      "type": "string",
+      "description": "Author of the most recent version"
+    },
+    "description": {
+      "type": "string",
+      "description": "The artifact description."
+    },
+    "modifiedTimestamp": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The modified timestamp."
+    },
+    "versions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/FlowVersion"
+      },
+      "description": "The list of artifactDetail versions"
+    },
+    "collectionName": {
+      "type": "string",
+      "description": "The collection name."
+    },
+    "collectionCrn": {
+      "type": "string",
+      "description": "The collection CRN."
+    }
+  },
+  "$defs": {
+    "FlowVersion": {
+      "type": "object",
+      "description": "A representation of a flow detail version",
+      "required": [
+        "crn"
+      ],
+      "properties": {
+        "crn": {
+          "type": "string",
+          "description": "The flow version CRN"
+        },
+        "bucketIdentifier": {
+          "type": "string",
+          "description": "The bucketIdentifier of the flow"
+        },
+        "author": {
+          "type": "string",
+          "description": "The author of the flow"
+        },
+        "version": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The version of the flow"
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The timestamp of the flow"
+        },
+        "deploymentCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of deployments of the flow"
+        },
+        "comments": {
+          "type": "string",
+          "description": "Comments about the flow"
+        },
+        "draftCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of draft flows associated with the version."
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowVersionTag"
+          },
+          "description": "The list of tags associated with the flow version."
+        }
+      }
+    },
+    "FlowVersionTag": {
+      "type": "object",
+      "description": "A representation of an artifact version tag.",
+      "required": [
+        "tagName"
+      ],
+      "properties": {
+        "tagName": {
+          "type": "string",
+          "description": "The name of the version tag."
+        },
+        "tagColor": {
+          "type": "string",
+          "description": "The color of the version tag (optional)."
+        }
+      }
+    }
+  }
+}

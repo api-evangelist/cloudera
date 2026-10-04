@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-upgrade-deployment-response-schema.json",
+  "title": "UpgradeDeploymentResponse",
+  "description": "Response structure for upgrading a deployment.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-compute-api-openapi.yml#/components/schemas/UpgradeDeploymentResponse",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the deployment."
+    },
+    "namespace": {
+      "type": "string",
+      "description": "The namespace of the deployment."
+    },
+    "revision": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Helm revision."
+    },
+    "message": {
+      "type": "string",
+      "description": "A message returned about the status of the upgrade operation."
+    },
+    "status": {
+      "type": "string",
+      "description": "Status of the deployment. Currently supported values are UNKNOWN, DEPLOYED, UNINSTALLED, SUPERSEDED, FAILED, PENDING-INSTALL, PENDING-UPGRADE and PENDING-ROLLBACK. New values may be added in the future."
+    },
+    "chart": {
+      "description": "Chart that the deployment was created from.",
+      "$ref": "#/$defs/Chart"
+    }
+  },
+  "$defs": {
+    "Chart": {
+      "type": "object",
+      "description": "Chart structure.",
+      "properties": {
+        "applicationVersion": {
+          "type": "string",
+          "description": "The version (usually of the images) of the components being deployed."
+        },
+        "deploymentVersion": {
+          "type": "string",
+          "description": "The version of this chart (which is not the version of the components being deployed)."
+        },
+        "description": {
+          "type": "string",
+          "description": "The chart description."
+        },
+        "name": {
+          "type": "string",
+          "description": "The chart name."
+        },
+        "values": {
+          "type": "string",
+          "description": "Escaped JSON for values.yaml of that chart."
+        }
+      }
+    }
+  }
+}

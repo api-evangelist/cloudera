@@ -51,8 +51,8 @@ Recommended starting points for new users, covering the main deployment models f
 - [cfm-operator 3.3.0](https://docs.cloudera.com/cfm-operator/3.3.0/llms.txt)
 - [cloudera-manager-ibm 7.2.3](https://docs.cloudera.com/cloudera-manager-ibm/7.2.3/llms.txt)
 - [cloudera-migration-assistant 4.1](https://docs.cloudera.com/cloudera-migration-assistant/4.1/llms.txt)
-- [csa 1.17.0](https://docs.cloudera.com/csa/1.17.0/llms.txt)
-- [csa-operator 1.5](https://docs.cloudera.com/csa-operator/1.5/llms.txt)
+- [csa 1.18.0](https://docs.cloudera.com/csa/1.18.0/llms.txt)
+- [csa-operator 1.6](https://docs.cloudera.com/csa-operator/1.6/llms.txt)
 - [csm-operator 1.7](https://docs.cloudera.com/csm-operator/1.7/llms.txt)
 - [data-catalog 1.5.5](https://docs.cloudera.com/data-catalog/1.5.5/llms.txt)
 - [data-engineering 1.5.5](https://docs.cloudera.com/data-engineering/1.5.5/llms.txt)
@@ -132,6 +132,7 @@ Recommended starting points for new users, covering the main deployment models f
 
 ### csa
 
+- [1.17.0](https://docs.cloudera.com/csa/1.17.0/llms.txt)
 - [1.16.1](https://docs.cloudera.com/csa/1.16.1/llms.txt)
 - [1.16.0](https://docs.cloudera.com/csa/1.16.0/llms.txt)
 - [1.15.2](https://docs.cloudera.com/csa/1.15.2/llms.txt)
@@ -146,6 +147,7 @@ Recommended starting points for new users, covering the main deployment models f
 
 ### csa-operator
 
+- [1.5](https://docs.cloudera.com/csa-operator/1.5/llms.txt)
 - [1.4](https://docs.cloudera.com/csa-operator/1.4/llms.txt)
 - [1.3](https://docs.cloudera.com/csa-operator/1.3/llms.txt)
 

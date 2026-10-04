@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-delete-policy-request-schema.json",
+  "title": "DeletePolicyRequest",
+  "description": "Request object specifying the policy and resource scope for deletion.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-lakehouseopt-api-openapi.yml#/components/schemas/DeletePolicyRequest",
+  "type": "object",
+  "required": [
+    "datahubCrn",
+    "policyName",
+    "resourceScope"
+  ],
+  "properties": {
+    "datahubCrn": {
+      "type": "string",
+      "description": "The CRN of the CLO Data Hub."
+    },
+    "policyName": {
+      "type": "string",
+      "description": "Policy name that needs to be deleted. The version is identified through the resource."
+    },
+    "resourceScope": {
+      "type": "string",
+      "description": "Represents the hierarchical level (<catalog>.<namespace>.<table>) at which a policy is defined and needs to be deleted. Give `*` for catalog level and `catalog.namespace.*` for namespace level."
+    }
+  }
+}

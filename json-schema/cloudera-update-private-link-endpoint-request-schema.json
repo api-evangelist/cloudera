@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-update-private-link-endpoint-request-schema.json",
+  "title": "UpdatePrivateLinkEndpointRequest",
+  "description": "Request object for the UpdatePrivateLinkEndpoints method.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-cloudprivatelinks-api-openapi.yml#/components/schemas/UpdatePrivateLinkEndpointRequest",
+  "type": "object",
+  "properties": {
+    "cloudServiceProvider": {
+      "description": "Cloud Service Provider. Currently supporting AWS and AZURE.",
+      "$ref": "#/$defs/CloudServiceProvider"
+    },
+    "awsAccountInfo": {
+      "description": "AWS account information in which the private endpoint is already created.",
+      "$ref": "#/$defs/AWSAccountInfo"
+    },
+    "azureAccountInfo": {
+      "description": "Azure account information in which the private endpoint is already created.",
+      "$ref": "#/$defs/AzureAccountInfo"
+    },
+    "subnetIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "New subnet IDs to be applied during the private endpoint update."
+    },
+    "resourceTags": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ResourceTag"
+      },
+      "description": "New tags that are to be applied during the private endpoint update."
+    },
+    "updateOperation": {
+      "description": "Update operation to perform - APPEND/REPLACE subnet IDs.",
+      "$ref": "#/$defs/UpdateOperation"
+    },
+    "resourceGroup": {
+      "type": "string",
+      "description": "The resource group in which the private endpoint is already created."
+    }
+  },
+  "$defs": {
+    "AWSAccountInfo": {
+      "type": "object",
+      "description": "Details of the cloud network and the cross-account role required to delete the Private Link endpoint.",
+      "properties": {
+        "crossAccountRoleDetails": {
+          "description": "Cross account role details.",
+          "$ref": "#/$defs/CrossAccountRoleDetails"
+        },
+        "credentialCrn": {
+          "type": "string",
+          "description": "CDP Credential CRN to fetch the AWS cross-account roleArn for the account where the endpoint gets deleted."
+        },
+        "region": {
+          "type": "string",
+          "description": "Region in which VPC exists."
+        },
+        "vpcId": {
+          "type": "string",
+          "description": "VPC ID in which the vpc endpoint should be deleted."
+        }
+      }
+    },
+    "AzureAccountInfo": {
+      "type": "object",
+      "description": "Details of the cloud network and the cross-account role required to delete the Private Link endpoint.",
+      "properties": {
+        "azureClientSecretCredential": {
+          "description": "Azure client secret credential, either this or credential CRN should be passed.",
+          "$ref": "#/$defs/AzureClientSecretCredential"
+        },
+        "credentialCrn": {
+          "type": "string",
+          "description": "CDP Credential CRN to fetch the Azure client secret credentials, either this or AzureClientSecretCredential should be passed."
+        },
+        "location": {
+          "type": "string",
+          "description": "Region in which VPC exists."
+        },
+        "vNetId": {
+          "type": "string",
+          "description": "vNet ID in which the Private Link should be created."
+        }
+      }
+    },
+    "AzureClientSecretCredential": {
+      "type": "object",
+      "description": "Azure client secret credential, either this or credential CRN should be passed.",
+      "properties": {
+        "clientId": {
+          "type": "string",
+          "description": "The client (application) ID of the service principal"
+        },
+        "clientSecret": {
+          "type": "string",
+          "description": "A client secret that was generated for the App Registration used to authenticate the client."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "The Azure Active Directory tenant (directory) Id of the service principal."
+        }
+      }
+    },
+    "CloudServiceProvider": {
+      "type": "string",
+      "description": "Supported cloud providers\n `AWS` - A value indicating AWS as supported cloud provider for creating Private Links. `AZURE` - A value indicating Azure as supported cloud provider for creating Private Links.",
+      "enum": [
+        "AWS",
+        "AZURE"
+      ]
+    },
+    "CrossAccountRoleDetails": {
+      "type": "object",
+      "description": "Customer cross account role details.",
+      "properties": {
+        "crossAccountRole": {
+          "type": "string",
+          "description": "Cross-account role."
+        },
+        "externalId": {
+          "type": "string",
+          "description": "External ID associated with the cross-account role."
+        }
+      }
+    },
+    "ResourceTag": {
+      "type": "object",
+      "description": "Tag object which can be passed to add custom tags for the cloud resources.",
+      "required": [
+        "key",
+        "value"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Key value for the tag."
+        },
+        "value": {
+          "type": "string",
+          "description": "Value for the tag."
+        }
+      }
+    },
+    "UpdateOperation": {
+      "type": "string",
+      "description": "Update Operation to be performed.\n `APPEND` - Append operation - provided subnet IDs are appended. This is taken as default. `REPLACE` - Replace operation - provided subnet IDs replaces the existing ones.",
+      "enum": [
+        "APPEND",
+        "REPLACE"
+      ]
+    }
+  }
+}

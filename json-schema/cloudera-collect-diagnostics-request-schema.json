@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-collect-diagnostics-request-schema.json",
+  "title": "CollectDiagnosticsRequest",
+  "description": "Enables starting collection of the diagnostics. This is an asynchronous API and not expected to block.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-opdb-api-openapi.yml#/components/schemas/CollectDiagnosticsRequest",
+  "type": "object",
+  "required": [
+    "environmentName",
+    "databaseName",
+    "endTime"
+  ],
+  "properties": {
+    "environmentName": {
+      "type": "string",
+      "description": "The name of the environment."
+    },
+    "databaseName": {
+      "type": "string",
+      "description": "The name of the database."
+    },
+    "endTime": {
+      "type": "string",
+      "description": "The end time (in ISO 8601 format) of the period to collection statistics for."
+    },
+    "startTime": {
+      "type": "string",
+      "description": "The start time (in ISO 8601 format) of the period to collection statistics for."
+    },
+    "destination": {
+      "description": "This defines where to put the resulting bundle.",
+      "$ref": "#/$defs/DiagnosticDestination"
+    },
+    "caseNumber": {
+      "type": "string",
+      "description": "The CSH case number to associate the bundle."
+    },
+    "bundleSizeBytes": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Bundle size limit."
+    }
+  },
+  "$defs": {
+    "DiagnosticDestination": {
+      "type": "string",
+      "description": "Destination of the created diagnostics bundle.",
+      "enum": [
+        "UPLOAD_TO_CLOUDERA",
+        "DOWNLOAD"
+      ]
+    }
+  }
+}

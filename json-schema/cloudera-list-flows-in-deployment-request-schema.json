@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-list-flows-in-deployment-request-schema.json",
+  "title": "ListFlowsInDeploymentRequest",
+  "description": "A request to list the flows in a deployment.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-df-api-openapi.yml#/components/schemas/ListFlowsInDeploymentRequest",
+  "type": "object",
+  "required": [
+    "deploymentCrn"
+  ],
+  "properties": {
+    "deploymentCrn": {
+      "type": "string",
+      "description": "The deployment CRN to list flows for."
+    },
+    "pageSize": {
+      "type": "integer",
+      "format": "int32",
+      "minimum": 1,
+      "maximum": 100,
+      "x-paging-page-size": true,
+      "description": "The page size."
+    },
+    "startingToken": {
+      "type": "string",
+      "x-paging-input-token": true,
+      "description": "The token pointing to the next element to be retrieved."
+    },
+    "sorts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The sort criteria (updated|name|state):(asc|desc) e.g., name:asc."
+    },
+    "filters": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The filter criteria (see list-filter-options)."
+    },
+    "searchTerm": {
+      "type": "string",
+      "description": "A search term by which to filter the name field."
+    }
+  }
+}

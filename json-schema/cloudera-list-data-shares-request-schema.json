@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-list-data-shares-request-schema.json",
+  "title": "ListDataSharesRequest",
+  "description": "List Data Shares request.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-data-catalog-api-openapi.yml#/components/schemas/ListDataSharesRequest",
+  "type": "object",
+  "required": [
+    "datalakeCrn",
+    "environmentCrn"
+  ],
+  "properties": {
+    "datalakeCrn": {
+      "type": "string",
+      "description": "The CRN of the Data Lake where the Data Share is located."
+    },
+    "environmentCrn": {
+      "type": "string",
+      "description": "The CRN of the Environment where the Data Share is located."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the Data Share."
+    },
+    "pageSize": {
+      "type": "integer",
+      "format": "int32",
+      "minimum": 1,
+      "maximum": 100,
+      "x-paging-page-size": true,
+      "description": "The size of each page."
+    },
+    "startingToken": {
+      "type": "string",
+      "x-paging-input-token": true,
+      "description": "A token to specify where to start paginating. This is the nextToken from a previously truncated response."
+    }
+  }
+}

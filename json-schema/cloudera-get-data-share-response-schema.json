@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-get-data-share-response-schema.json",
+  "title": "GetDataShareResponse",
+  "description": "Response of the Get Data Share operation.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-data-catalog-api-openapi.yml#/components/schemas/GetDataShareResponse",
+  "type": "object",
+  "properties": {
+    "dataShareId": {
+      "type": "string",
+      "description": "The unique identifier of the Data Share."
+    },
+    "dataShareName": {
+      "type": "string",
+      "description": "The name of the Data Share."
+    },
+    "isShared": {
+      "type": "boolean",
+      "description": "Indicates whether the Data Share is in Shared state or not."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the Data Share was created."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time  when the Data Share was last updated."
+    },
+    "createdBy": {
+      "type": "string",
+      "description": "The CDP user who created the Data Share."
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of keywords associated with the Data Share."
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of the Atlas tags associated with the Data Share."
+    },
+    "expiryTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the Data Share will expire."
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/AssetResponse"
+      },
+      "description": "List of assets included in the Data Share."
+    },
+    "externalUsers": {
+      "type": "array",
+      "description": "List of external users granted access to the Data Share.",
+      "items": {
+        "$ref": "#/$defs/DataShareExternalUser"
+      }
+    },
+    "summary": {
+      "type": "string",
+      "description": "A brief summary of the Data Share."
+    },
+    "termsOfUse": {
+      "type": "string",
+      "description": "The terms of use for the Data Share."
+    }
+  },
+  "$defs": {
+    "AssetResponse": {
+      "type": "object",
+      "description": "Details of an asset to be included in the Data Share.",
+      "properties": {
+        "resourceId": {
+          "type": "string",
+          "description": "The unique identifier of the resource."
+        },
+        "guid": {
+          "type": "string",
+          "description": "The unique identifier of the asset (asset guid from the Atlas)."
+        },
+        "createTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when the asset was created."
+        },
+        "createdBy": {
+          "type": "string",
+          "description": "The user who created the asset."
+        },
+        "updateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when the asset was last updated."
+        },
+        "updatedBy": {
+          "type": "string",
+          "description": "The user who last updated the asset."
+        },
+        "databaseName": {
+          "type": "string",
+          "description": "The name of the database containing the asset."
+        },
+        "tableName": {
+          "type": "string",
+          "description": "The name of the table containing the asset."
+        },
+        "columns": {
+          "type": "array",
+          "description": "List of columns in the asset (default all is included).",
+          "items": {
+            "type": "string",
+            "description": "Name of the column."
+          }
+        }
+      }
+    },
+    "DataShareExternalUser": {
+      "type": "object",
+      "description": "Details of an external user with access to a Data Share.",
+      "properties": {
+        "userId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The unique identifier of the external user."
+        },
+        "username": {
+          "type": "string",
+          "description": "The username of the external user."
+        },
+        "clientId": {
+          "type": "string",
+          "description": "The Client ID of the external user that will be used for authentication."
+        },
+        "companyName": {
+          "type": "string",
+          "description": "The company name of the external user."
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of permissions granted to the external user for the Data Share."
+        },
+        "sharedOn": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when the Data Share was shared with the external user."
+        },
+        "validTill": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when the access of Data Share will expire for the external user."
+        }
+      }
+    }
+  }
+}

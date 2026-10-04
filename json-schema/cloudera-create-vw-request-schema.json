@@ -1,0 +1,541 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-create-vw-request-schema.json",
+  "title": "CreateVwRequest",
+  "description": "Request object for the createVw method.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-dw-api-openapi.yml#/components/schemas/CreateVwRequest",
+  "type": "object",
+  "required": [
+    "clusterId",
+    "dbcId",
+    "vwType",
+    "name"
+  ],
+  "properties": {
+    "clusterId": {
+      "type": "string",
+      "description": "ID of cluster where Virtual Warehouse should be created."
+    },
+    "dbcId": {
+      "type": "string",
+      "description": "ID of Database Catalog that the Virtual Warehouse should be attached to."
+    },
+    "vwType": {
+      "description": "Type of Virtual Warehouse to be created.",
+      "$ref": "#/$defs/VwType"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the Virtual Warehouse."
+    },
+    "instanceType": {
+      "x-form-factors": "public",
+      "type": "string",
+      "description": "Instance type for this Virtual Warehouse. To learn what instance types are allowed to be used for a Hive or an Impala Virtual Warehouse, please use the 'describe-allowed-instance-types' command. The command output will list the usable instance types in its 'hive' and 'impala' fields accordingly."
+    },
+    "imageVersion": {
+      "type": "string",
+      "description": "version of the Virtual Warehouse.",
+      "default": "",
+      "x-form-factors": "public"
+    },
+    "tShirtSize": {
+      "type": "string",
+      "description": "Name of T-shirt size to use, which will determine the number of nodes.",
+      "enum": [
+        "xsmall",
+        "small",
+        "medium",
+        "large",
+        "waa"
+      ]
+    },
+    "nodeCount": {
+      "type": "integer",
+      "format": "int32",
+      "default": 0,
+      "description": "Nodes per compute cluster. If specified, forces 'template' to be 'custom'"
+    },
+    "availabilityZone": {
+      "type": "string",
+      "description": "This feature works only for AWS cluster type. An availability zone to host compute instances. If not specified, defaults to a randomly selected availability zone inferred from available subnets. In order to query possible options, see \"availabilityZones\" field of describe-cluster or list-clusters command response."
+    },
+    "impalaOptions": {
+      "description": "Impala specific options. It cannot be provided for Virtual Warehouse types other than Impala.",
+      "$ref": "#/$defs/ImpalaOptionsCreateRequest"
+    },
+    "impalaHaSettings": {
+      "description": "High Availability settings for the Impala Virtual Warehouse. NOTE that in --autoscaling object you should avoid using the same deprecated properties because only the --impala-ha-setting properties will be considered if any of its values are set.",
+      "$ref": "#/$defs/ImpalaHASettingsCreateRequest"
+    },
+    "autoscaling": {
+      "description": "Autoscaling settings for the Virtual Warehouse.",
+      "$ref": "#/$defs/AutoscalingOptionsCreateRequest"
+    },
+    "config": {
+      "description": "Configuration settings for the Virtual Warehouse.",
+      "$ref": "#/$defs/ServiceConfigReq"
+    },
+    "queryIsolationOptions": {
+      "description": "Query isolation settings for the Virtual Warehouse. For Impala this value will be considered only if Unified Analytics is enabled.",
+      "$ref": "#/$defs/QueryIsolationOptionsRequest"
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags associated with the resources.",
+      "items": {
+        "$ref": "#/$defs/TagRequest"
+      }
+    },
+    "resourcePool": {
+      "type": "string",
+      "description": "The Resource Pool of the Virtual Warehouse.",
+      "x-form-factors": "private"
+    },
+    "additionalQuota": {
+      "x-form-factors": "private",
+      "$ref": "#/$defs/QuotaRequest",
+      "description": "Setting the quota for the 3rd party services injected into the Virtual Warehouse namespace."
+    },
+    "hiveAuthenticationMode": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "x-deprecated": true,
+      "x-form-factors": "private",
+      "description": "DEPRECATED - Sets the authentication mode to use by Hive Server: * `LDAP` * `KERBEROS` Default: `LDAP` if not specified"
+    },
+    "platformJwtAuth": {
+      "type": "boolean",
+      "default": false,
+      "description": "Value of 'true' automatically configures the Virtual Warehouse to support JWTs issues by the CDP JWT token provider.  Value of 'false' does not enable JWT auth on the Virtual Warehouse.  If this field is not specified, it defaults to 'false'."
+    },
+    "impalaQueryLog": {
+      "type": "boolean",
+      "x-form-factors": "public",
+      "description": "Denotes whether the Virtual Warehouse has the Impala Query Log enabled or not."
+    },
+    "logHiveQueries": {
+      "x-form-factors": "private",
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": "Denotes whether the Hive Virtual Warehouse stores Hive query information for all completed queries in the sys.query_history system table. You can query this table using SQL to monitor and optimize the Hive engine."
+    },
+    "ebsLLAPSpillGB": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Provides EBS gp3 volume as temporary storage space for Hive LLAP cache, and improves query performance. Configurable only at Virtual Warehouse creation. Using EBS volumes incurs additional costs."
+    },
+    "hiveServerHaMode": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "x-form-factors": "private",
+      "description": "Set Hive Server High Availability mode in Private Cloud: * `DISABLED` (default) - Disables Hive Server high availability. * `ACTIVE_PASSIVE` - Runs two Hive Server instances, one active and one passive. Hive session failover is not supported in this setup."
+    }
+  },
+  "$defs": {
+    "ApplicationConfigReq": {
+      "type": "object",
+      "description": "Configurations for an application inside a service.",
+      "properties": {
+        "configBlocks": {
+          "type": "array",
+          "description": "List of ConfigBlocks for the application.",
+          "items": {
+            "$ref": "#/$defs/ConfigBlockReq"
+          }
+        }
+      }
+    },
+    "AutoscalingOptionsCreateRequest": {
+      "type": "object",
+      "description": "Auto-scaling configuration for a Virtual Warehouse.",
+      "properties": {
+        "minClusters": {
+          "type": "integer",
+          "format": "int32",
+          "default": 1,
+          "description": "Sets the minimum number of Executor Groups."
+        },
+        "maxClusters": {
+          "type": "integer",
+          "format": "int32",
+          "default": 5,
+          "description": "Sets the maximum number of Executor Groups the Virtual Warehouse can scale up to. This value defines the upper boundary for autoscaling. The total node capacity is determined by this number multiplied by the number of nodes in the selected `--t-shirt-size`. NOTE: On Azure, all IPs for the maximum node count are pre-allocated. If you use the same `--instance-type` for multiple Virtual Warehouses, they will share the same underlying nodepool and its limit is calculated as the sum of all nodes required by the corresponding Virtual Warehouses."
+        },
+        "disableAutoSuspend": {
+          "type": "boolean",
+          "description": "Turn off auto suspend for Virtual Warehouse."
+        },
+        "autoSuspendTimeoutSeconds": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Auto suspend threshold for Virtual Warehouse."
+        },
+        "hiveScaleWaitTimeSeconds": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Set wait time before a scale event happens. Either \"hiveScaleWaitTimeSeconds\" or \"hiveDesiredFreeCapacity\" can be provided."
+        },
+        "hiveDesiredFreeCapacity": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Set Desired free capacity. Either \"hiveScaleWaitTimeSeconds\" or \"hiveDesiredFreeCapacity\" can be provided."
+        },
+        "impalaHighAvailabilityMode": {
+          "x-deprecated": true,
+          "type": "string",
+          "enum": [
+            "ACTIVE_PASSIVE",
+            "ACTIVE_ACTIVE",
+            "DISABLED"
+          ],
+          "description": "DEPRECATED in favor of the top level impalaHASettings object. Set High Availability mode. If not provided the default will apply. This value is disregarded for Hive."
+        },
+        "impalaScaleUpDelaySeconds": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Scale up the scaling up threshold in seconds. If not provided defaults will apply."
+        },
+        "impalaScaleDownDelaySeconds": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Scale down threshold in seconds. If not provided defaults will apply."
+        },
+        "impalaEnableShutdownOfCoordinator": {
+          "x-deprecated": true,
+          "type": "boolean",
+          "description": "DEPRECATED: in favor of the top level impalaHASettings object. Enables a shutdown of the coordinator."
+        },
+        "impalaShutdownOfCoordinatorDelaySeconds": {
+          "x-deprecated": true,
+          "type": "integer",
+          "format": "int32",
+          "description": "DEPRECATED in favor of the top level impalaHASettings object. Delay in seconds before the shutdown of coordinator event happens."
+        },
+        "impalaNumOfActiveCoordinators": {
+          "x-deprecated": true,
+          "type": "integer",
+          "format": "int32",
+          "description": "DEPRECATED in favor of the top level impalaHASettings object. Number of the active coordinators."
+        },
+        "impalaEnableCatalogHighAvailability": {
+          "x-deprecated": true,
+          "type": "boolean",
+          "description": "DEPRECATED in favor of the top level impalaHASettings object. Enables a backup instance for Impala catalog to ensure high availability."
+        },
+        "impalaExecutorGroupSets": {
+          "$ref": "#/$defs/ImpalaExecutorGroupSetsCreateRequest",
+          "description": "Configures executor group sets for workload aware autoscaling."
+        },
+        "trinoDisableAutoScaling": {
+          "type": "boolean",
+          "description": "Disables Auto-scaling for Trino VW.",
+          "default": true
+        },
+        "trinoMaxWorkerCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Maximum number of worker nodes in a Trino VW.",
+          "default": 10
+        },
+        "trinoMinWorkerCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Minimum number of worker nodes in a Trino VW.",
+          "default": 1
+        },
+        "trinoShutdownGracePeriod": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Grace period in seconds before shutting down Trino workers.",
+          "default": 300
+        },
+        "trinoScaleDownDelaySeconds": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Scale down threshold in seconds. If not provided, the defaults will apply.",
+          "default": 30
+        },
+        "trinoScaleUpDelaySeconds": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Scale up threshold in seconds. If not provided defaults will apply.",
+          "default": 15
+        }
+      }
+    },
+    "ConfigBlockReq": {
+      "type": "object",
+      "description": "A piece of configuration stored in the same place (e.g. same file or environment variables).",
+      "required": [
+        "id",
+        "content"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID of the ConfigBlock. Unique within an ApplicationConfig."
+        },
+        "content": {
+          "description": "Contents of a ConfigBlock.",
+          "$ref": "#/$defs/ConfigContentReq"
+        }
+      }
+    },
+    "ConfigContentReq": {
+      "type": "object",
+      "description": "Contents of a ConfigBlock.",
+      "properties": {
+        "keyValues": {
+          "type": "object",
+          "description": "Key-value type configurations.",
+          "additionalProperties": {
+            "description": "Key-value type configurations.",
+            "type": "string",
+            "x-no-paramfile": true
+          }
+        },
+        "text": {
+          "type": "string",
+          "description": "Text type configuration."
+        },
+        "json": {
+          "type": "string",
+          "description": "JSON type configuration."
+        }
+      }
+    },
+    "ImpalaExecutorGroupSetCreateRequest": {
+      "type": "object",
+      "description": "Configure independently scaling set of uniformly sized executor groups.",
+      "properties": {
+        "execGroupSize": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Set number of executors per executor group.",
+          "x-omitempty": false
+        },
+        "minExecutorGroups": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Set minimum number of executor groups allowed.",
+          "x-omitempty": false
+        },
+        "maxExecutorGroups": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Set maximum number of executor groups allowed.",
+          "x-omitempty": false
+        },
+        "autoSuspendTimeoutSeconds": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Set auto suspend threshold. If not provided defaults will apply."
+        },
+        "disableAutoSuspend": {
+          "type": "boolean",
+          "description": "Turn off auto suspend. If not provided defaults will apply."
+        },
+        "triggerScaleUpDelay": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Set scale up threshold in seconds. If not provided defaults will apply."
+        },
+        "triggerScaleDownDelay": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Set scale down threshold in seconds. If not provided defaults will apply."
+        }
+      }
+    },
+    "ImpalaExecutorGroupSetsCreateRequest": {
+      "type": "object",
+      "description": "Configure executor group sets for workload aware autoscaling.",
+      "properties": {
+        "small": {
+          "$ref": "#/$defs/ImpalaExecutorGroupSetCreateRequest",
+          "description": "Configure small executor group set for workload aware autoscaling.",
+          "x-omitempty": false
+        },
+        "custom1": {
+          "$ref": "#/$defs/ImpalaExecutorGroupSetCreateRequest",
+          "description": "Configure first optional custom executor group set for workload aware autoscaling."
+        },
+        "custom2": {
+          "$ref": "#/$defs/ImpalaExecutorGroupSetCreateRequest",
+          "description": "Configure second optional custom executor group set for workload aware autoscaling."
+        },
+        "custom3": {
+          "$ref": "#/$defs/ImpalaExecutorGroupSetCreateRequest",
+          "description": "Configure third optional custom executor group set for workload aware autoscaling."
+        },
+        "large": {
+          "$ref": "#/$defs/ImpalaExecutorGroupSetCreateRequest",
+          "description": "Configure large executor group set for workload aware autoscaling.",
+          "x-omitempty": false
+        }
+      }
+    },
+    "ImpalaHASettingsCreateRequest": {
+      "type": "object",
+      "description": "High Availability settings for the Impala Virtual Warehouse. The values are disregarded for Hive.",
+      "properties": {
+        "highAvailabilityMode": {
+          "$ref": "#/$defs/ImpalaHighAvailabilityMode",
+          "description": "Set High Availability mode. If not provided, the default will apply. DISABLED - Disables Impala coordinator and Database Catalog high availability. ACTIVE_PASSIVE - Runs multiple coordinators (one active, one passive) and Database Catalogs (one active, one passive). ACTIVE_ACTIVE - Runs multiple coordinators (both active) and Database Catalogs (one active, one passive). If Unified Analytics is enabled, then this cannot be set to ACTIVE_ACTIVE."
+        },
+        "enableShutdownOfCoordinator": {
+          "type": "boolean",
+          "description": "Enables a shutdown of the coordinator. If Unified Analytics is enabled, then this setting is explicitly disabled (ignored) and should not be provided."
+        },
+        "shutdownOfCoordinatorDelaySeconds": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Delay in seconds before the shutdown of coordinator event happens."
+        },
+        "numOfActiveCoordinators": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of active coordinators."
+        },
+        "enableCatalogHighAvailability": {
+          "type": "boolean",
+          "description": "Enables a backup instance for Impala catalog to ensure high availability."
+        },
+        "enableStatestoreHighAvailability": {
+          "type": "boolean",
+          "description": "Enables a backup instance for Impala Statestore to ensure high availability."
+        },
+        "impalaEnableGlobalAdmissionController": {
+          "type": "boolean",
+          "description": "Set whether the Impala Global Admission Controller is enabled. This feature can only be used with high-availability mode ACTIVE_ACTIVE."
+        }
+      }
+    },
+    "ImpalaHighAvailabilityMode": {
+      "type": "string",
+      "enum": [
+        "ACTIVE_PASSIVE",
+        "ACTIVE_ACTIVE",
+        "DISABLED"
+      ],
+      "description": "Set Impala High Availability mode. If not provided, the default will apply. DISABLED - Disables Impala coordinator and Database Catalog high availability. ACTIVE_PASSIVE - Runs multiple coordinators (one active, one passive) and Database Catalogs (one active, one passive). ACTIVE_ACTIVE - Runs multiple coordinators (both active) and Database Catalogs (one active, one passive). If Unified Analytics is enabled, then this cannot be set to ACTIVE_ACTIVE."
+    },
+    "ImpalaOptionsCreateRequest": {
+      "type": "object",
+      "description": "Impala specific options. It cannot be provided for Virtual Warehouse types other than Impala.",
+      "properties": {
+        "spillToS3Uri": {
+          "type": "string",
+          "description": "Set S3 URI in \"s3://bucket/path\" format and enable spilling to S3. If this is set, \"scratchSpaceLimit\" cannot be set. Spilling to a remote storage is not supported on Azure, it is available on AWS and PvC platforms. If your workload results in large volumes of intermediate data being written, it is recommended to configure the heavy spilling queries to use a remote storage location rather than the local one since Impala occasionally needs to use persistent storage for writing intermediate files during large sorts, joins, aggregations, or analytic function operations. Note that this value is ignored if the Impala version does not support spilling to S3."
+        },
+        "scratchSpaceLimit": {
+          "x-entitlement": "CDW_IMPALA_EBS_SCRATCH_SPACE",
+          "type": "integer",
+          "format": "int32",
+          "description": "Defines the limit for scratch space in GiB needed by Impala for spilling queries. If this is set, \"spillToS3Uri\" cannot be set. The valid values are between 1-16000 for AWS and 1-16684 for Azure. It will choose the first valid value for which the total disk space is greater than or equal to the specified scratch space limit. The valid scratch space limit values per node in GiBs for AWS are [300, 634, 968, 1302, 1636, 1970, 2304, 2638, 2972, 6550, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000, 16000]. Valid values for Azure are [300, 684, 812, 1068, 1324, 1836, 2348, 3372, 4396, 8492, 16684]."
+        }
+      }
+    },
+    "QueryIsolationOptionsRequest": {
+      "type": "object",
+      "description": "Configurations for Query Isolation.",
+      "properties": {
+        "maxQueries": {
+          "type": "integer",
+          "format": "int32",
+          "default": 0,
+          "description": "Maximum Concurrent Isolated Queries. If not provided, 0 will be applied. The 0 value means the query isoltaion functionality will be disabled."
+        },
+        "maxNodesPerQuery": {
+          "type": "integer",
+          "format": "int32",
+          "default": 0,
+          "description": "Maximum Nodes Per Isolated Query. If not provided, 0 will be applied. The 0 value means the query isoltaion functionality will be disabled."
+        }
+      }
+    },
+    "QuotaRequest": {
+      "x-form-factors": "private",
+      "type": "object",
+      "description": "Quota in requests for the Virtual Warehouse.",
+      "properties": {
+        "cpu": {
+          "type": "number",
+          "format": "float",
+          "description": "CPU quota in cores."
+        },
+        "memory": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Memory quota in MB."
+        }
+      }
+    },
+    "ServiceConfigReq": {
+      "type": "object",
+      "description": "Configurations for a service (DBC or VW)",
+      "properties": {
+        "commonConfigs": {
+          "description": "Configurations that are applied to every application in the service.",
+          "$ref": "#/$defs/ApplicationConfigReq"
+        },
+        "applicationConfigs": {
+          "type": "object",
+          "description": "Application specific configurations.",
+          "additionalProperties": {
+            "description": "Application specific configurations.",
+            "$ref": "#/$defs/ApplicationConfigReq"
+          }
+        },
+        "ldapGroups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "LDAP Groupnames to be enabled for auth."
+        },
+        "enableSSO": {
+          "type": "boolean",
+          "description": "Should SSO be enabled for this VW."
+        }
+      }
+    },
+    "TagRequest": {
+      "description": "A key/value pair that can be attached to some resources.",
+      "type": "object",
+      "required": [
+        "key",
+        "value"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The tag's name."
+        },
+        "value": {
+          "type": "string",
+          "description": "The associated value of the tag."
+        }
+      }
+    },
+    "VwType": {
+      "type": "string",
+      "enum": [
+        "hive",
+        "impala",
+        "trino"
+      ],
+      "description": "Type of Virtual Warehouse: 'hive', 'impala', 'trino'."
+    }
+  }
+}

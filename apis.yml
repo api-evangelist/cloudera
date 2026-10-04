@@ -1,12 +1,10 @@
 aid: cloudera
 name: Cloudera
-description: Cloudera is a hybrid data platform company offering the Cloudera Data Platform (CDP) for
-  data engineering, data warehousing, machine learning, streaming, and operational data. The platform
-  exposes multiple REST APIs including the CDP Public Cloud Control Plane API for managing environments,
-  datalakes, data hubs and workloads, the Cloudera Manager API for cluster lifecycle and configuration
-  management, and per-service REST APIs across the runtime (Cruise Control, Streams Replication Manager,
-  HBase REST, YARN Queue Manager, etc.). APIs are JSON, support standard CRUD, and are typically authenticated
-  via API access keys, basic auth, or session cookies.
+description: Cloudera is a hybrid data platform company offering the Cloudera Data Platform (CDP) for data engineering, data warehousing, machine
+  learning, streaming, and operational data. The platform exposes multiple REST APIs including the CDP Public Cloud Control Plane API for managing
+  environments, datalakes, data hubs and workloads, the Cloudera Manager API for cluster lifecycle and configuration management, and per-service
+  REST APIs across the runtime (Cruise Control, Streams Replication Manager, HBase REST, YARN Queue Manager, etc.). APIs are JSON, support standard
+  CRUD, and are typically authenticated via API access keys, basic auth, or session cookies.
 type: Index
 deliveryModel:
   model: unknown
@@ -59,6 +57,134 @@ tags_raw:
 - Machine Learning
 - Streaming
 - Machine-Learning
+maintainers:
+- FN: Kin Lane
+  email: kinlane@gmail.com
+common:
+- type: Vocabulary
+  url: vocabulary/cloudera-vocabulary.yml
+- type: Hosts
+  url: hosts/cloudera-hosts.yml
+- type: Vendors
+  url: vendors/cloudera-vendors.yml
+- type: Leadership
+  url: https://www.cloudera.com/about/leadership/board.html
+- type: Overlay
+  url: overlays/cloudera-audit-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-cloudprivatelinks-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-compute-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-consumption-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-datacatalog-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-datahub-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-datalake-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-de-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-df-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-dfworkload-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-drscp-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-dw-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-environments-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-iam-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-imagecatalog-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-lakehouseopt-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-ml-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-opdb-overlay.yaml
+- type: Overlay
+  url: overlays/cloudera-replicationmanager-overlay.yaml
+- type: AgenticAccess
+  url: agentic-access/cloudera-agentic-access.yml
+- type: TrustCenter
+  url: security/cloudera-trust-center.yml
+- type: DomainSecurity
+  url: security/cloudera-domain-security.yml
+- type: Authentication
+  url: authentication/cloudera-authentication.yml
+- type: LinkedIn
+  url: https://www.linkedin.com/company/cloudera
+- type: Website
+  url: https://www.cloudera.com/
+- type: Documentation
+  url: https://docs.cloudera.com/
+- type: Support
+  url: https://community.cloudera.com/
+- type: GitHub
+  url: https://github.com/cloudera
+- type: JSONLD
+  url: json-ld/cloudera-context.jsonld
+- type: Spectral
+  url: rules/cloudera-rules.yml
+- type: Packages
+  url: packages/cloudera-packages.yml
+- type: SDKs
+  url: packages/cloudera-packages.yml
+- type: CLI
+  url: cli/cloudera-cli.yml
+- type: MCPServer
+  url: mcp/cloudera-mcp.yml
+- type: LLMsTxt
+  url: llms/cloudera-llms.txt
+- type: Conformance
+  url: conformance/cloudera-conformance.yml
+- type: Compliance
+  url: conformance/cloudera-conformance.yml
+- type: ErrorCatalog
+  url: errors/cloudera-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/cloudera-lifecycle.yml
+- type: Conventions
+  url: conventions/cloudera-conventions.yml
+- type: Idempotency
+  url: conventions/cloudera-conventions.yml
+- type: DataModel
+  url: data-model/cloudera-data-model.yml
+- type: Sandbox
+  url: sandbox/cloudera-sandbox.yml
+- type: ChangeLog
+  url: changelog/cloudera-changelog.yml
+- type: Plans
+  url: plans/cloudera-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/cloudera-rate-limits.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DeveloperPortal
+  url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/index.html
+- type: APIReference
+  url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+- type: GettingStarted
+  url: https://docs.cloudera.com/cdp-public-cloud/cloud/index.html
+- type: StatusPage
+  url: https://status.cloudera.com/
+- type: Deprecation
+  url: https://www.cloudera.com/services-and-support/support-lifecycle-policy.html
+- type: Blog
+  url: https://www.cloudera.com/blog.html
+- type: GitHubOrganization
+  url: https://github.com/cloudera
+- type: Pricing
+  url: https://www.cloudera.com/products/pricing.html
+- type: SignUp
+  url: https://www.cloudera.com/campaign/try-cdp-public-cloud.html
+- type: TermsOfService
+  url: https://www.cloudera.com/legal/terms-and-conditions.html
+- type: PrivacyPolicy
+  url: https://www.cloudera.com/legal/policies.html
 apis:
 - aid: cloudera:manager
   name: Cloudera Manager API
@@ -156,6 +282,18 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+  - type: JSONSchema
+    url: json-schema/cloudera-list-events-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-configure-archiving-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-outstanding-archive-batches-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-get-archiving-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-archive-audit-events-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-outstanding-archive-batches-response-schema.json
 - aid: cloudera:cloudera-cdflocalrpcapiversion1-api
   name: Cloudera CDF Local RPCAPI Version1 API
   description: >-
@@ -171,6 +309,18 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+  - type: JSONSchema
+    url: json-schema/cloudera-create-deployment-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-update-deployment-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-change-flow-version-in-deployment-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-add-flow-to-deployment-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-change-flow-version-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-update-flow-in-deployment-request-schema.json
 - aid: cloudera:cloudera-cloudprivatelinks-api
   name: Cloudera Cloudprivatelinks API
   description: The Cloudprivatelinks API from Cloudera — 9 operation(s) for cloudprivatelinks.
@@ -185,6 +335,18 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+  - type: JSONSchema
+    url: json-schema/cloudera-update-private-link-endpoint-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-private-link-endpoint-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-authorize-private-link-service-access-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-revoke-private-link-service-access-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-get-private-link-status-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-delete-private-link-endpoint-request-schema.json
 - aid: cloudera:cloudera-compute-api
   name: Cloudera Compute API
   description: The Compute API from Cloudera — 15 operation(s) for compute.
@@ -199,6 +361,18 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+  - type: JSONSchema
+    url: json-schema/cloudera-describe-cluster-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-get-operation-details-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-get-operation-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-clusters-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-upgrade-deployment-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-clusters-response-schema.json
 - aid: cloudera:cloudera-consumption-api
   name: Cloudera Consumption API
   description: The Consumption API from Cloudera — 1 operation(s) for consumption.
@@ -213,6 +387,10 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+  - type: JSONSchema
+    url: json-schema/cloudera-list-compute-usage-records-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-compute-usage-records-response-schema.json
 - aid: cloudera:cloudera-datalake-api
   name: Cloudera Datalake API
   description: The Datalake API from Cloudera — 56 operation(s) for datalake.
@@ -229,6 +407,18 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+  - type: JSONSchema
+    url: json-schema/cloudera-collect-datalake-diagnostics-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-azure-datalake-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-restore-datalake-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-awsdatalake-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-gcpdatalake-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-awsgov-cloud-datalake-request-schema.json
 - aid: cloudera:cloudera-de-api
   name: Cloudera De API
   description: The De API from Cloudera — 24 operation(s) for de.
@@ -243,6 +433,18 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+  - type: JSONSchema
+    url: json-schema/cloudera-enable-service-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-vc-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-update-service-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-update-vc-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-backups-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-backup-request-schema.json
 - aid: cloudera:cloudera-df-api
   name: Cloudera Df API
   description: The Df API from Cloudera — 66 operation(s) for df.
@@ -257,6 +459,18 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+  - type: JSONSchema
+    url: json-schema/cloudera-enable-service-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-start-get-diagnostics-collection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-deployment-events-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-import-flow-definition-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-update-service-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-flows-in-deployment-request-schema.json
 - aid: cloudera:cloudera-drscp-api
   name: Cloudera Drscp API
   description: The Drscp API from Cloudera — 9 operation(s) for drscp.
@@ -271,6 +485,18 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+  - type: JSONSchema
+    url: json-schema/cloudera-list-backup-entities-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-backup-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-backups-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-restores-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-restores-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-backups-response-schema.json
 - aid: cloudera:cloudera-dw-api
   name: Cloudera Dw API
   description: The Dw API from Cloudera — 95 operation(s) for dw.
@@ -285,6 +511,18 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+  - type: JSONSchema
+    url: json-schema/cloudera-create-vw-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-azure-cluster-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-update-vw-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-aws-cluster-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-cluster-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-update-cluster-request-schema.json
 - aid: cloudera:cloudera-environments2-api
   name: Cloudera Environments2 API
   description: The Environments2 API from Cloudera — 104 operation(s) for environments2.
@@ -299,6 +537,18 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+  - type: JSONSchema
+    url: json-schema/cloudera-create-azure-environment-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-awsenvironment-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-awsgov-cloud-environment-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-gcpenvironment-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-collect-freeipa-diagnostics-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-private-environment-request-schema.json
 - aid: cloudera:cloudera-iam-api
   name: Cloudera Iam API
   description: The Iam API from Cloudera — 79 operation(s) for iam.
@@ -315,6 +565,10 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+  - type: JSONSchema
+    url: json-schema/cloudera-update-ldap-provider-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-ldap-provider-request-schema.json
 - aid: cloudera:cloudera-imagecatalog-api
   name: Cloudera Imagecatalog API
   description: The Imagecatalog API from Cloudera — 11 operation(s) for imagecatalog.
@@ -329,6 +583,18 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+  - type: JSONSchema
+    url: json-schema/cloudera-describe-custom-image-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-find-default-image-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-set-runtime-image-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-set-freeipa-image-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-describe-custom-catalog-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-describe-default-image-response-schema.json
 - aid: cloudera:cloudera-lakehouseopt-api
   name: Cloudera Lakehouseopt API
   description: The Lakehouseopt API from Cloudera — 30 operation(s) for lakehouseopt.
@@ -343,6 +609,18 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+  - type: JSONSchema
+    url: json-schema/cloudera-get-policy-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-change-table-policy-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-get-table-status-details-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-tasks-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-delete-policy-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-execute-policy-request-schema.json
 - aid: cloudera:cloudera-ml-api
   name: Cloudera Ml API
   description: The Ml API from Cloudera — 59 operation(s) for ml.
@@ -360,6 +638,18 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+  - type: JSONSchema
+    url: json-schema/cloudera-create-workspace-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-model-registry-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-ml-serving-app-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-relevant-instances-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-instance-type-configuration-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-modify-cluster-instance-group-request-schema.json
 - aid: cloudera:cloudera-opdb-api
   name: Cloudera Opdb API
   description: The Opdb API from Cloudera — 19 operation(s) for opdb.
@@ -374,6 +664,18 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+  - type: JSONSchema
+    url: json-schema/cloudera-create-database-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-update-database-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-restore-snapshots-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-restore-snapshot-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-collect-diagnostics-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-describe-upgrade-database-response-schema.json
 - aid: cloudera:cloudera-replicationmanager-api
   name: Cloudera Replicationmanager API
   description: The Replicationmanager API from Cloudera — 24 operation(s) for replicationmanager.
@@ -388,6 +690,18 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+  - type: JSONSchema
+    url: json-schema/cloudera-create-abfs-credential-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-verify-hbase-cluster-pair-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-get-command-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-aws-credential-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-get-cluster-config-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-collect-diagnostic-bundle-response-schema.json
 - aid: cloudera:cloudera-data-catalog-api
   name: Cloudera Data Catalog API
   description: The Data Catalog API from Cloudera — 20 operation(s) for data catalog.
@@ -402,6 +716,30 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
+  - type: JSONSchema
+    url: json-schema/cloudera-get-data-share-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-data-share-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-launch-profilers-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-update-data-share-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-external-users-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-data-shares-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-azure-cluster-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-awscluster-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-collect-datahub-diagnostics-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-awsgov-cloud-cluster-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-gcpcluster-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-collect-cm-diagnostics-request-schema.json
 - aid: cloudera:cloudera-data-hub-api
   name: Cloudera Data Hub API
   description: The Data Hub API from Cloudera — 75 operation(s) for data hub.
@@ -416,130 +754,33 @@ apis:
     url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/mc-api-overview.html
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-common:
-- type: Overlay
-  url: overlays/cloudera-audit-overlay.yaml
-- type: Overlay
-  url: overlays/cloudera-cloudprivatelinks-overlay.yaml
-- type: Overlay
-  url: overlays/cloudera-compute-overlay.yaml
-- type: Overlay
-  url: overlays/cloudera-consumption-overlay.yaml
-- type: Overlay
-  url: overlays/cloudera-datacatalog-overlay.yaml
-- type: Overlay
-  url: overlays/cloudera-datahub-overlay.yaml
-- type: Overlay
-  url: overlays/cloudera-datalake-overlay.yaml
-- type: Overlay
-  url: overlays/cloudera-de-overlay.yaml
-- type: Overlay
-  url: overlays/cloudera-df-overlay.yaml
-- type: Overlay
-  url: overlays/cloudera-dfworkload-overlay.yaml
-- type: Overlay
-  url: overlays/cloudera-drscp-overlay.yaml
-- type: Overlay
-  url: overlays/cloudera-dw-overlay.yaml
-- type: Overlay
-  url: overlays/cloudera-environments-overlay.yaml
-- type: Overlay
-  url: overlays/cloudera-iam-overlay.yaml
-- type: Overlay
-  url: overlays/cloudera-imagecatalog-overlay.yaml
-- type: Overlay
-  url: overlays/cloudera-lakehouseopt-overlay.yaml
-- type: Overlay
-  url: overlays/cloudera-ml-overlay.yaml
-- type: Overlay
-  url: overlays/cloudera-opdb-overlay.yaml
-- type: Overlay
-  url: overlays/cloudera-replicationmanager-overlay.yaml
-- type: AgenticAccess
-  url: agentic-access/cloudera-agentic-access.yml
-- type: TrustCenter
-  url: security/cloudera-trust-center.yml
-- type: DomainSecurity
-  url: security/cloudera-domain-security.yml
-- type: Authentication
-  url: authentication/cloudera-authentication.yml
-- type: LinkedIn
-  url: https://www.linkedin.com/company/cloudera
-- type: Website
-  url: https://www.cloudera.com/
-- type: Documentation
-  url: https://docs.cloudera.com/
-- type: Support
-  url: https://community.cloudera.com/
-- type: GitHub
-  url: https://github.com/cloudera
-- type: JSONLD
-  url: json-ld/cloudera-context.jsonld
-- type: Spectral
-  url: rules/cloudera-rules.yml
-- type: Packages
-  url: packages/cloudera-packages.yml
-- type: SDKs
-  url: packages/cloudera-packages.yml
-- type: CLI
-  url: cli/cloudera-cli.yml
-- type: MCPServer
-  url: mcp/cloudera-mcp.yml
-- type: ToolCrosswalk
-  url: mcp/cloudera-tool-crosswalk.yml
-- type: LLMsTxt
-  url: llms/cloudera-llms.txt
-- type: Conformance
-  url: conformance/cloudera-conformance.yml
-- type: Compliance
-  url: conformance/cloudera-conformance.yml
-- type: ErrorCatalog
-  url: errors/cloudera-problem-types.yml
-- type: Lifecycle
-  url: lifecycle/cloudera-lifecycle.yml
-- type: Conventions
-  url: conventions/cloudera-conventions.yml
-- type: Idempotency
-  url: conventions/cloudera-conventions.yml
-- type: DataModel
-  url: data-model/cloudera-data-model.yml
-- type: Sandbox
-  url: sandbox/cloudera-sandbox.yml
-- type: ChangeLog
-  url: changelog/cloudera-changelog.yml
-- type: Plans
-  url: plans/cloudera-plans-pricing.yml
-- type: RateLimits
-  url: rate-limits/cloudera-rate-limits.yml
-- type: AgentSkill
-  url: skills/_index.yml
-- type: DeveloperPortal
-  url: https://docs.cloudera.com/cdp-public-cloud/cloud/api/index.html
-- type: APIReference
-  url: https://cloudera.github.io/cdp-dev-docs/api-docs/
-- type: GettingStarted
-  url: https://docs.cloudera.com/cdp-public-cloud/cloud/index.html
-- type: StatusPage
-  url: https://status.cloudera.com/
-- type: Deprecation
-  url: https://www.cloudera.com/services-and-support/support-lifecycle-policy.html
-- type: Blog
-  url: https://www.cloudera.com/blog.html
-- type: GitHubOrganization
-  url: https://github.com/cloudera
-- type: Pricing
-  url: https://www.cloudera.com/products/pricing.html
-- type: SignUp
-  url: https://www.cloudera.com/campaign/try-cdp-public-cloud.html
-- type: TermsOfService
-  url: https://www.cloudera.com/legal/terms-and-conditions.html
-- type: PrivacyPolicy
-  url: https://www.cloudera.com/legal/policies.html
-maintainers:
-- FN: Kin Lane
-  email: kinlane@gmail.com
+  - type: JSONSchema
+    url: json-schema/cloudera-get-data-share-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-data-share-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-launch-profilers-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-update-data-share-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-external-users-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-list-data-shares-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-azure-cluster-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-awscluster-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-collect-datahub-diagnostics-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-awsgov-cloud-cluster-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-create-gcpcluster-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cloudera-collect-cm-diagnostics-request-schema.json
 x-enrichment:
-  date: '2026-09-05'
+  date: '2026-10-04'
   status: enriched
-  artifacts_added: 77
-  pass: local-v3
+  artifacts_added: 105
+  pass: modular-v1
+  engine: identity=local,contract=local,surfaces=local,docs=local,regulatory=local

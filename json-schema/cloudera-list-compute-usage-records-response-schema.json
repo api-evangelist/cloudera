@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-list-compute-usage-records-response-schema.json",
+  "title": "ListComputeUsageRecordsResponse",
+  "description": "Response object for ListComputeUsageRecords method.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-consumption-api-openapi.yml#/components/schemas/ListComputeUsageRecordsResponse",
+  "type": "object",
+  "properties": {
+    "records": {
+      "type": "array",
+      "x-paging-result": true,
+      "items": {
+        "$ref": "#/$defs/ComputeUsageRecord"
+      },
+      "description": "The list of compute usage records in the requested time duration."
+    },
+    "nextPageToken": {
+      "type": "string",
+      "x-paging-output-token": true,
+      "description": "The token to use when requesting the next set of results. If not present, there are no additional results."
+    }
+  },
+  "$defs": {
+    "ComputeUsageRecord": {
+      "type": "object",
+      "description": "Record of compute usage values aggregated hourly.",
+      "properties": {
+        "quantityType": {
+          "type": "string",
+          "description": "Type of usage by the cluster (Eg: INSTANCE_USAGE, COMPUTE_USAGE)."
+        },
+        "environmentName": {
+          "type": "string",
+          "description": "Name of the environment."
+        },
+        "environmentCrn": {
+          "type": "string",
+          "description": "CRN of the environment."
+        },
+        "clusterName": {
+          "type": "string",
+          "description": "Name of the cluster."
+        },
+        "clusterCrn": {
+          "type": "string",
+          "description": "CRN of the cluster."
+        },
+        "cloudProvider": {
+          "type": "string",
+          "description": "Cloud Provider on which cluster is running."
+        },
+        "serviceFeature": {
+          "type": "string",
+          "description": "Service Feature of the cluster."
+        },
+        "usageStartTimestamp": {
+          "type": "string",
+          "description": "Timestamp of start of the usage."
+        },
+        "usageEndTimestamp": {
+          "type": "string",
+          "description": "Timestamp of end of the usage."
+        },
+        "quantity": {
+          "type": "number",
+          "format": "double",
+          "description": "Quantity of usage of the cluster."
+        },
+        "grossCharge": {
+          "type": "number",
+          "format": "double",
+          "description": "Number of credits consumed by this usage."
+        },
+        "listRate": {
+          "type": "number",
+          "format": "double",
+          "description": "Rate in credits at which usage is charged for given cluster type, instance type and cloud provider."
+        },
+        "hours": {
+          "type": "number",
+          "format": "double",
+          "description": "Total number of hours for which instances were running."
+        },
+        "instanceType": {
+          "type": "string",
+          "description": "Type of instance of the cluster."
+        },
+        "instanceCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total number of instances in the cluster which were in use."
+        },
+        "clusterType": {
+          "type": "string",
+          "description": "Type of the cluster."
+        },
+        "userTags": {
+          "type": "string",
+          "description": "The tags assigned to a cluster. The format of this is a map serialized into a string as json. e.g.:  \"tags\": \"{\\\"key1\\\":\\\"value1\\\",\\\"key2\\\":\\\"value2\\\"}\""
+        },
+        "clusterTemplate": {
+          "type": "string",
+          "description": "The template with which the cluster is created."
+        }
+      }
+    }
+  }
+}

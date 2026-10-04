@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-list-deployment-events-request-schema.json",
+  "title": "ListDeploymentEventsRequest",
+  "description": "A request to list event history for deployment.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-df-api-openapi.yml#/components/schemas/ListDeploymentEventsRequest",
+  "type": "object",
+  "required": [
+    "deploymentCrn"
+  ],
+  "properties": {
+    "deploymentCrn": {
+      "type": "string",
+      "description": "The deployment CRN."
+    },
+    "rows": {
+      "type": "integer",
+      "format": "int32",
+      "description": "This field is deprecated and will be removed. Use max-items instead. Historically used to set the number of elements to return. Note that if max-items is also specified, and rows is less than max-items, an error will be returned.",
+      "x-deprecated": true
+    },
+    "timestampFrom": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Timestamp from when to list events prior."
+    },
+    "filters": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Filter criteria (see list-filter-options)."
+    },
+    "pageSize": {
+      "type": "integer",
+      "format": "int32",
+      "minimum": 1,
+      "maximum": 100,
+      "x-paging-page-size": true,
+      "description": "The page size."
+    },
+    "startingToken": {
+      "type": "string",
+      "x-paging-input-token": true,
+      "description": "The token pointing to the next element to be retrieved."
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-find-default-image-request-schema.json",
+  "title": "FindDefaultImageRequest",
+  "description": "The request object to filter data that is used for retrieving an image from the default image catalog.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-imagecatalog-api-openapi.yml#/components/schemas/FindDefaultImageRequest",
+  "type": "object",
+  "required": [
+    "provider",
+    "imageType"
+  ],
+  "properties": {
+    "provider": {
+      "description": "Cloud provider - either AWS, AZURE or GCP",
+      "$ref": "#/$defs/VmImageProvider"
+    },
+    "imageType": {
+      "description": "Image type - either \"FREEIPA\" or \"RUNTIME\"",
+      "$ref": "#/$defs/VmImageType"
+    },
+    "runtimeVersion": {
+      "type": "string",
+      "description": "Cloudera runtime version"
+    },
+    "architecture": {
+      "type": "string",
+      "default": "X86_64",
+      "description": "Specifies the CPU architecture. Values are ARM64, X86_64. Default is X86_64.",
+      "enum": [
+        "ARM64",
+        "X86_64"
+      ]
+    }
+  },
+  "$defs": {
+    "VmImageProvider": {
+      "type": "string",
+      "description": "Object representing a valid cloud provider name.\n `AWS` - The image is an AWS VM image `AZURE` - The image is an Azure VM image `GCP` - The image is a GCP VM image",
+      "enum": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ]
+    },
+    "VmImageType": {
+      "type": "string",
+      "description": "Object representing a valid VM image type.\n `FREEIPA` - FreeIPA image `RUNTIME` - Cloudera Runtime image",
+      "enum": [
+        "FREEIPA",
+        "RUNTIME"
+      ]
+    }
+  }
+}

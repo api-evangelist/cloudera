@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-list-clusters-request-schema.json",
+  "title": "ListClustersRequest",
+  "description": "Request object to list clusters.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-compute-api-openapi.yml#/components/schemas/ListClustersRequest",
+  "type": "object",
+  "properties": {
+    "envNameOrCrn": {
+      "type": "string",
+      "description": "Environment name or crn."
+    },
+    "workloads": {
+      "type": "string",
+      "description": "Workloads for workload filtering.",
+      "x-form-factors": "public"
+    },
+    "status": {
+      "type": "string",
+      "description": "Cluster Status for status filtering.",
+      "x-form-factors": "public"
+    },
+    "pageSize": {
+      "type": "integer",
+      "format": "int32",
+      "minimum": 1,
+      "maximum": 500,
+      "x-paging-page-size": true,
+      "description": "The size of each page. Default is 100.",
+      "default": 100,
+      "x-form-factors": "public"
+    },
+    "startingToken": {
+      "type": "string",
+      "x-paging-input-token": true,
+      "description": "A token to specify where to start paginating. This is the nextToken from a previously truncated response. 1 or empty for first page.",
+      "x-form-factors": "public"
+    },
+    "includeDeleted": {
+      "type": "boolean",
+      "description": "Include deleted clusters in the response.",
+      "x-form-factors": "public"
+    },
+    "default": {
+      "type": "boolean",
+      "description": "Only show default clusters."
+    },
+    "clusterShape": {
+      "type": "string",
+      "description": "Filter between Externalized and Embedded cluster shapes."
+    }
+  }
+}

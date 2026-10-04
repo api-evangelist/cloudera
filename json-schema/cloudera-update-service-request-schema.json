@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-update-service-request-schema.json",
+  "title": "UpdateServiceRequest",
+  "description": "Request object for UpdateService method.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-de-api-openapi.yml#/components/schemas/UpdateServiceRequest",
+  "type": "object",
+  "required": [
+    "clusterId"
+  ],
+  "properties": {
+    "clusterId": {
+      "type": "string",
+      "description": "Cluster ID of the service to update."
+    },
+    "minimumInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Minimum number of instances for the CDE service."
+    },
+    "maximumInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Maximum number of instances for the CDE service."
+    },
+    "minimumSpotInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Minimum number of spot instances for the CDE service."
+    },
+    "maximumSpotInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Maximum number of spot instances for the CDE service."
+    },
+    "whitelistIps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of CIDRs that would be allowed to access kubernetes master API server."
+    },
+    "loadbalancerAllowlist": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of CIDRs that would be allowed to access the load balancer."
+    },
+    "allPurposeMinimumInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Minimum number of instances for the CDE service for the All Purpose Instance Group."
+    },
+    "allPurposeMaximumInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Maximum number of instances for the CDE service for the All Purpose Instance Group."
+    },
+    "allPurposeMinimumSpotInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Minimum number of spot instances for the CDE service for the All Purpose Instance Group."
+    },
+    "allPurposeMaximumSpotInstances": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Maximum number of spot instances for the CDE service for the All Purpose Instance Group."
+    }
+  }
+}

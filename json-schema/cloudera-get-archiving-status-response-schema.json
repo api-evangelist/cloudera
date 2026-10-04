@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-get-archiving-status-response-schema.json",
+  "title": "GetArchivingStatusResponse",
+  "description": "Information about a current archive process.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-audit-api-openapi.yml#/components/schemas/GetArchivingStatusResponse",
+  "type": "object",
+  "properties": {
+    "status": {
+      "description": "The archive status.",
+      "$ref": "#/$defs/AsyncTaskStatus"
+    },
+    "eventCount": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The number of events archived."
+    },
+    "eventBatches": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ArchiveBatch"
+      },
+      "description": "The details about the batches of events archived."
+    }
+  },
+  "$defs": {
+    "ArchiveBatch": {
+      "type": "object",
+      "description": "Information about a batch of audit events that were archived.",
+      "properties": {
+        "accountId": {
+          "type": "string",
+          "description": "The account ID for which events were archived."
+        },
+        "eventCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The number of events archived. A negative number indicates that the count is not available."
+        },
+        "archiveId": {
+          "type": "string",
+          "description": "The archive ID of the batch."
+        },
+        "archiveTimestamp": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The archive timestamp of the batch."
+        }
+      }
+    },
+    "AsyncTaskStatus": {
+      "type": "string",
+      "description": "Archive task status.\n `OPEN` - Task is still in progress `COMPLETED` - Task has completed successfully `FAILED` - Task has failed `CANCELED` - Task was canceled `TERMINATED` - Task as terminated `CONTINUED_AS_NEW` - Task was rerun as a new task `TIMED_OUT` - The task has timed out",
+      "enum": [
+        "OPEN",
+        "COMPLETED",
+        "FAILED",
+        "CANCELED",
+        "TERMINATED",
+        "CONTINUED_AS_NEW",
+        "TIMED_OUT"
+      ]
+    }
+  }
+}

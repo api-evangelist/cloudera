@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-verify-hbase-cluster-pair-response-schema.json",
+  "title": "VerifyHbaseClusterPairResponse",
+  "description": "Response object for verifyHbaseClusterPair.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-replicationmanager-api-openapi.yml#/components/schemas/VerifyHbaseClusterPairResponse",
+  "type": "object",
+  "properties": {
+    "pairingStatus": {
+      "description": "The current status of pairing.",
+      "type": "string"
+    },
+    "pairedStatus": {
+      "description": "Substatus of an active pairing. Indicates if a pairing is resettable or in an erroneous state.",
+      "type": "string"
+    },
+    "pairingMessage": {
+      "description": "Description of the pairing status.",
+      "type": "string"
+    },
+    "beforePolicySteps": {
+      "description": "Manual steps to perform before HBase policy creation.",
+      "type": "object",
+      "properties": {
+        "summary": {
+          "description": "Summary of the steps to perform.",
+          "type": "string"
+        },
+        "documentationLink": {
+          "description": "Link to the HBase replication manual steps documentation.",
+          "type": "string"
+        },
+        "source": {
+          "description": "Steps to perform for the source cluster.",
+          "$ref": "#/$defs/VerificationSteps"
+        },
+        "destination": {
+          "description": "Steps to perform for the destination cluster.",
+          "$ref": "#/$defs/VerificationSteps"
+        }
+      }
+    },
+    "afterPolicySteps": {
+      "description": "Manual steps to perform after HBase policy creation.",
+      "type": "object",
+      "properties": {
+        "summary": {
+          "description": "Summary of the steps to perform.",
+          "type": "string"
+        },
+        "source": {
+          "description": "Steps to perform for the source cluster.",
+          "$ref": "#/$defs/VerificationSteps"
+        },
+        "destination": {
+          "description": "Steps to perform for the destination cluster.",
+          "$ref": "#/$defs/VerificationSteps"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "VerificationSteps": {
+      "type": "object",
+      "description": "Verification steps.",
+      "properties": {
+        "clusterManagerUrl": {
+          "description": "The cluster manager URL to reach the cluster's UI.",
+          "type": "string"
+        },
+        "steps": {
+          "description": "The list of manual steps to perform or verify.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-update-database-request-schema.json",
+  "title": "UpdateDatabaseRequest",
+  "description": "A request to update the database",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-opdb-api-openapi.yml#/components/schemas/UpdateDatabaseRequest",
+  "type": "object",
+  "required": [
+    "environmentName",
+    "databaseName"
+  ],
+  "properties": {
+    "environmentName": {
+      "type": "string",
+      "description": "environment name"
+    },
+    "databaseName": {
+      "type": "string",
+      "description": "database name"
+    },
+    "autoScalingParameters": {
+      "description": "Parameters to configure the scaling policy",
+      "$ref": "#/$defs/AutoScalingParameters"
+    },
+    "numDesiredStrongMetaServers": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The desired number of strong meta servers for this database. A positive, non-zero number is required. Use removeStrongMetaServers to remove strong meta servers entirely. Requires the COD_STRONG_META_SERVERS entitlement."
+    },
+    "removeStrongMetaServers": {
+      "type": "boolean",
+      "description": "Removes any strong meta servers provisioned for this database. Requires the COD_STRONG_META_SERVERS entitlement."
+    },
+    "numDesiredRestworkerNodes": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Sets the desired number of REST Worker nodes for the database. A positive, non-zero number is required. Requires the COD_RESTWORKERS entitlement."
+    },
+    "removeRestworkerNodes": {
+      "type": "boolean",
+      "description": "Removes any REST Worker nodes provisioned for this database. Requires the COD_RESTWORKERS entitlement."
+    }
+  },
+  "$defs": {
+    "AutoScalingParameters": {
+      "type": "object",
+      "description": "A Parameters to configure AutoScaling",
+      "properties": {
+        "targetedValueForMetric": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The target value of the metric a user expect to maintain for the cluster"
+        },
+        "maxWorkersForDatabase": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Maximum number of worker nodes as per this metrics can be scaled up to."
+        },
+        "maxWorkersPerBatch": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Maximum number of worker nodes as per this metrics can be scaled up to in one batch."
+        },
+        "minWorkersForDatabase": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Minimum number of worker nodes as per this metrics can be scaled down to."
+        },
+        "evaluationPeriod": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Period of metrics(in seconds) needs to be considered."
+        },
+        "minimumBlockCacheGb": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The amount of block cache, in Gigabytes, which the database should have."
+        }
+      }
+    }
+  }
+}

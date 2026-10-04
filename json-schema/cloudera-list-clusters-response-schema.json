@@ -1,0 +1,260 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-list-clusters-response-schema.json",
+  "title": "ListClustersResponse",
+  "description": "List clusters response.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-compute-api-openapi.yml#/components/schemas/ListClustersResponse",
+  "type": "object",
+  "properties": {
+    "clusters": {
+      "type": "array",
+      "x-paging-result": true,
+      "items": {
+        "$ref": "#/$defs/ListClusterItem"
+      },
+      "description": "Array of CDP compute clusters."
+    },
+    "nextToken": {
+      "type": "string",
+      "x-paging-output-token": true,
+      "description": "The token to use when requesting the next set of results. If not present, there are no additional results.",
+      "x-form-factors": "public"
+    },
+    "totalClusters": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Total number of clusters.",
+      "x-form-factors": "public"
+    },
+    "totalPages": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Total number of pages.",
+      "x-form-factors": "public"
+    }
+  },
+  "$defs": {
+    "CommonImageCatalogResp": {
+      "type": "object",
+      "description": "Image catalog response structure.",
+      "properties": {
+        "crn": {
+          "type": "string",
+          "description": "The catalog CRN (either CRN or name is required)."
+        },
+        "name": {
+          "type": "string",
+          "description": "The catalog name (either CRN or name is required)."
+        }
+      },
+      "x-form-factors": "public"
+    },
+    "CommonStorageSpecResp": {
+      "type": "object",
+      "description": "Storage spec response structure.",
+      "properties": {
+        "csiEnabled": {
+          "type": "boolean",
+          "description": "Flag to enable CSI (Container Storage Interface). It further sets specific inline cloud formation policies required for CSI."
+        }
+      },
+      "x-form-factors": "public"
+    },
+    "ComputeClusterOwner": {
+      "type": "object",
+      "description": "Compute cluster owner structure.",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Owner's email."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "Owner's firstname."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Owner's lastname."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner's user ID."
+        },
+        "accountId": {
+          "type": "string",
+          "description": "Owner's account ID."
+        },
+        "crn": {
+          "type": "string",
+          "description": "Owner's actor CRN."
+        }
+      },
+      "x-form-factors": "public"
+    },
+    "ComputeClusterType": {
+      "type": "string",
+      "description": "Object representing compute cluster types.\n `Shared` - Value representing a shared compute cluster. `DedicatedExternal` - Value representing an external dedicated compute cluster. `Dedicated` - Value representing an embedded dedicated compute cluster.",
+      "enum": [
+        "Shared",
+        "DedicatedExternal",
+        "Dedicated"
+      ]
+    },
+    "ComputePlatform": {
+      "type": "string",
+      "description": "Object representing Cloudera Compute Cluster Platform provider.\n `OPENSHIFT` - OpenShift Container Platform cluster as compute platform (Cloudera on-premises only). `EKS` - EKS cluster as compute platform `AKS` - AKS cluster as compute platform `RKE` - Rancher RKE as compute platform (Cloudera on-premises only). `GKE` - GKE cluster as compute platform `OCP` - OCP Container Platform cluster as compute platform (Cloudera on-premises only). `KCLOUD` - KCLOUD cluster as compute platform (Cloudera on-premises only). `STANDARD` - STANDARD cluster as compute platform (Cloudera on-premises only).",
+      "enum": [
+        "OPENSHIFT",
+        "EKS",
+        "AKS",
+        "RKE"
+      ]
+    },
+    "EnvCloudProvider": {
+      "type": "string",
+      "description": "Object representing cloud provider type for Cloudera environment.\n `AWS` - Cloudera environment installed in AWS. `AZURE` - Cloudera environment installed in Azure. `OPENSHIFT` - Cloudera environment installed as on-premises installation using OpenShift in the base cluster. `GCP` - Cloudera environment installed in GCP. `REDHAT` - Cloudera environment installed as an on-premises deployment using Red Hat infrastructure. `KCLOUD` - Cloudera environment installed as an on-premises deployment using KCLOUD infrastructure. `STANDARD` - Cloudera environment installed as a generic on-premises deployment using CDP Data services.",
+      "enum": [
+        "AWS",
+        "AZURE",
+        "OPENSHIFT"
+      ]
+    },
+    "ListClusterItem": {
+      "type": "object",
+      "description": "List clusters item structure.",
+      "properties": {
+        "envName": {
+          "type": "string",
+          "description": "CDP environment name."
+        },
+        "envCloudProvider": {
+          "description": "CDP environment cloud provider.",
+          "$ref": "#/$defs/EnvCloudProvider"
+        },
+        "clusterName": {
+          "type": "string",
+          "description": "Compute cluster name."
+        },
+        "clusterCrn": {
+          "type": "string",
+          "description": "Compute cluster CRN."
+        },
+        "status": {
+          "type": "string",
+          "description": "Compute cluster status."
+        },
+        "computePlatform": {
+          "description": "Compute cluster platform provider.",
+          "$ref": "#/$defs/ComputePlatform"
+        },
+        "computePlatformVersion": {
+          "type": "string",
+          "description": "Compute cluster platform version.",
+          "x-form-factors": "private"
+        },
+        "kubernetesVersion": {
+          "type": "string",
+          "description": "Kubernetes version."
+        },
+        "clusterSize": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of nodes in the cluster.",
+          "x-form-factors": "private"
+        },
+        "clusterId": {
+          "type": "string",
+          "description": "Compute cluster ID."
+        },
+        "envCrn": {
+          "type": "string",
+          "description": "CDP environment CRN."
+        },
+        "clusterType": {
+          "description": "Compute cluster type.",
+          "$ref": "#/$defs/ComputeClusterType",
+          "x-form-factors": "public"
+        },
+        "creationTime": {
+          "type": "string",
+          "description": "Compute cluster creation time in ISO format.",
+          "x-form-factors": "public"
+        },
+        "deletionTime": {
+          "type": "string",
+          "description": "Compute cluster deletion time in ISO format.",
+          "x-form-factors": "public"
+        },
+        "updateTime": {
+          "type": "string",
+          "description": "Compute cluster update time in ISO format.",
+          "x-form-factors": "public"
+        },
+        "clusterStateVersion": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Cluster state version.",
+          "x-form-factors": "public"
+        },
+        "clusterOwner": {
+          "description": "Cluster owner.",
+          "$ref": "#/$defs/ComputeClusterOwner",
+          "x-form-factors": "public"
+        },
+        "region": {
+          "type": "string",
+          "description": "Region.",
+          "x-form-factors": "public"
+        },
+        "message": {
+          "type": "string",
+          "description": "Message with additional details about the cluster status.",
+          "x-form-factors": "public"
+        },
+        "account": {
+          "type": "string",
+          "description": "/ CDP account ID.",
+          "x-form-factors": "public"
+        },
+        "availableUpgrades": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of available kubernetes upgrades.",
+          "x-form-factors": "public"
+        },
+        "imageCatalog": {
+          "description": "The image catalog details.",
+          "$ref": "#/$defs/CommonImageCatalogResp",
+          "x-form-factors": "public"
+        },
+        "storage": {
+          "description": "The storage specifications.",
+          "$ref": "#/$defs/CommonStorageSpecResp",
+          "x-form-factors": "public"
+        },
+        "labels": {
+          "type": "object",
+          "description": "Map of labels associated with this cluster.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "isDefault": {
+          "type": "boolean",
+          "description": "The cluster which is automatically created for every containerized environment.",
+          "x-form-factors": "public"
+        },
+        "clusterShape": {
+          "type": "string",
+          "description": "The clusterShape represents the shape of the cluster, which can be \"Embedded\" or \"Externalized\".",
+          "x-form-factors": "public"
+        }
+      }
+    }
+  }
+}

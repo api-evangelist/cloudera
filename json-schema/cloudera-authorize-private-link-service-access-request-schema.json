@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-authorize-private-link-service-access-request-schema.json",
+  "title": "AuthorizePrivateLinkServiceAccessRequest",
+  "description": "Request object for the AuthorizePrivateLinkServicesAccess method.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-cloudprivatelinks-api-openapi.yml#/components/schemas/AuthorizePrivateLinkServiceAccessRequest",
+  "type": "object",
+  "properties": {
+    "cloudAccountId": {
+      "type": "string",
+      "description": "AWS account ID to authorize access for Private Link."
+    },
+    "subscriptionId": {
+      "type": "string",
+      "description": "Azure subscription ID to authorize access for Private Link."
+    },
+    "region": {
+      "type": "string",
+      "description": "Region where the Private Link service exists."
+    },
+    "serviceGroup": {
+      "type": "string",
+      "description": "CDP service group. Currently supported \"CDP-CONTROL-PLANE\" for PaaS."
+    },
+    "cloudServiceProvider": {
+      "description": "Cloud Service Provider. Currently supporting AWS and AZURE.",
+      "$ref": "#/$defs/CloudServiceProvider"
+    }
+  },
+  "$defs": {
+    "CloudServiceProvider": {
+      "type": "string",
+      "description": "Supported cloud providers\n `AWS` - A value indicating AWS as supported cloud provider for creating Private Links. `AZURE` - A value indicating Azure as supported cloud provider for creating Private Links.",
+      "enum": [
+        "AWS",
+        "AZURE"
+      ]
+    }
+  }
+}

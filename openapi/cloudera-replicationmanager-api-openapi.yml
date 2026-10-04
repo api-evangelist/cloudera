@@ -659,47 +659,351 @@ paths:
       - Replicationmanager
 components:
   schemas:
-    GetCommandStatusResponse:
+    DeleteHbasePolicyRequest:
       type: object
-      description: Response object for get command status.
+      description: Request object to delete an HBase replication policy.
       required:
-      - commandId
+      - clusterCrn
+      - policyId
       properties:
-        commandId:
-          description: Id of the CM command.
-          format: int64
-          type: integer
-        success:
-          description: Whether the diagnostic collection is successful.
-          type: boolean
-        active:
-          description: Whether the command is still active.
-          type: boolean
-        name:
-          description: Name of the policy.
+        clusterCrn:
           type: string
-        startTime:
-          description: Start time of the CM command.
+          description: CRN of the destination cluster.
+        policyId:
+          type: string
+          description: ID of the HBase policy.
+        force:
+          type: boolean
+          description: Option to force delete an Hbase policy. It should be used if the normal delete fails (e.g. when the source cluster is unreachable).
+    TargetDetails:
+      type: object
+      description: Target details.
+      required:
+      - environmentCrn
+      properties:
+        environmentCrn:
+          description: Target's environment CRN.
+          type: string
+        warehouseCrn:
+          description: Target's warehouse CRN.
+          type: string
+    GetClusterConfigRequest:
+      type: object
+      description: Request object for getClusterConfig.
+      required:
+      - clusterCrn
+      properties:
+        clusterCrn:
+          type: string
+          description: The CRN of the cluster.
+    CreatePolicyResponse:
+      type: object
+      description: Response object for createPolicy.
+      properties:
+        clusterCrn:
+          type: string
+          description: The CRN of the input cluster.
+        requestId:
+          type: string
+          description: The ID of the request. Populated only for Ambari backend.
+        message:
+          type: string
+          description: The detailed description of the action taken.
+        status:
+          type: string
+          description: The status of the request.
+    ActivatePolicyResponse:
+      type: object
+      description: Response object for resumePolicy.
+      properties:
+        clusterCrn:
+          type: string
+          description: The CRN of the input cluster.
+        requestId:
+          type: string
+          description: The ID of the request. Populated only for Ambari backend.
+        message:
+          type: string
+          description: The detailed description of the action taken.
+        status:
+          type: string
+          description: The status of the request.
+    ListClustersRequest:
+      type: object
+      description: Request to list clusters.
+    ServiceInfo:
+      type: object
+      description: Service status definition.
+      required:
+      - serviceName
+      - status
+      properties:
+        serviceName:
+          description: Service name.
+          type: string
+        status:
+          description: Service status.
+          type: string
+    GetCredentialsResponse:
+      type: object
+      description: Response for credential request.
+      properties:
+        credentials:
+          type: array
+          description: List of credentials.
+          items:
+            $ref: '#/components/schemas/CredentialDetails'
+    PolicyReportDetails:
+      type: object
+      description: Policy report details.
+      required:
+      - status
+      - endTime
+      properties:
+        status:
+          description: Status of the command.
           type: string
         endTime:
-          description: End time of the CM command.
+          description: End time.
           type: string
-        resultDataUrl:
-          description: Some commands have result data URL for downloading the diagnostic bundle. On certain CM versions the bundle download is only available through this URL, but not with download-diagnostic-bundle operation.
+          format: date-time
+    ListAllCredentialsRequest:
+      type: object
+      description: Request object for listing all cloud credentials on all clusters.
+    ServiceConfiguration:
+      description: Configuration related to a service.
+      type: object
+      properties:
+        name:
+          description: The name of the service.
           type: string
-        resultMessage:
-          description: Result message of the command.
+        configs:
+          description: Service configuration map.
+          type: object
+          additionalProperties:
+            type: string
+    CodProperties:
+      type: object
+      description: Additional properties for operational databases.
+      properties:
+        operationalDatabaseName:
+          description: Name of the corresponding operational database..
           type: string
-        bundleStatus:
-          description: The current status of the command.
+    DeleteCredentialResponse:
+      type: object
+      description: Response object for delete credential operation.
+      properties:
+        errors:
+          description: The list of response errors in case of a partial failure while deleting the credential.
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiError'
+    CreateAbfsCredentialResponse:
+      type: object
+      description: Response object for creating ABFS credentials.
+      properties:
+        errors:
+          description: The list of response errors in case of a partial failure while creating the credential.
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiError'
+    PolicyReport:
+      type: object
+      description: Policy report.
+      properties:
+        lastSucceededInstance:
+          description: Last successful instance.
+          $ref: '#/components/schemas/PolicyReportDetails'
+        lastFailedInstance:
+          description: Last failed instance.
+          $ref: '#/components/schemas/PolicyReportDetails'
+    HiveArguments:
+      type: object
+      description: Hive replication arguments.
+      properties:
+        databasesAndTables:
+          description: Scope of the replication.
+          type: array
+          items:
+            $ref: '#/components/schemas/HiveDatabaseAndTables'
+        sentryPermissions:
+          description: Include or exclude Sentry permissions.
           type: string
           enum:
-          - IN_PROGRESS
-          - DOWNLOADABLE_WITH_URL
-          - DOWNLOADABLE_WITH_CLI
-          - FAILED
-        bundleStatusMessage:
-          description: Further information about the current command status.
+          - INCLUDE
+          - EXCLUDE
+        skipUrlPermissions:
+          description: Skip URL permissions.
+          type: boolean
+        numThreads:
+          description: Number of threads to use during replication.
+          type: integer
+          format: int64
+    CreateAwsCredentialResponse:
+      type: object
+      description: Response object for creating AWS credentials.
+      properties:
+        errors:
+          description: The list of response errors in case of a partial failure while creating the credential.
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiError'
+    ActivateHbasePolicyRequest:
+      type: object
+      description: Activate an HBase replication policy.
+      required:
+      - clusterCrn
+      - policyId
+      properties:
+        clusterCrn:
+          type: string
+          description: CRN of the destination cluster.
+        policyId:
+          type: string
+          description: ID of the HBase policy.
+    PolicyDefinition:
+      type: object
+      description: Policy creation request definition.
+      required:
+      - name
+      - type
+      - sourceDataset
+      - frequencyInSec
+      properties:
+        name:
+          description: Name of the new policy.
+          type: string
+        type:
+          description: Policy replication type.
+          type: string
+          enum:
+          - FS
+          - HIVE
+          - HBASE
+        sourceDataset:
+          description: Source dataset to replicate.
+          $ref: '#/components/schemas/SourceDataset'
+        frequencyInSec:
+          description: Policy's frequency in seconds.
+          type: integer
+          format: int64
+        targetDataset:
+          description: Dataset to replicate to.
+          type: string
+        cloudCredential:
+          description: Cloud credentials to use if replicating to Cloud.
+          type: string
+        sourceCluster:
+          description: 'Name of source cluster in the format: "dataCenterName$cluster name", for example "DC-Europe$My Source 42.'
+          type: string
+        targetCluster:
+          description: 'Name of destination cluster in the format: "dataCenterName$cluster name", for example "DC-US$My Destination 17".'
+          type: string
+        startTime:
+          description: Start time.
+          type: string
+          format: date-time
+        endTime:
+          description: End time.
+          type: string
+          format: date-time
+        distcpMaxMaps:
+          description: Maximum Map jobs to use for replication.
+          type: integer
+          format: int64
+        distcpMapBandwidth:
+          description: Maximum bandwidth to use for replication.
+          type: integer
+          format: int64
+        queueName:
+          description: YARN queue name if not default.
+          type: string
+        tdeSameKey:
+          description: TDE same key.
+          type: boolean
+        description:
+          description: Description of the policy.
+          type: string
+        enableSnapshotBasedReplication:
+          description: Enable snapshot based replication.
+          type: boolean
+        cloudEncryptionAlgorithm:
+          description: The type of cloud encryption algorithm. Can be used only for HDP/Ambari managed clusters. Supported values are AES256,SSE-KMS.
+          type: string
+        cloudEncryptionKey:
+          description: Cloud encryption key.
+          type: string
+        plugins:
+          description: Plugins.
+          type: array
+          x-default: null
+          items:
+            type: string
+        hiveExternalTableBaseDirectory:
+          description: Hive external table base directory.
+          type: string
+        cmPolicySubmitUser:
+          description: CM policy submit user.
+          $ref: '#/components/schemas/CmPolicySubmitUser'
+    HbaseDatabaseArguments:
+      type: object
+      description: HBase database replication arguments.
+      properties:
+        replicationStrategy:
+          description: Whether to replicate all tables or only the ones where the replication scope has been set. Defaults to ALL_TABLES.
+          type: string
+          enum:
+          - ALL_TABLES
+          - TABLES_WITH_REPLICATION_SCOPE_SET
+    DeleteHbasePolicyResponse:
+      type: object
+      description: Response object for deleteHbasePolicy.
+      properties:
+        clusterCrn:
+          type: string
+          description: The CRN of the input cluster.
+        message:
+          type: string
+          description: The detailed description of the action taken.
+        status:
+          type: string
+          description: The status of the request.
+    CollectDiagnosticBundleRequest:
+      type: object
+      description: Triggers a diagnostic bundle collect command for the given cluster and policyName.
+      required:
+      - clusterCrn
+      - policyName
+      properties:
+        clusterCrn:
+          description: The CRN of the target cluster.
+          type: string
+        policyName:
+          description: Name of the policy.
+          type: string
+    ApiError:
+      type: object
+      description: API error.
+      required:
+      - code
+      - message
+      - status
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: Error code.
+        message:
+          description: Error message.
+          type: string
+        status:
+          description: Error status.
+          type: string
+        clusterUrl:
+          type: string
+          description: Cluster URL.
+        requestId:
+          description: Request ID.
           type: string
     CreateHbasePolicyResponse:
       type: object
@@ -714,29 +1018,132 @@ components:
         status:
           type: string
           description: The status of the request.
-    ActivateHbasePolicyRequest:
+    CredentialCollection:
       type: object
-      description: Activate an HBase replication policy.
+      description: Cloud Credentials listing.
+      required:
+      - totalResults
+      - results
+      - credentials
+      properties:
+        totalResults:
+          description: Total number cloud credentials.
+          type: integer
+          format: int64
+        results:
+          description: Number of cloud credentials in the response.
+          type: integer
+          format: int64
+        credentials:
+          description: Cloud credential details.
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialDetails'
+    Alert:
+      type: object
+      description: Cloudera Manager alerting behavior.
+      required:
+      - onFailure
+      - onStart
+      - onSuccess
+      - onAbort
+      properties:
+        onFailure:
+          description: Alert on failure.
+          type: boolean
+        onStart:
+          description: Alert on start.
+          type: boolean
+        onSuccess:
+          description: ALert on success.
+          type: boolean
+        onAbort:
+          description: Alert on abort.
+          type: boolean
+    Preserve:
+      type: object
+      description: Properties to preserve after replication.
+      required:
+      - blockSize
+      - replicationCount
+      - permissions
+      - extendedAttributes
+      properties:
+        blockSize:
+          description: Block size.
+          type: boolean
+        replicationCount:
+          description: Replication count.
+          type: boolean
+        permissions:
+          description: Permissions.
+          type: boolean
+        extendedAttributes:
+          description: Extended attributes.
+          type: boolean
+    SuspendPolicyRequest:
+      type: object
+      description: Suspend a replication policy.
       required:
       - clusterCrn
-      - policyId
+      - policyName
       properties:
         clusterCrn:
           type: string
-          description: CRN of the destination cluster.
-        policyId:
+          description: CRN of the cluster where the policy is.
+        policyName:
           type: string
-          description: ID of the HBase policy.
-    PolicyReport:
+          description: Policy name to suspend.
+    CredentialDetails:
       type: object
-      description: Policy report.
+      description: Cloud credential details for by-name or by-id cloud credential request.
+      required:
+      - id
+      - name
+      - provider
+      - authType
+      - creationTime
+      - lastModifiedTime
       properties:
-        lastSucceededInstance:
-          description: Last successful instance.
-          $ref: '#/components/schemas/PolicyReportDetails'
-        lastFailedInstance:
-          description: Last failed instance.
-          $ref: '#/components/schemas/PolicyReportDetails'
+        id:
+          description: Credential id.
+          type: string
+        name:
+          description: Credential name.
+          type: string
+        provider:
+          description: Credential provider.
+          type: string
+        authType:
+          description: Authentication type.
+          type: string
+        creationTime:
+          description: Creation time.
+          type: string
+          format: date-time
+        lastModifiedTime:
+          description: Last modified time.
+          type: string
+          format: date-time
+        configs:
+          description: Configurations.
+          type: object
+          additionalProperties:
+            type: string
+        customConfigs:
+          description: Custom configurations.
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomConfigs'
+    ListPoliciesRequest:
+      type: object
+      description: Request object for listing all policies.
+    AwsCloudCredentialType:
+      type: string
+      description: AWS cloud credential type.
+      enum:
+      - IAM
+      - ACCESSKEY
     MachineUser:
       type: object
       description: Username and password for the machine user.
@@ -755,23 +1162,22 @@ components:
         createUser:
           description: This option has no effect if the machine user already exists. Otherwise if 'true', a new machine user is created. If 'false', an error is returned indicating that the user does not exist.
           type: boolean
-    CustomConfigs:
+    UpdateHbasePolicyDefinition:
       type: object
-      description: Custom key/value configurations.
-      required:
-      - name
-      - value
-      - confidential
+      description: HBase policy update request definition.
       properties:
         name:
-          description: Name.
           type: string
-        value:
-          description: Value.
+          description: The policy name.
+        description:
           type: string
-        confidential:
-          description: Whether the value is confidential.
-          type: boolean
+          description: Description of the policy.
+        tables:
+          description: List of tables to be replicated. The items should be in "namespace:tablename" format.
+          x-default: null
+          type: array
+          items:
+            type: string
     VerifyHbaseClusterPairResponse:
       type: object
       description: Response object for verifyHbaseClusterPair.
@@ -814,180 +1220,58 @@ components:
             destination:
               description: Steps to perform for the destination cluster.
               $ref: '#/components/schemas/VerificationSteps'
-    Alert:
+    ListPoliciesResponse:
       type: object
-      description: Cloudera Manager alerting behavior.
+      description: Response object for a list policies request.
       required:
-      - onFailure
-      - onStart
-      - onSuccess
-      - onAbort
+      - unreachableClusters
+      - policyErrors
+      - policies
       properties:
-        onFailure:
-          description: Alert on failure.
-          type: boolean
-        onStart:
-          description: Alert on start.
-          type: boolean
-        onSuccess:
-          description: ALert on success.
-          type: boolean
-        onAbort:
-          description: Alert on abort.
-          type: boolean
-    Cluster:
-      type: object
-      description: Describes a Datalake, Datahub or Classic cluster.
-      required:
-      - crn
-      - name
-      - dataCenter
-      - clusterType
-      - replicationEngineType
-      - clusterManagerType
-      - clusterManagerUrl
-      - clusterUrl
-      properties:
-        crn:
-          description: Cluster CRN.
-          type: string
-        name:
-          description: Cluster name.
-          type: string
-        dataCenter:
-          description: Cluster data center.
-          type: string
-        clusterType:
-          description: Cluster type.
-          type: string
-          enum:
-          - CLASSIC
-          - SDX
-          - DISTROX
-        replicationEngineType:
-          description: Replication engine type.
-          type: string
-          enum:
-          - CM
-          - DLM_ENGINE
-        clusterManagerType:
-          description: Cluster Manager type.
-          type: string
-          enum:
-          - CLOUDERA_MANAGER
-          - AMBARI
-        clusterManagerUrl:
-          description: Cluster Manager URL.
-          type: string
-        clusterUrl:
-          description: Cluster URL.
-          type: string
-        totalHosts:
-          description: Total hosts on the cluster.
-          type: integer
-          format: int32
-        location:
-          description: Cluster location.
-          $ref: '#/components/schemas/Location'
-        stackCrn:
-          description: Stack CRN.
-          type: string
-        description:
-          description: Cluster description.
-          type: string
-        stackMajorVersion:
-          description: Stack major version.
-          type: string
-        stackVersion:
-          description: Stack version.
-          type: string
-        uuid:
-          description: Cluster UUID from Cloudera Manager if the cluster has CM backend.
-          type: string
-        environmentCrn:
-          description: CRN of the cluster's environment.
-          type: string
-        knoxUrl:
-          description: Knox URL if the cluster was registered with one, null otherwise.
-          type: string
-        cloudAccountProvider:
-          description: Cloud account provider.
-          type: string
-          enum:
-          - AWS
-          - ADLS
-          - WASB
-          - ABFS
-          - GCS
-        cmName:
-          description: Cloudera Manager name.
-          type: string
-        codProperties:
-          description: Additional properties for operational databases.
-          $ref: '#/components/schemas/CodProperties'
-    SuspendPolicyRequest:
-      type: object
-      description: Suspend a replication policy.
-      required:
-      - clusterCrn
-      - policyName
-      properties:
-        clusterCrn:
-          type: string
-          description: CRN of the cluster where the policy is.
-        policyName:
-          type: string
-          description: Policy name to suspend.
-    DownloadDiagnosticBundleRequest:
-      type: object
-      description: Request to download the diagnostic bundle for the given cluster and command id.
-      required:
-      - clusterCrn
-      - commandId
-      properties:
-        clusterCrn:
-          description: The CRN of the target cluster.
-          type: string
-        commandId:
-          description: The command ID from the response of collect-diagnostic-bundle command.
-          type: string
-    DeleteCredentialRequest:
-      type: object
-      description: Request object for deleting a credential.
-      required:
-      - name
-      properties:
-        name:
-          description: Name of the cloud credential to delete.
-          type: string
-    HbaseCrnPairs:
-      type: object
-      description: HBase CRN pairs.
-      properties:
-        pairedCrns:
-          description: The list of CRNs which are peers of each other.
+        unreachableClusters:
+          description: List of errors for unreachable clusters.
           type: array
           items:
-            type: string
-    SuspendHbasePolicyResponse:
+            $ref: '#/components/schemas/ApiError'
+        policyErrors:
+          description: List of policy errors.
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiError'
+        policies:
+          description: List of policies.
+          type: array
+          items:
+            $ref: '#/components/schemas/Policy'
+    ListClusterServiceStatusesRequest:
       type: object
-      description: Response object for suspendHbasePolicy.
+      description: Request object to list cluster statuses.
+    HbaseSuspendType:
+      description: Describes how suspend and resume affects HBase policies on the cluster. 'ALL' means that suspend/resume affects all HBase policies with the same source and destination cluster, while 'POLICY' means that only the selected policy gets suspended/resumed. 'NOT_SUPPORTED' means that this feature is not available on the cluster.
+      type: string
+      enum:
+      - POLICY
+      - ALL
+      - NOT_SUPPORTED
+    HbasePolicyArguments:
+      type: object
+      description: HBase replication parameters.
       properties:
-        clusterCrn:
+        tables:
+          description: List of tables to be replicated. The key should be in "namespace:tablename" format. If this list is empty, then the whole database will be replicated.
+          type: array
+          x-default: null
+          items:
+            type: string
+        cloudCredential:
+          description: Cloud credentials to use to replicate the initial snapshot if the credential location is specified as 'EXTERNAL_ACCOUNT'.
           type: string
-          description: The CRN of the input cluster.
-        message:
-          type: string
-          description: The detailed description of the action taken.
-        status:
-          type: string
-          description: The status of the request.
-    ListAllCredentialsRequest:
+        databaseArguments:
+          description: Optional parameters used for HBase database replication.
+          $ref: '#/components/schemas/HbaseDatabaseArguments'
+    DeletePolicyResponse:
       type: object
-      description: Request object for listing all cloud credentials on all clusters.
-    ActivatePolicyResponse:
-      type: object
-      description: Response object for resumePolicy.
+      description: Response object for deletePolicy.
       properties:
         clusterCrn:
           type: string
@@ -1001,26 +1285,19 @@ components:
         status:
           type: string
           description: The status of the request.
-    HbaseDatabaseArguments:
+    SuspendHbasePolicyRequest:
       type: object
-      description: HBase database replication arguments.
+      description: Suspend an HBase replication policy.
+      required:
+      - clusterCrn
+      - policyId
       properties:
-        replicationStrategy:
-          description: Whether to replicate all tables or only the ones where the replication scope has been set. Defaults to ALL_TABLES.
+        clusterCrn:
           type: string
-          enum:
-          - ALL_TABLES
-          - TABLES_WITH_REPLICATION_SCOPE_SET
-    SourceDataset:
-      type: object
-      description: Extra properties for the source dataset.
-      properties:
-        hdfsArguments:
-          description: HDFS arguments for HDFS and Hive replication.
-          $ref: '#/components/schemas/HdfsArguments'
-        hiveArguments:
-          description: Arguments for Hive replication, null if HDFS replication.
-          $ref: '#/components/schemas/HiveArguments'
+          description: CRN of the destination cluster.
+        policyId:
+          type: string
+          description: ID of the HBase policy.
     Policy:
       type: object
       description: Replication policy definition.
@@ -1115,19 +1392,60 @@ components:
         target:
           description: Replication target details.
           $ref: '#/components/schemas/TargetDetails'
-    Error:
+    CollectDiagnosticBundleResponse:
       type: object
-      description: An object returned on an error.
+      description: Response object for collect-diagnostic-bundle.
+      required:
+      - commandId
       properties:
-        code:
+        commandId:
+          description: ID of the diagnostic bundle collection command issued against the CM. Polling get-command-status with this command id returns the current state of the command.
+          format: int64
+          type: integer
+        name:
+          description: Name of the policy.
           type: string
-          description: The error code.
+        active:
+          description: Whether the diagnostic bundle command is active.
+          type: boolean
+        startTime:
+          description: Start time of the diagnostic bundle collection command.
+          type: string
+        resultMessage:
+          description: Diagnostic bundle collection command result message.
+          type: string
+    DeletePolicyRequest:
+      type: object
+      description: Delete a replication policy.
+      required:
+      - clusterCrn
+      - policyName
+      properties:
+        clusterCrn:
+          type: string
+          description: CRN of the cluster where the policy is.
+        policyName:
+          type: string
+          description: Policy name to delete.
+    SuspendPolicyResponse:
+      type: object
+      description: Response object for suspendPolicy.
+      properties:
+        clusterCrn:
+          type: string
+          description: The CRN of the input cluster.
+        requestId:
+          type: string
+          description: The ID of the request. Populated only for Ambari backend.
         message:
           type: string
-          description: The error message.
-    ContinueHbaseSetupResponse:
+          description: The detailed description of the action taken.
+        status:
+          type: string
+          description: The status of the request.
+    ActivateHbasePolicyResponse:
       type: object
-      description: Response object for continueHbaseSetup.
+      description: Response object for activateHbasePolicy.
       properties:
         clusterCrn:
           type: string
@@ -1138,6 +1456,537 @@ components:
         status:
           type: string
           description: The status of the request.
+    GetClusterConfigResponse:
+      type: object
+      description: Response object for getClusterConfig.
+      properties:
+        clusterCrn:
+          description: The CRN of the cluster.
+          type: string
+        cmApiVersion:
+          description: Cloudera Manager API version.
+          type: integer
+          format: int32
+        underlyingFsForHive:
+          description: Underlying file system for Hive.
+          type: string
+          enum:
+          - HDFS
+          - S3
+          - WASB
+          - ABFS
+          - GCS
+        dmx:
+          description: Configuration related to DMX.
+          type: object
+          properties:
+            hbaseSuspend:
+              description: Suspend type for HBase policies.
+              $ref: '#/components/schemas/HbaseSuspendType'
+        featureSupport:
+          description: A map of available features and whether they are supported on the cluster.
+          type: object
+          additionalProperties:
+            type: boolean
+        services:
+          description: A list of service configurations.
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceConfiguration'
+    ListClusterServiceStatusesResponse:
+      type: object
+      description: Response object for listing of cluster statuses.
+      properties:
+        statuses:
+          type: array
+          description: List of statuses by cluster.
+          items:
+            $ref: '#/components/schemas/ClusterServiceStatuses'
+    HiveDatabaseAndTables:
+      type: object
+      description: Hive replication scope.
+      required:
+      - database
+      properties:
+        database:
+          description: Database to replicate.
+          type: string
+        tablesIncludeRegex:
+          description: Regex to match included tables.
+          type: string
+        tablesExcludeRegex:
+          description: Regex to match excluded tables.
+          type: string
+    Location:
+      type: object
+      description: Location object.
+      required:
+      - id
+      - country
+      - city
+      - latitude
+      - longitude
+      properties:
+        id:
+          description: Location ID.
+          type: integer
+          format: int64
+        country:
+          description: Country.
+          type: string
+        city:
+          description: City.
+          type: string
+        latitude:
+          description: Latitude.
+          type: number
+          format: double
+        longitude:
+          description: Longitude.
+          type: number
+          format: double
+    UpdateHbasePolicyResponse:
+      type: object
+      description: Response object for updateHbasePolicy.
+      properties:
+        clusterCrn:
+          type: string
+          description: The CRN of the input cluster.
+        requestId:
+          type: string
+          description: The ID of the request. Populated only for Ambari backend.
+        message:
+          type: string
+          description: The detailed description of the action taken.
+        status:
+          type: string
+          description: The status of the request (Successful or an error).
+    ListPairedHbaseClustersRequest:
+      type: object
+      description: Request to list all paired HBase cluster CRNs.
+    GetCommandStatusResponse:
+      type: object
+      description: Response object for get command status.
+      required:
+      - commandId
+      properties:
+        commandId:
+          description: Id of the CM command.
+          format: int64
+          type: integer
+        success:
+          description: Whether the diagnostic collection is successful.
+          type: boolean
+        active:
+          description: Whether the command is still active.
+          type: boolean
+        name:
+          description: Name of the policy.
+          type: string
+        startTime:
+          description: Start time of the CM command.
+          type: string
+        endTime:
+          description: End time of the CM command.
+          type: string
+        resultDataUrl:
+          description: Some commands have result data URL for downloading the diagnostic bundle. On certain CM versions the bundle download is only available through this URL, but not with download-diagnostic-bundle operation.
+          type: string
+        resultMessage:
+          description: Result message of the command.
+          type: string
+        bundleStatus:
+          description: The current status of the command.
+          type: string
+          enum:
+          - IN_PROGRESS
+          - DOWNLOADABLE_WITH_URL
+          - DOWNLOADABLE_WITH_CLI
+          - FAILED
+        bundleStatusMessage:
+          description: Further information about the current command status.
+          type: string
+    UpdateHbasePolicyRequest:
+      type: object
+      description: Update HBase replication policy request.
+      required:
+      - clusterCrn
+      - policyId
+      - updateHbasePolicyDefinition
+      properties:
+        clusterCrn:
+          type: string
+          description: The CRN of the cluster where the policy will be updated.
+        policyId:
+          type: string
+          description: The ID of the policy to be updated.
+        updateHbasePolicyDefinition:
+          description: The policy definition.
+          $ref: '#/components/schemas/UpdateHbasePolicyDefinition'
+    ListClustersResponse:
+      type: object
+      description: Response object for list clusters request.
+      required:
+      - unreachableClusters
+      - clusters
+      properties:
+        unreachableClusters:
+          description: List of errors for unreachable clusters.
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiError'
+        clusters:
+          type: array
+          description: List of clusters.
+          items:
+            $ref: '#/components/schemas/Cluster'
+    DownloadDiagnosticBundleResponse:
+      type: object
+      description: Response object for download-diagnostic-bundle. On certain clusters this response will show if the download is only available directly from CM.
+      properties:
+        bundleFile:
+          x-skip-logging: true
+          description: Base64 encoded content of the diagnostic bundle zip file. A script like this can be used to save the response as file 'cat response.json | jq -r '.bundleFile' | base64 -D > bundle.zip'
+          type: string
+          format: byte
+    CmPolicySubmitUser:
+      type: object
+      description: CM Policy submit user.
+      properties:
+        userName:
+          description: Username.
+          type: string
+        sourceUser:
+          description: Source user.
+          type: string
+    DeleteCredentialRequest:
+      type: object
+      description: Request object for deleting a credential.
+      required:
+      - name
+      properties:
+        name:
+          description: Name of the cloud credential to delete.
+          type: string
+    SourceDataset:
+      type: object
+      description: Extra properties for the source dataset.
+      properties:
+        hdfsArguments:
+          description: HDFS arguments for HDFS and Hive replication.
+          $ref: '#/components/schemas/HdfsArguments'
+        hiveArguments:
+          description: Arguments for Hive replication, null if HDFS replication.
+          $ref: '#/components/schemas/HiveArguments'
+    CreatePolicyRequest:
+      type: object
+      description: Create a replication policy.
+      required:
+      - clusterCrn
+      - policyName
+      - policyDefinition
+      properties:
+        clusterCrn:
+          type: string
+          description: CRN of the cluster where the policy will be created.
+        policyName:
+          type: string
+          description: Name of the new policy.
+        policyDefinition:
+          description: Policy definition.
+          $ref: '#/components/schemas/PolicyDefinition'
+    DownloadDiagnosticBundleRequest:
+      type: object
+      description: Request to download the diagnostic bundle for the given cluster and command id.
+      required:
+      - clusterCrn
+      - commandId
+      properties:
+        clusterCrn:
+          description: The CRN of the target cluster.
+          type: string
+        commandId:
+          description: The command ID from the response of collect-diagnostic-bundle command.
+          type: string
+    CredentialsResponse:
+      type: object
+      description: Response object for cloud credentials.
+      required:
+      - clusterCrn
+      - clusterUrl
+      - replicationEngineType
+      - credentials
+      properties:
+        clusterCrn:
+          description: Cluster CRN.
+          type: string
+        clusterUrl:
+          description: Cluster URL.
+          type: string
+        replicationEngineType:
+          description: Replication engine type.
+          type: string
+          enum:
+          - CM
+          - DLMENGINE
+        credentials:
+          description: Cloud credentials.
+          $ref: '#/components/schemas/CredentialCollection'
+    ActivatePolicyRequest:
+      type: object
+      description: Activate a replication policy.
+      required:
+      - clusterCrn
+      - policyName
+      properties:
+        clusterCrn:
+          type: string
+          description: CRN of the cluster where the policy is.
+        policyName:
+          type: string
+          description: Policy name to resume.
+    ContinueHbaseSetupRequest:
+      type: object
+      description: Continue an HBase setup for Classic Cluster source.
+      required:
+      - clusterCrn
+      - policyId
+      properties:
+        clusterCrn:
+          type: string
+          description: The CRN of the destination cluster.
+        policyId:
+          type: string
+          description: The ID of the HBase policy.
+    ListAllCredentialsResponse:
+      type: object
+      description: Response object for list credentials request.
+      required:
+      - unreachableClusters
+      - credentials
+      properties:
+        unreachableClusters:
+          description: List of errors for unreachable clusters.
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiError'
+        credentials:
+          description: List of credentials by cluster.
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialsResponse'
+    VerificationSteps:
+      type: object
+      description: Verification steps.
+      properties:
+        clusterManagerUrl:
+          description: The cluster manager URL to reach the cluster's UI.
+          type: string
+        steps:
+          description: The list of manual steps to perform or verify.
+          type: array
+          items:
+            type: string
+    ErrorHandling:
+      type: object
+      description: Error handling behavior.
+      required:
+      - skipChecksumChecks
+      - skipListingChecksumChecks
+      - abortOnError
+      - abortOnSnapshotDiffFailures
+      properties:
+        skipChecksumChecks:
+          description: Skip checksum checks.
+          type: boolean
+        skipListingChecksumChecks:
+          description: Skip checksum checks for copy-listing.
+          type: boolean
+        abortOnError:
+          description: Abort policy on error.
+          type: boolean
+        abortOnSnapshotDiffFailures:
+          description: Abort policy if there are snapshot diff failures.
+          type: boolean
+    HbaseCrnPairs:
+      type: object
+      description: HBase CRN pairs.
+      properties:
+        pairedCrns:
+          description: The list of CRNs which are peers of each other.
+          type: array
+          items:
+            type: string
+    ClusterServiceStatuses:
+      type: object
+      description: Describes the status of services running on a cluster.
+      required:
+      - clusterCrn
+      - serviceStatuses
+      properties:
+        clusterCrn:
+          description: Cluster CRN.
+          type: string
+        serviceStatuses:
+          description: List of service statuses.
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceInfo'
+    CreateAbfsCredentialRequest:
+      type: object
+      description: 'Request object for creating ABFS cloud credentials. Currently supported cloud credentials: ABFS Access Key for Ambari clusters, ABFS Client Secret for CM clusters.'
+      required:
+      - name
+      - clusters
+      - type
+      properties:
+        name:
+          description: Name of the credential.
+          type: string
+        clusters:
+          description: List of cluster CRNs where the credential should be created.
+          type: array
+          items:
+            type: string
+        type:
+          description: 'Type of the credential. Additional required parameters by type: ACCESSKEY: storageAccountName, accessKey; CLIENTKEY: clientId, clientSecretKey, tenantId. Superfluous parameters are ignored. Providing ACCESSKEY will create an ABFS Access Key based account in Ambari. Providing CLIENTKEY will create an Azure Active Directory Service Principal account in Cloudera Manager. ACCESSKEY is only supported on Ambari, while CLIENTKEY is only supported on Cloudera Manager.'
+          $ref: '#/components/schemas/AbfsCloudCredentialType'
+        accessKey:
+          description: ABFS access key.
+          type: string
+          x-sensitive: true
+        storageAccountName:
+          description: ABFS storage account name.
+          type: string
+        clientId:
+          description: Client ID of an Active Directory service principal account.
+          type: string
+        clientSecretKey:
+          description: Client Key of an Active Directory service principal account.
+          type: string
+          x-sensitive: true
+        tenantId:
+          description: Tenant ID of an Active Directory service principal account.
+          type: string
+    Cluster:
+      type: object
+      description: Describes a Datalake, Datahub or Classic cluster.
+      required:
+      - crn
+      - name
+      - dataCenter
+      - clusterType
+      - replicationEngineType
+      - clusterManagerType
+      - clusterManagerUrl
+      - clusterUrl
+      properties:
+        crn:
+          description: Cluster CRN.
+          type: string
+        name:
+          description: Cluster name.
+          type: string
+        dataCenter:
+          description: Cluster data center.
+          type: string
+        clusterType:
+          description: Cluster type.
+          type: string
+          enum:
+          - CLASSIC
+          - SDX
+          - DISTROX
+        replicationEngineType:
+          description: Replication engine type.
+          type: string
+          enum:
+          - CM
+          - DLM_ENGINE
+        clusterManagerType:
+          description: Cluster Manager type.
+          type: string
+          enum:
+          - CLOUDERA_MANAGER
+          - AMBARI
+        clusterManagerUrl:
+          description: Cluster Manager URL.
+          type: string
+        clusterUrl:
+          description: Cluster URL.
+          type: string
+        totalHosts:
+          description: Total hosts on the cluster.
+          type: integer
+          format: int32
+        location:
+          description: Cluster location.
+          $ref: '#/components/schemas/Location'
+        stackCrn:
+          description: Stack CRN.
+          type: string
+        description:
+          description: Cluster description.
+          type: string
+        stackMajorVersion:
+          description: Stack major version.
+          type: string
+        stackVersion:
+          description: Stack version.
+          type: string
+        uuid:
+          description: Cluster UUID from Cloudera Manager if the cluster has CM backend.
+          type: string
+        environmentCrn:
+          description: CRN of the cluster's environment.
+          type: string
+        knoxUrl:
+          description: Knox URL if the cluster was registered with one, null otherwise.
+          type: string
+        cloudAccountProvider:
+          description: Cloud account provider.
+          type: string
+          enum:
+          - AWS
+          - ADLS
+          - WASB
+          - ABFS
+          - GCS
+        cmName:
+          description: Cloudera Manager name.
+          type: string
+        codProperties:
+          description: Additional properties for operational databases.
+          $ref: '#/components/schemas/CodProperties'
+    ListPairedHbaseClustersResponse:
+      type: object
+      description: Response object for listPairedHbaseClusters.
+      properties:
+        pairings:
+          description: The list of CRN pairings.
+          type: array
+          items:
+            $ref: '#/components/schemas/HbaseCrnPairs'
+        crnsMissingHbaseService:
+          description: Cluster CRNs where the HBase service was missing and pairing status could not be determined.
+          type: array
+          items:
+            type: string
+        unreachableClusters:
+          description: The list of errors for unreachable clusters.
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiError'
+    Error:
+      type: object
+      description: An object returned on an error.
+      properties:
+        code:
+          type: string
+          description: The error code.
+        message:
+          type: string
+          description: The error message.
     HbasePolicyDefinition:
       type: object
       description: HBase policy definition.
@@ -1178,402 +2027,25 @@ components:
         targetRestartType:
           description: Type of restart for the destination cluster. This is only accepted if the cluster has restart-type support. Default is ROLLING_RESTART.
           $ref: '#/components/schemas/RestartType'
-    PolicyDefinition:
-      type: object
-      description: Policy creation request definition.
-      required:
-      - name
-      - type
-      - sourceDataset
-      - frequencyInSec
-      properties:
-        name:
-          description: Name of the new policy.
-          type: string
-        type:
-          description: Policy replication type.
-          type: string
-          enum:
-          - FS
-          - HIVE
-          - HBASE
-        sourceDataset:
-          description: Source dataset to replicate.
-          $ref: '#/components/schemas/SourceDataset'
-        frequencyInSec:
-          description: Policy's frequency in seconds.
-          type: integer
-          format: int64
-        targetDataset:
-          description: Dataset to replicate to.
-          type: string
-        cloudCredential:
-          description: Cloud credentials to use if replicating to Cloud.
-          type: string
-        sourceCluster:
-          description: 'Name of source cluster in the format: "dataCenterName$cluster name", for example "DC-Europe$My Source 42.'
-          type: string
-        targetCluster:
-          description: 'Name of destination cluster in the format: "dataCenterName$cluster name", for example "DC-US$My Destination 17".'
-          type: string
-        startTime:
-          description: Start time.
-          type: string
-          format: date-time
-        endTime:
-          description: End time.
-          type: string
-          format: date-time
-        distcpMaxMaps:
-          description: Maximum Map jobs to use for replication.
-          type: integer
-          format: int64
-        distcpMapBandwidth:
-          description: Maximum bandwidth to use for replication.
-          type: integer
-          format: int64
-        queueName:
-          description: YARN queue name if not default.
-          type: string
-        tdeSameKey:
-          description: TDE same key.
-          type: boolean
-        description:
-          description: Description of the policy.
-          type: string
-        enableSnapshotBasedReplication:
-          description: Enable snapshot based replication.
-          type: boolean
-        cloudEncryptionAlgorithm:
-          description: The type of cloud encryption algorithm. Can be used only for HDP/Ambari managed clusters. Supported values are AES256,SSE-KMS.
-          type: string
-        cloudEncryptionKey:
-          description: Cloud encryption key.
-          type: string
-        plugins:
-          description: Plugins.
-          type: array
-          x-default: null
-          items:
-            type: string
-        hiveExternalTableBaseDirectory:
-          description: Hive external table base directory.
-          type: string
-        cmPolicySubmitUser:
-          description: CM policy submit user.
-          $ref: '#/components/schemas/CmPolicySubmitUser'
-    GetClusterConfigResponse:
-      type: object
-      description: Response object for getClusterConfig.
-      properties:
-        clusterCrn:
-          description: The CRN of the cluster.
-          type: string
-        cmApiVersion:
-          description: Cloudera Manager API version.
-          type: integer
-          format: int32
-        underlyingFsForHive:
-          description: Underlying file system for Hive.
-          type: string
-          enum:
-          - HDFS
-          - S3
-          - WASB
-          - ABFS
-          - GCS
-        dmx:
-          description: Configuration related to DMX.
-          type: object
-          properties:
-            hbaseSuspend:
-              description: Suspend type for HBase policies.
-              $ref: '#/components/schemas/HbaseSuspendType'
-        featureSupport:
-          description: A map of available features and whether they are supported on the cluster.
-          type: object
-          additionalProperties:
-            type: boolean
-        services:
-          description: A list of service configurations.
-          type: array
-          items:
-            $ref: '#/components/schemas/ServiceConfiguration'
-    GetCredentialsResponse:
-      type: object
-      description: Response for credential request.
-      properties:
-        credentials:
-          type: array
-          description: List of credentials.
-          items:
-            $ref: '#/components/schemas/CredentialDetails'
     RestartType:
       type: string
       description: Type of restart for a cluster.
       enum:
       - RESTART
       - ROLLING_RESTART
-    ActivateHbasePolicyResponse:
+    GetCommandStatusRequest:
       type: object
-      description: Response object for activateHbasePolicy.
-      properties:
-        clusterCrn:
-          type: string
-          description: The CRN of the input cluster.
-        message:
-          type: string
-          description: The detailed description of the action taken.
-        status:
-          type: string
-          description: The status of the request.
-    TargetDetails:
-      type: object
-      description: Target details.
-      required:
-      - environmentCrn
-      properties:
-        environmentCrn:
-          description: Target's environment CRN.
-          type: string
-        warehouseCrn:
-          description: Target's warehouse CRN.
-          type: string
-    CredentialDetails:
-      type: object
-      description: Cloud credential details for by-name or by-id cloud credential request.
-      required:
-      - id
-      - name
-      - provider
-      - authType
-      - creationTime
-      - lastModifiedTime
-      properties:
-        id:
-          description: Credential id.
-          type: string
-        name:
-          description: Credential name.
-          type: string
-        provider:
-          description: Credential provider.
-          type: string
-        authType:
-          description: Authentication type.
-          type: string
-        creationTime:
-          description: Creation time.
-          type: string
-          format: date-time
-        lastModifiedTime:
-          description: Last modified time.
-          type: string
-          format: date-time
-        configs:
-          description: Configurations.
-          type: object
-          additionalProperties:
-            type: string
-        customConfigs:
-          description: Custom configurations.
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomConfigs'
-    CreateHbasePolicyRequest:
-      type: object
-      description: Create an HBase replication policy.
+      description: Get the current status of any CM command.
       required:
       - clusterCrn
-      - policyName
-      - policyDefinition
-      properties:
-        clusterCrn:
-          description: CRN of the destination cluster.
-          type: string
-        policyName:
-          type: string
-          description: Name of the new policy.
-        policyDefinition:
-          description: Policy definition.
-          $ref: '#/components/schemas/HbasePolicyDefinition'
-    ContinueHbaseSetupRequest:
-      type: object
-      description: Continue an HBase setup for Classic Cluster source.
-      required:
-      - clusterCrn
-      - policyId
-      properties:
-        clusterCrn:
-          type: string
-          description: The CRN of the destination cluster.
-        policyId:
-          type: string
-          description: The ID of the HBase policy.
-    CreateAbfsCredentialResponse:
-      type: object
-      description: Response object for creating ABFS credentials.
-      properties:
-        errors:
-          description: The list of response errors in case of a partial failure while creating the credential.
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiError'
-    CredentialsResponse:
-      type: object
-      description: Response object for cloud credentials.
-      required:
-      - clusterCrn
-      - clusterUrl
-      - replicationEngineType
-      - credentials
-      properties:
-        clusterCrn:
-          description: Cluster CRN.
-          type: string
-        clusterUrl:
-          description: Cluster URL.
-          type: string
-        replicationEngineType:
-          description: Replication engine type.
-          type: string
-          enum:
-          - CM
-          - DLMENGINE
-        credentials:
-          description: Cloud credentials.
-          $ref: '#/components/schemas/CredentialCollection'
-    ActivatePolicyRequest:
-      type: object
-      description: Activate a replication policy.
-      required:
-      - clusterCrn
-      - policyName
-      properties:
-        clusterCrn:
-          type: string
-          description: CRN of the cluster where the policy is.
-        policyName:
-          type: string
-          description: Policy name to resume.
-    ListAllCredentialsResponse:
-      type: object
-      description: Response object for list credentials request.
-      required:
-      - unreachableClusters
-      - credentials
-      properties:
-        unreachableClusters:
-          description: List of errors for unreachable clusters.
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiError'
-        credentials:
-          description: List of credentials by cluster.
-          type: array
-          items:
-            $ref: '#/components/schemas/CredentialsResponse'
-    CreateAbfsCredentialRequest:
-      type: object
-      description: 'Request object for creating ABFS cloud credentials. Currently supported cloud credentials: ABFS Access Key for Ambari clusters, ABFS Client Secret for CM clusters.'
-      required:
-      - name
-      - clusters
-      - type
-      properties:
-        name:
-          description: Name of the credential.
-          type: string
-        clusters:
-          description: List of cluster CRNs where the credential should be created.
-          type: array
-          items:
-            type: string
-        type:
-          description: 'Type of the credential. Additional required parameters by type: ACCESSKEY: storageAccountName, accessKey; CLIENTKEY: clientId, clientSecretKey, tenantId. Superfluous parameters are ignored. Providing ACCESSKEY will create an ABFS Access Key based account in Ambari. Providing CLIENTKEY will create an Azure Active Directory Service Principal account in Cloudera Manager. ACCESSKEY is only supported on Ambari, while CLIENTKEY is only supported on Cloudera Manager.'
-          $ref: '#/components/schemas/AbfsCloudCredentialType'
-        accessKey:
-          description: ABFS access key.
-          type: string
-          x-sensitive: true
-        storageAccountName:
-          description: ABFS storage account name.
-          type: string
-        clientId:
-          description: Client ID of an Active Directory service principal account.
-          type: string
-        clientSecretKey:
-          description: Client Key of an Active Directory service principal account.
-          type: string
-          x-sensitive: true
-        tenantId:
-          description: Tenant ID of an Active Directory service principal account.
-          type: string
-    CollectDiagnosticBundleRequest:
-      type: object
-      description: Triggers a diagnostic bundle collect command for the given cluster and policyName.
-      required:
-      - clusterCrn
-      - policyName
+      - commandId
       properties:
         clusterCrn:
           description: The CRN of the target cluster.
           type: string
-        policyName:
-          description: Name of the policy.
+        commandId:
+          description: ID of a CM command on the cluster.
           type: string
-    DeleteCredentialResponse:
-      type: object
-      description: Response object for delete credential operation.
-      properties:
-        errors:
-          description: The list of response errors in case of a partial failure while deleting the credential.
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiError'
-    CmPolicySubmitUser:
-      type: object
-      description: CM Policy submit user.
-      properties:
-        userName:
-          description: Username.
-          type: string
-        sourceUser:
-          description: Source user.
-          type: string
-    CredentialCollection:
-      type: object
-      description: Cloud Credentials listing.
-      required:
-      - totalResults
-      - results
-      - credentials
-      properties:
-        totalResults:
-          description: Total number cloud credentials.
-          type: integer
-          format: int64
-        results:
-          description: Number of cloud credentials in the response.
-          type: integer
-          format: int64
-        credentials:
-          description: Cloud credential details.
-          type: array
-          items:
-            $ref: '#/components/schemas/CredentialDetails'
-    VerificationSteps:
-      type: object
-      description: Verification steps.
-      properties:
-        clusterManagerUrl:
-          description: The cluster manager URL to reach the cluster's UI.
-          type: string
-        steps:
-          description: The list of manual steps to perform or verify.
-          type: array
-          items:
-            type: string
     HdfsArguments:
       type: object
       description: Extra properties for HDFS.
@@ -1615,144 +2087,99 @@ components:
           x-default: null
           items:
             type: string
-    DeletePolicyResponse:
-      type: object
-      description: Response object for deletePolicy.
-      properties:
-        clusterCrn:
-          type: string
-          description: The CRN of the input cluster.
-        requestId:
-          type: string
-          description: The ID of the request. Populated only for Ambari backend.
-        message:
-          type: string
-          description: The detailed description of the action taken.
-        status:
-          type: string
-          description: The status of the request.
-    ServiceConfiguration:
-      description: Configuration related to a service.
-      type: object
-      properties:
-        name:
-          description: The name of the service.
-          type: string
-        configs:
-          description: Service configuration map.
-          type: object
-          additionalProperties:
-            type: string
-    SuspendHbasePolicyRequest:
-      type: object
-      description: Suspend an HBase replication policy.
-      required:
-      - clusterCrn
-      - policyId
-      properties:
-        clusterCrn:
-          type: string
-          description: CRN of the destination cluster.
-        policyId:
-          type: string
-          description: ID of the HBase policy.
-    CreatePolicyResponse:
-      type: object
-      description: Response object for createPolicy.
-      properties:
-        clusterCrn:
-          type: string
-          description: The CRN of the input cluster.
-        requestId:
-          type: string
-          description: The ID of the request. Populated only for Ambari backend.
-        message:
-          type: string
-          description: The detailed description of the action taken.
-        status:
-          type: string
-          description: The status of the request.
-    HbasePolicyArguments:
-      type: object
-      description: HBase replication parameters.
-      properties:
-        tables:
-          description: List of tables to be replicated. The key should be in "namespace:tablename" format. If this list is empty, then the whole database will be replicated.
-          type: array
-          x-default: null
-          items:
-            type: string
-        cloudCredential:
-          description: Cloud credentials to use to replicate the initial snapshot if the credential location is specified as 'EXTERNAL_ACCOUNT'.
-          type: string
-        databaseArguments:
-          description: Optional parameters used for HBase database replication.
-          $ref: '#/components/schemas/HbaseDatabaseArguments'
     AbfsCloudCredentialType:
       type: string
       description: ABFS cloud credential type.
       enum:
       - ACCESSKEY
       - CLIENTKEY
-    CodProperties:
+    CreateAwsCredentialRequest:
       type: object
-      description: Additional properties for operational databases.
-      properties:
-        operationalDatabaseName:
-          description: Name of the corresponding operational database..
-          type: string
-    ListPoliciesRequest:
-      type: object
-      description: Request object for listing all policies.
-    ServiceInfo:
-      type: object
-      description: Service status definition.
+      description: Request object for creating AWS IAM or Access & Secret Key cloud credentials.
       required:
-      - serviceName
-      - status
+      - name
+      - clusters
+      - type
       properties:
-        serviceName:
-          description: Service name.
+        name:
+          description: Name of the credential.
           type: string
-        status:
-          description: Service status.
-          type: string
-    ListPairedHbaseClustersResponse:
-      type: object
-      description: Response object for listPairedHbaseClusters.
-      properties:
-        pairings:
-          description: The list of CRN pairings.
-          type: array
-          items:
-            $ref: '#/components/schemas/HbaseCrnPairs'
-        crnsMissingHbaseService:
-          description: Cluster CRNs where the HBase service was missing and pairing status could not be determined.
+        clusters:
+          description: List of cluster CRNs where the credential should be created.
           type: array
           items:
             type: string
-        unreachableClusters:
-          description: The list of errors for unreachable clusters.
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiError'
-    UpdateHbasePolicyRequest:
+        type:
+          description: 'Type of the credential. Additional required parameters by type: IAM: none; ACCESSKEY: accessKey, secretKey. Superfluous parameters are ignored. Providing IAM will create an IAM Role-based Authentication account in Cloudera Manager. Providing ACCESSKEY will create an AWS Access Key Authentication account in Cloudera Manager.'
+          $ref: '#/components/schemas/AwsCloudCredentialType'
+        accessKey:
+          description: AWS access key.
+          type: string
+          x-sensitive: true
+        secretKey:
+          description: AWS secret key.
+          type: string
+          x-sensitive: true
+    SuspendHbasePolicyResponse:
       type: object
-      description: Update HBase replication policy request.
-      required:
-      - clusterCrn
-      - policyId
-      - updateHbasePolicyDefinition
+      description: Response object for suspendHbasePolicy.
       properties:
         clusterCrn:
           type: string
-          description: The CRN of the cluster where the policy will be updated.
-        policyId:
+          description: The CRN of the input cluster.
+        message:
           type: string
-          description: The ID of the policy to be updated.
-        updateHbasePolicyDefinition:
-          description: The policy definition.
-          $ref: '#/components/schemas/UpdateHbasePolicyDefinition'
+          description: The detailed description of the action taken.
+        status:
+          type: string
+          description: The status of the request.
+    ContinueHbaseSetupResponse:
+      type: object
+      description: Response object for continueHbaseSetup.
+      properties:
+        clusterCrn:
+          type: string
+          description: The CRN of the input cluster.
+        message:
+          type: string
+          description: The detailed description of the action taken.
+        status:
+          type: string
+          description: The status of the request.
+    CreateHbasePolicyRequest:
+      type: object
+      description: Create an HBase replication policy.
+      required:
+      - clusterCrn
+      - policyName
+      - policyDefinition
+      properties:
+        clusterCrn:
+          description: CRN of the destination cluster.
+          type: string
+        policyName:
+          type: string
+          description: Name of the new policy.
+        policyDefinition:
+          description: Policy definition.
+          $ref: '#/components/schemas/HbasePolicyDefinition'
+    CustomConfigs:
+      type: object
+      description: Custom key/value configurations.
+      required:
+      - name
+      - value
+      - confidential
+      properties:
+        name:
+          description: Name.
+          type: string
+        value:
+          description: Value.
+          type: string
+        confidential:
+          description: Whether the value is confidential.
+          type: boolean
     PolicyInstanceResponse:
       type: object
       description: Policy execution details.
@@ -1796,76 +2223,19 @@ components:
           description: Number of completed steps.
           type: integer
           format: int32
-    DeleteHbasePolicyResponse:
+    VerifyHbaseClusterPairRequest:
       type: object
-      description: Response object for deleteHbasePolicy.
-      properties:
-        clusterCrn:
-          type: string
-          description: The CRN of the input cluster.
-        message:
-          type: string
-          description: The detailed description of the action taken.
-        status:
-          type: string
-          description: The status of the request.
-    AwsCloudCredentialType:
-      type: string
-      description: AWS cloud credential type.
-      enum:
-      - IAM
-      - ACCESSKEY
-    ListPoliciesResponse:
-      type: object
-      description: Response object for a list policies request.
+      description: Request to verify a cluster pairing for HBase policy creation prerequisites.
       required:
-      - unreachableClusters
-      - policyErrors
-      - policies
+      - sourceClusterCrn
+      - destinationClusterCrn
       properties:
-        unreachableClusters:
-          description: List of errors for unreachable clusters.
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiError'
-        policyErrors:
-          description: List of policy errors.
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiError'
-        policies:
-          description: List of policies.
-          type: array
-          items:
-            $ref: '#/components/schemas/Policy'
-    Location:
-      type: object
-      description: Location object.
-      required:
-      - id
-      - country
-      - city
-      - latitude
-      - longitude
-      properties:
-        id:
-          description: Location ID.
-          type: integer
-          format: int64
-        country:
-          description: Country.
+        sourceClusterCrn:
           type: string
-        city:
-          description: City.
+          description: CRN of the source cluster.
+        destinationClusterCrn:
           type: string
-        latitude:
-          description: Latitude.
-          type: number
-          format: double
-        longitude:
-          description: Longitude.
-          type: number
-          format: double
+          description: CRN of the destination cluster.
     GetCredentialsRequest:
       type: object
       description: Request object to retrieve specific cloud credentials.
@@ -1881,376 +2251,6 @@ components:
         credentialId:
           description: Id of the credential. If both name and Id are specified, the Id is considered.
           type: string
-    ListClustersRequest:
-      type: object
-      description: Request to list clusters.
-    UpdateHbasePolicyDefinition:
-      type: object
-      description: HBase policy update request definition.
-      properties:
-        name:
-          type: string
-          description: The policy name.
-        description:
-          type: string
-          description: Description of the policy.
-        tables:
-          description: List of tables to be replicated. The items should be in "namespace:tablename" format.
-          x-default: null
-          type: array
-          items:
-            type: string
-    HiveDatabaseAndTables:
-      type: object
-      description: Hive replication scope.
-      required:
-      - database
-      properties:
-        database:
-          description: Database to replicate.
-          type: string
-        tablesIncludeRegex:
-          description: Regex to match included tables.
-          type: string
-        tablesExcludeRegex:
-          description: Regex to match excluded tables.
-          type: string
-    ListClusterServiceStatusesRequest:
-      type: object
-      description: Request object to list cluster statuses.
-    CollectDiagnosticBundleResponse:
-      type: object
-      description: Response object for collect-diagnostic-bundle.
-      required:
-      - commandId
-      properties:
-        commandId:
-          description: ID of the diagnostic bundle collection command issued against the CM. Polling get-command-status with this command id returns the current state of the command.
-          format: int64
-          type: integer
-        name:
-          description: Name of the policy.
-          type: string
-        active:
-          description: Whether the diagnostic bundle command is active.
-          type: boolean
-        startTime:
-          description: Start time of the diagnostic bundle collection command.
-          type: string
-        resultMessage:
-          description: Diagnostic bundle collection command result message.
-          type: string
-    CreateAwsCredentialResponse:
-      type: object
-      description: Response object for creating AWS credentials.
-      properties:
-        errors:
-          description: The list of response errors in case of a partial failure while creating the credential.
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiError'
-    VerifyHbaseClusterPairRequest:
-      type: object
-      description: Request to verify a cluster pairing for HBase policy creation prerequisites.
-      required:
-      - sourceClusterCrn
-      - destinationClusterCrn
-      properties:
-        sourceClusterCrn:
-          type: string
-          description: CRN of the source cluster.
-        destinationClusterCrn:
-          type: string
-          description: CRN of the destination cluster.
-    DeleteHbasePolicyRequest:
-      type: object
-      description: Request object to delete an HBase replication policy.
-      required:
-      - clusterCrn
-      - policyId
-      properties:
-        clusterCrn:
-          type: string
-          description: CRN of the destination cluster.
-        policyId:
-          type: string
-          description: ID of the HBase policy.
-        force:
-          type: boolean
-          description: Option to force delete an Hbase policy. It should be used if the normal delete fails (e.g. when the source cluster is unreachable).
-    GetCommandStatusRequest:
-      type: object
-      description: Get the current status of any CM command.
-      required:
-      - clusterCrn
-      - commandId
-      properties:
-        clusterCrn:
-          description: The CRN of the target cluster.
-          type: string
-        commandId:
-          description: ID of a CM command on the cluster.
-          type: string
-    PolicyReportDetails:
-      type: object
-      description: Policy report details.
-      required:
-      - status
-      - endTime
-      properties:
-        status:
-          description: Status of the command.
-          type: string
-        endTime:
-          description: End time.
-          type: string
-          format: date-time
-    ErrorHandling:
-      type: object
-      description: Error handling behavior.
-      required:
-      - skipChecksumChecks
-      - skipListingChecksumChecks
-      - abortOnError
-      - abortOnSnapshotDiffFailures
-      properties:
-        skipChecksumChecks:
-          description: Skip checksum checks.
-          type: boolean
-        skipListingChecksumChecks:
-          description: Skip checksum checks for copy-listing.
-          type: boolean
-        abortOnError:
-          description: Abort policy on error.
-          type: boolean
-        abortOnSnapshotDiffFailures:
-          description: Abort policy if there are snapshot diff failures.
-          type: boolean
-    ListClustersResponse:
-      type: object
-      description: Response object for list clusters request.
-      required:
-      - unreachableClusters
-      - clusters
-      properties:
-        unreachableClusters:
-          description: List of errors for unreachable clusters.
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiError'
-        clusters:
-          type: array
-          description: List of clusters.
-          items:
-            $ref: '#/components/schemas/Cluster'
-    DownloadDiagnosticBundleResponse:
-      type: object
-      description: Response object for download-diagnostic-bundle. On certain clusters this response will show if the download is only available directly from CM.
-      properties:
-        bundleFile:
-          x-skip-logging: true
-          description: Base64 encoded content of the diagnostic bundle zip file. A script like this can be used to save the response as file 'cat response.json | jq -r '.bundleFile' | base64 -D > bundle.zip'
-          type: string
-          format: byte
-    ApiError:
-      type: object
-      description: API error.
-      required:
-      - code
-      - message
-      - status
-      properties:
-        code:
-          type: integer
-          format: int32
-          description: Error code.
-        message:
-          description: Error message.
-          type: string
-        status:
-          description: Error status.
-          type: string
-        clusterUrl:
-          type: string
-          description: Cluster URL.
-        requestId:
-          description: Request ID.
-          type: string
-    DeletePolicyRequest:
-      type: object
-      description: Delete a replication policy.
-      required:
-      - clusterCrn
-      - policyName
-      properties:
-        clusterCrn:
-          type: string
-          description: CRN of the cluster where the policy is.
-        policyName:
-          type: string
-          description: Policy name to delete.
-    HiveArguments:
-      type: object
-      description: Hive replication arguments.
-      properties:
-        databasesAndTables:
-          description: Scope of the replication.
-          type: array
-          items:
-            $ref: '#/components/schemas/HiveDatabaseAndTables'
-        sentryPermissions:
-          description: Include or exclude Sentry permissions.
-          type: string
-          enum:
-          - INCLUDE
-          - EXCLUDE
-        skipUrlPermissions:
-          description: Skip URL permissions.
-          type: boolean
-        numThreads:
-          description: Number of threads to use during replication.
-          type: integer
-          format: int64
-    SuspendPolicyResponse:
-      type: object
-      description: Response object for suspendPolicy.
-      properties:
-        clusterCrn:
-          type: string
-          description: The CRN of the input cluster.
-        requestId:
-          type: string
-          description: The ID of the request. Populated only for Ambari backend.
-        message:
-          type: string
-          description: The detailed description of the action taken.
-        status:
-          type: string
-          description: The status of the request.
-    CreatePolicyRequest:
-      type: object
-      description: Create a replication policy.
-      required:
-      - clusterCrn
-      - policyName
-      - policyDefinition
-      properties:
-        clusterCrn:
-          type: string
-          description: CRN of the cluster where the policy will be created.
-        policyName:
-          type: string
-          description: Name of the new policy.
-        policyDefinition:
-          description: Policy definition.
-          $ref: '#/components/schemas/PolicyDefinition'
-    ListPairedHbaseClustersRequest:
-      type: object
-      description: Request to list all paired HBase cluster CRNs.
-    ListClusterServiceStatusesResponse:
-      type: object
-      description: Response object for listing of cluster statuses.
-      properties:
-        statuses:
-          type: array
-          description: List of statuses by cluster.
-          items:
-            $ref: '#/components/schemas/ClusterServiceStatuses'
-    ClusterServiceStatuses:
-      type: object
-      description: Describes the status of services running on a cluster.
-      required:
-      - clusterCrn
-      - serviceStatuses
-      properties:
-        clusterCrn:
-          description: Cluster CRN.
-          type: string
-        serviceStatuses:
-          description: List of service statuses.
-          type: array
-          items:
-            $ref: '#/components/schemas/ServiceInfo'
-    UpdateHbasePolicyResponse:
-      type: object
-      description: Response object for updateHbasePolicy.
-      properties:
-        clusterCrn:
-          type: string
-          description: The CRN of the input cluster.
-        requestId:
-          type: string
-          description: The ID of the request. Populated only for Ambari backend.
-        message:
-          type: string
-          description: The detailed description of the action taken.
-        status:
-          type: string
-          description: The status of the request (Successful or an error).
-    CreateAwsCredentialRequest:
-      type: object
-      description: Request object for creating AWS IAM or Access & Secret Key cloud credentials.
-      required:
-      - name
-      - clusters
-      - type
-      properties:
-        name:
-          description: Name of the credential.
-          type: string
-        clusters:
-          description: List of cluster CRNs where the credential should be created.
-          type: array
-          items:
-            type: string
-        type:
-          description: 'Type of the credential. Additional required parameters by type: IAM: none; ACCESSKEY: accessKey, secretKey. Superfluous parameters are ignored. Providing IAM will create an IAM Role-based Authentication account in Cloudera Manager. Providing ACCESSKEY will create an AWS Access Key Authentication account in Cloudera Manager.'
-          $ref: '#/components/schemas/AwsCloudCredentialType'
-        accessKey:
-          description: AWS access key.
-          type: string
-          x-sensitive: true
-        secretKey:
-          description: AWS secret key.
-          type: string
-          x-sensitive: true
-    GetClusterConfigRequest:
-      type: object
-      description: Request object for getClusterConfig.
-      required:
-      - clusterCrn
-      properties:
-        clusterCrn:
-          type: string
-          description: The CRN of the cluster.
-    Preserve:
-      type: object
-      description: Properties to preserve after replication.
-      required:
-      - blockSize
-      - replicationCount
-      - permissions
-      - extendedAttributes
-      properties:
-        blockSize:
-          description: Block size.
-          type: boolean
-        replicationCount:
-          description: Replication count.
-          type: boolean
-        permissions:
-          description: Permissions.
-          type: boolean
-        extendedAttributes:
-          description: Extended attributes.
-          type: boolean
-    HbaseSuspendType:
-      description: Describes how suspend and resume affects HBase policies on the cluster. 'ALL' means that suspend/resume affects all HBase policies with the same source and destination cluster, while 'POLICY' means that only the selected policy gets suspended/resumed. 'NOT_SUPPORTED' means that this feature is not available on the cluster.
-      type: string
-      enum:
-      - POLICY
-      - ALL
-      - NOT_SUPPORTED
 x-endpoint-name: replicationmanager
 x-products: CDP
 x-form-factors: public

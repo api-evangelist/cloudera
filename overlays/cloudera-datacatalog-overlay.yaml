@@ -2,7 +2,7 @@ overlay: 1.0.0
 info:
   title: API Evangelist enrichment overlay — Cloudera DataCatalog Service
   version: 1.0.0
-extends: ./cloudera-datacatalog-openapi.yml
+extends: ../openapi/_original/cloudera-datacatalog-openapi.yml
 x-generated: '2026-09-05'
 x-method: generated
 x-source: derived from the harvested Cloudera Swagger 2.0 definition; records API Evangelist enrichment

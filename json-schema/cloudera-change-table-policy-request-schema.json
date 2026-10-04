@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-change-table-policy-request-schema.json",
+  "title": "ChangeTablePolicyRequest",
+  "description": "Request object to perform policy change.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-lakehouseopt-api-openapi.yml#/components/schemas/ChangeTablePolicyRequest",
+  "type": "object",
+  "required": [
+    "datahubCrn",
+    "namespace",
+    "tableName",
+    "operation"
+  ],
+  "properties": {
+    "datahubCrn": {
+      "type": "string",
+      "description": "The CRN of the CLO Data Hub."
+    },
+    "namespace": {
+      "type": "string",
+      "description": "The name of the namespace."
+    },
+    "tableName": {
+      "type": "string",
+      "description": "The name of the table."
+    },
+    "operation": {
+      "type": "string",
+      "description": "The operation to be performed. APPEND will add provided policies to set of existing associated policies, REMOVEALL will delete all existing associations for this table, REPLACEALL will replace existing associations with provided set of policies.",
+      "enum": [
+        "APPEND",
+        "REMOVEALL",
+        "REPLACEALL"
+      ],
+      "default": "APPEND"
+    },
+    "policies": {
+      "type": "array",
+      "description": "The list of policy names.",
+      "items": {
+        "type": "string",
+        "description": "The policy name."
+      }
+    }
+  }
+}

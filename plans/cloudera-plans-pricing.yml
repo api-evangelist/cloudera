@@ -1,6 +1,7 @@
 generated: '2026-09-05'
 method: searched
 source: https://www.cloudera.com/products/pricing.html
+name: Cloudera API Plans
 http_status: 200
 currency: USD
 model: consumption

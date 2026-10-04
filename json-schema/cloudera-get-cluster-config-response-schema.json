@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-get-cluster-config-response-schema.json",
+  "title": "GetClusterConfigResponse",
+  "description": "Response object for getClusterConfig.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-replicationmanager-api-openapi.yml#/components/schemas/GetClusterConfigResponse",
+  "type": "object",
+  "properties": {
+    "clusterCrn": {
+      "description": "The CRN of the cluster.",
+      "type": "string"
+    },
+    "cmApiVersion": {
+      "description": "Cloudera Manager API version.",
+      "type": "integer",
+      "format": "int32"
+    },
+    "underlyingFsForHive": {
+      "description": "Underlying file system for Hive.",
+      "type": "string",
+      "enum": [
+        "HDFS",
+        "S3",
+        "WASB",
+        "ABFS",
+        "GCS"
+      ]
+    },
+    "dmx": {
+      "description": "Configuration related to DMX.",
+      "type": "object",
+      "properties": {
+        "hbaseSuspend": {
+          "description": "Suspend type for HBase policies.",
+          "$ref": "#/$defs/HbaseSuspendType"
+        }
+      }
+    },
+    "featureSupport": {
+      "description": "A map of available features and whether they are supported on the cluster.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "boolean"
+      }
+    },
+    "services": {
+      "description": "A list of service configurations.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ServiceConfiguration"
+      }
+    }
+  },
+  "$defs": {
+    "HbaseSuspendType": {
+      "description": "Describes how suspend and resume affects HBase policies on the cluster. 'ALL' means that suspend/resume affects all HBase policies with the same source and destination cluster, while 'POLICY' means that only the selected policy gets suspended/resumed. 'NOT_SUPPORTED' means that this feature is not available on the cluster.",
+      "type": "string",
+      "enum": [
+        "POLICY",
+        "ALL",
+        "NOT_SUPPORTED"
+      ]
+    },
+    "ServiceConfiguration": {
+      "description": "Configuration related to a service.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the service.",
+          "type": "string"
+        },
+        "configs": {
+          "description": "Service configuration map.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

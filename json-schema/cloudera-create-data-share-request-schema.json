@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-create-data-share-request-schema.json",
+  "title": "CreateDataShareRequest",
+  "description": "Create Data Share request.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-data-catalog-api-openapi.yml#/components/schemas/CreateDataShareRequest",
+  "type": "object",
+  "required": [
+    "datalakeCrn",
+    "environmentCrn",
+    "dataShareName",
+    "assets"
+  ],
+  "properties": {
+    "datalakeCrn": {
+      "type": "string",
+      "description": "The CRN of the Data Lake where the Data Share will be created."
+    },
+    "environmentCrn": {
+      "type": "string",
+      "description": "The CRN of the Environment where the Data Share will be created."
+    },
+    "dataShareName": {
+      "type": "string",
+      "description": "The name of the Data Share to be created (Max length is 512 characters).",
+      "maxLength": 512
+    },
+    "assets": {
+      "type": "array",
+      "description": "List of assets to be included in the Data Share.",
+      "items": {
+        "$ref": "#/$defs/AssetRequest"
+      }
+    },
+    "summary": {
+      "type": "string",
+      "description": "A brief summary of the Data Share."
+    },
+    "termsOfUse": {
+      "type": "string",
+      "description": "The terms of use for the Data Share."
+    },
+    "keywords": {
+      "type": "array",
+      "description": "List of keywords associated with the Data Share.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "expiryTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the Data Share will expire."
+    },
+    "externalUsers": {
+      "type": "array",
+      "description": "List of external users to be granted access to the Data Share.",
+      "items": {
+        "$ref": "#/$defs/ExternalUserAccessUpdate"
+      }
+    }
+  },
+  "$defs": {
+    "AssetRequest": {
+      "type": "object",
+      "description": "Details of an asset to be included in the Data Share.",
+      "required": [
+        "databaseName",
+        "tableName"
+      ],
+      "properties": {
+        "databaseName": {
+          "type": "string",
+          "description": "The name of the database containing the asset."
+        },
+        "tableName": {
+          "type": "string",
+          "description": "The name of the table containing the asset."
+        },
+        "guid": {
+          "type": "string",
+          "description": "The unique identifier of the asset (asset guid from the Atlas)."
+        },
+        "columns": {
+          "type": "array",
+          "description": "List of columns in the asset (default all is included).",
+          "items": {
+            "type": "string",
+            "description": "Name of the column."
+          }
+        }
+      }
+    },
+    "ExternalUserAccessUpdate": {
+      "type": "object",
+      "description": "Specifies the updated access expiration time for an external user on a specific Data Share.",
+      "properties": {
+        "externalUserId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The unique identifier of the external user."
+        },
+        "expiryTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when the access of Data Share will expire for the external user."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-create-vc-request-schema.json",
+  "title": "CreateVcRequest",
+  "description": "Request object for CreateVc method.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-de-api-openapi.yml#/components/schemas/CreateVcRequest",
+  "type": "object",
+  "required": [
+    "name",
+    "clusterId",
+    "cpuRequests",
+    "memoryRequests"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the virtual cluster."
+    },
+    "clusterId": {
+      "type": "string",
+      "description": "Cluster id of the CDE service where virtual cluster has to be created."
+    },
+    "cpuRequests": {
+      "type": "string",
+      "description": "Cpu requests for autoscaling."
+    },
+    "memoryRequests": {
+      "type": "string",
+      "description": "Memory requests for autoscaling - eg. 30Gi."
+    },
+    "chartValueOverrides": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ChartValueOverridesRequest"
+      },
+      "description": "Chart overrides for creating a virtual cluster."
+    },
+    "smtpConfigs": {
+      "$ref": "#/$defs/SmtpConfigRequest",
+      "description": "SMTP Configurations for Airflow Email Alerts."
+    },
+    "runtimeSpotComponent": {
+      "type": "string",
+      "description": "Used to describe where the Driver and the Executors would run. By default the Driver would run on on-demand instances and the Executors on spot instances. Setting it to ALL will run both the Driver and the Executors on spot instances whereas setting it to NONE should run both the Driver and the Executor on on-demand instances. Currently applicable for aws services only. Use this option only on services with spot instances enabled.",
+      "enum": [
+        "ALL",
+        "NONE"
+      ]
+    },
+    "sparkVersion": {
+      "type": "string",
+      "description": "Spark version for the virtual cluster. Currently supported Spark versions are SPARK2(deprecated), SPARK3, SPARK3_3 and SPARK3_5. This feature is only supported in CDE-1.7.0 and later. SPARK3_3 is supported in CDE-1.19 and later. SPARK3_5 is supported in CDE-1.21 and later. SPARK3_5_4 is supported in CDE-1.25 and later. With Datalake 7.3.1 and later, SPARK3_5_4 must be used instead of SPARK3_5.",
+      "enum": [
+        "SPARK2",
+        "SPARK2_4",
+        "SPARK3",
+        "SPARK3_0",
+        "SPARK3_1",
+        "SPARK3_2",
+        "SPARK3_3",
+        "SPARK3_5",
+        "SPARK3_5_4"
+      ]
+    },
+    "sparkOSName": {
+      "type": "string",
+      "description": "Spark os name for the virtual cluster. Currently supported types are SECURITYHARDENED(chainguard) and REDHAT(will be deprecated, and we will use INSECURE). The default value is SECURITYHARDENED.",
+      "enum": [
+        "SECURITYHARDENED",
+        "REDHAT"
+      ]
+    },
+    "vcTier": {
+      "type": "string",
+      "description": "Tier of the virtual cluster. Currently supported tiers are CORE and ALLP. CORE tiered virtual cluster enables operational deployment via batch jobs. ALLP virtual clusters are all-purpose virtual clusters supporting both operational batch jobs and interactive sessions. This feature is only supported in CDE-1.19.0 and beyond.",
+      "enum": [
+        "ALLP",
+        "CORE"
+      ]
+    },
+    "sessionTimeout": {
+      "type": "string",
+      "description": "Set a default timeout for your sessions. The default option is 8 hours. This option can be overridden when creating a new session."
+    },
+    "aclUsers": {
+      "description": "Comma-separated Workload usernames of CDP users to be granted access to the Virtual Cluster.",
+      "type": "string"
+    },
+    "fullAccessUsers": {
+      "description": "Users with full access.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "fullAccessGroups": {
+      "description": "Groups with full access.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "viewOnlyUsers": {
+      "description": "Users with view only access.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "viewOnlyGroups": {
+      "description": "Groups with view only access.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sparkConfigs": {
+      "type": "object",
+      "description": "Spark configs that will be applied to all the spark jobs inside a virtual cluster.",
+      "additionalProperties": {
+        "type": "string",
+        "description": "Spark configs that will be applied to all the spark jobs inside a virtual cluster."
+      }
+    },
+    "enableComputeOverride": {
+      "type": "boolean",
+      "description": "Whether to enable job-level override for how drivers and executors run in the Virtual Cluster.",
+      "x-form-factors": "public"
+    }
+  },
+  "$defs": {
+    "ChartValueOverridesRequest": {
+      "type": "object",
+      "properties": {
+        "chartName": {
+          "type": "string",
+          "description": "Name of the chart that has to be overridden, for eg- \"dex-app\", \"dex-base\"."
+        },
+        "overrides": {
+          "type": "string",
+          "description": "Space separated key-value pairs for overriding chart values. The key and the value must be separated using a colon(:) For eg- \"airflow.enabled:true safari.enabled:true\"."
+        }
+      },
+      "description": "Object containing chart value overrides for enabling a CDE service or creation of virtual clusters."
+    },
+    "SmtpConfigRequest": {
+      "type": "object",
+      "description": "SMTP config request object.",
+      "required": [
+        "email",
+        "host"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Sender's email address."
+        },
+        "host": {
+          "type": "string",
+          "description": "SMTP host."
+        },
+        "username": {
+          "type": "string",
+          "description": "SMTP username."
+        },
+        "password": {
+          "type": "string",
+          "description": "SMTP password.",
+          "x-sensitive": true
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "default": 25,
+          "description": "SMTP port."
+        },
+        "startTls": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use SMTP STARTTLS command to encrypt the mail."
+        },
+        "ssl": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use SSL to secure the connection to the email server."
+        }
+      }
+    }
+  }
+}

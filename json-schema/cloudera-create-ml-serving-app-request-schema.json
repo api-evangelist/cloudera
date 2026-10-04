@@ -1,0 +1,316 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-create-ml-serving-app-request-schema.json",
+  "title": "CreateMlServingAppRequest",
+  "description": "Request object for the CreateMlServingApp method.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-ml-api-openapi.yml#/components/schemas/CreateMlServingAppRequest",
+  "type": "object",
+  "required": [
+    "appName",
+    "environmentCrn"
+  ],
+  "properties": {
+    "appName": {
+      "type": "string",
+      "description": "The name of the Cloudera AI Inference Service to be created."
+    },
+    "environmentCrn": {
+      "type": "string",
+      "description": "The environment CRN."
+    },
+    "clusterCrn": {
+      "type": "string",
+      "description": "The cluster CRN of an existing cluster where Cloudera AI Inference Service instance will be deployed."
+    },
+    "provisionK8sRequest": {
+      "description": "The request for Kubernetes cluster provisioning. Required in public cloud.",
+      "$ref": "#/$defs/MlServingProvisionK8sRequest"
+    },
+    "usePublicLoadBalancer": {
+      "type": "boolean",
+      "description": "The boolean flag to request a public load balancer. By default, a private load balancer is used."
+    },
+    "skipValidation": {
+      "type": "boolean",
+      "description": "Skip pre-flight validations if requested."
+    },
+    "loadBalancerIPWhitelists": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The whitelist of IPs for load balancer."
+    },
+    "subnetsForLoadBalancers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The list of subnets to be used for the load balancer."
+    },
+    "staticSubdomain": {
+      "type": "string",
+      "description": "The static subdomain to be used for the Cloudera AI Inference Service instance."
+    },
+    "ozoneS3Creds": {
+      "description": "Ozone credentials for the Cloudera On-Premise cluster.",
+      "$ref": "#/$defs/MlServingOzoneCreds"
+    },
+    "enableFineGrainedAccessControl": {
+      "type": "boolean",
+      "description": "The boolean flag to enable fine-grained access control. By default, this flag is disabled."
+    }
+  },
+  "$defs": {
+    "Accelerator": {
+      "type": "object",
+      "description": "Accelerator, i.e. GPU configurations.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The GPU type."
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The GPU count."
+        }
+      }
+    },
+    "Autoscaling": {
+      "type": "object",
+      "description": "Configuration for instance auto scaling.",
+      "required": [
+        "minInstances",
+        "maxInstances"
+      ],
+      "properties": {
+        "minInstances": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The minimum number of instance for auto scaling."
+        },
+        "maxInstances": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The maximum number of instance for auto scaling."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "The boolean flag to enable the auto scaling."
+        }
+      }
+    },
+    "AwsCrConfig": {
+      "type": "object",
+      "description": "The capacity reservation config for EKS",
+      "properties": {
+        "capacityReservationId": {
+          "type": "string",
+          "description": "The capacity reservation Id"
+        },
+        "network": {
+          "description": "The network config having subnets for AZ",
+          "$ref": "#/$defs/Network"
+        }
+      }
+    },
+    "Gcp": {
+      "type": "object",
+      "description": "Contains the information about gcp.",
+      "properties": {
+        "secondaryPodRangeName": {
+          "type": "string",
+          "description": "The secondary pod range name for GCP."
+        }
+      }
+    },
+    "InstanceGroup": {
+      "type": "object",
+      "description": "Contains the necessary info for an instance group.",
+      "required": [
+        "instanceType"
+      ],
+      "properties": {
+        "instanceType": {
+          "type": "string",
+          "description": "The cloud provider instance type for the node instance."
+        },
+        "instanceTier": {
+          "type": "string",
+          "description": "The tier of the instance i.e. on-demand/spot."
+        },
+        "instanceCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The initial number of instance node."
+        },
+        "name": {
+          "type": "string",
+          "description": "The unique name for the instance or resource group of the workbench."
+        },
+        "ingressRules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The networking rules for the ingress."
+        },
+        "rootVolume": {
+          "description": "The root volume of the instance.",
+          "$ref": "#/$defs/RootVolume"
+        },
+        "autoscaling": {
+          "description": "The auto scaling configuration.",
+          "$ref": "#/$defs/Autoscaling"
+        },
+        "accelerator": {
+          "description": "The accelerator, which refers to the GPU type configuration.",
+          "$ref": "#/$defs/Accelerator"
+        },
+        "singleZone": {
+          "type": "boolean",
+          "description": "The boolean flag to provision single zone or multi zone cluster."
+        },
+        "aws": {
+          "description": "The capacity reservation config for EKS.",
+          "$ref": "#/$defs/AwsCrConfig"
+        }
+      }
+    },
+    "MlServingOzoneCreds": {
+      "type": "object",
+      "description": "Request object for the MlServingOzoneCreds method.",
+      "properties": {
+        "s3AccessID": {
+          "type": "string",
+          "description": "The Ozone S3 access key ID name."
+        },
+        "s3SecretAccessKey": {
+          "type": "string",
+          "description": "The Ozone S3 secret access key name.",
+          "x-sensitive": true
+        },
+        "s3EndPointUrl": {
+          "type": "string",
+          "description": "The Ozone S3 end point.",
+          "x-no-paramfile": true
+        },
+        "s3CaCertBundle": {
+          "type": "string",
+          "description": "The Ozone S3 CA bundle."
+        }
+      }
+    },
+    "MlServingProvisionK8sRequest": {
+      "type": "object",
+      "description": "Request object for provisioning Cloudera AI Inference Service instance groups.",
+      "required": [
+        "environmentCrn"
+      ],
+      "properties": {
+        "environmentCrn": {
+          "type": "string",
+          "description": "The CRN of the environment for the cluster to create."
+        },
+        "instanceGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/InstanceGroup"
+          },
+          "description": "The instance groups."
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ProvisionTag"
+          },
+          "description": "Tags to add to the cloud provider resources created. This is in addition to any tags added by Cloudera."
+        },
+        "network": {
+          "description": "The overlay network for an AWS Kubernetes cluster's CNI.",
+          "$ref": "#/$defs/OverlayNetwork"
+        }
+      }
+    },
+    "Network": {
+      "type": "object",
+      "description": "The network config for capacity reservation.",
+      "properties": {
+        "subnets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The array of subnets for AZ"
+        }
+      }
+    },
+    "OverlayNetwork": {
+      "type": "object",
+      "description": "Contains the information about overlay network.",
+      "properties": {
+        "plugin": {
+          "type": "string",
+          "description": "The plugin specifies specific cni vendor, ex: calico, weave etc."
+        },
+        "topology": {
+          "description": "The options for overlay topology.",
+          "$ref": "#/$defs/Topology"
+        },
+        "gcp": {
+          "description": "The networking options for GCP platform.",
+          "$ref": "#/$defs/Gcp"
+        }
+      }
+    },
+    "ProvisionTag": {
+      "type": "object",
+      "description": "Contains a single tag entry that will be configured on cloud resources associated with a workbench.",
+      "required": [
+        "key",
+        "value"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The name for the tag."
+        },
+        "value": {
+          "type": "string",
+          "description": "The value for the tag."
+        }
+      }
+    },
+    "RootVolume": {
+      "type": "object",
+      "description": "Configuration for instance root device volume.",
+      "required": [
+        "size"
+      ],
+      "properties": {
+        "size": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The volume size in GB."
+        }
+      }
+    },
+    "Topology": {
+      "type": "object",
+      "description": "Contains the information about topology.",
+      "properties": {
+        "subnets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The options for subnets."
+        }
+      }
+    }
+  }
+}

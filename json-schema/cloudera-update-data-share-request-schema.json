@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-update-data-share-request-schema.json",
+  "title": "UpdateDataShareRequest",
+  "description": "Update Data Share request.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-data-catalog-api-openapi.yml#/components/schemas/UpdateDataShareRequest",
+  "type": "object",
+  "required": [
+    "datalakeCrn",
+    "environmentCrn",
+    "dataShareId"
+  ],
+  "properties": {
+    "datalakeCrn": {
+      "type": "string",
+      "description": "The CRN of the Data Lake where the Data Share is located."
+    },
+    "environmentCrn": {
+      "type": "string",
+      "description": "The CRN of the Environment where the Data Share is located."
+    },
+    "dataShareId": {
+      "type": "string",
+      "description": "The unique identifier of the Data Share to be updated."
+    },
+    "dataShareName": {
+      "type": "string",
+      "description": "The name of the Data Share."
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of keywords associated with the Data Share."
+    },
+    "expiryTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the Data Share will expire."
+    },
+    "summary": {
+      "type": "string",
+      "description": "A brief summary of the Data Share."
+    },
+    "termsOfUse": {
+      "type": "string",
+      "description": "The terms of use for the Data Share."
+    }
+  }
+}

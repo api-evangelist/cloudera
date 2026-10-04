@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-list-backups-request-schema.json",
+  "title": "ListBackupsRequest",
+  "description": "Request object for List Backups command.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-de-api-openapi.yml#/components/schemas/ListBackupsRequest",
+  "type": "object",
+  "properties": {
+    "order": {
+      "$ref": "#/$defs/Order",
+      "description": "Whether ordering is ascending ('ASC') or descending ('DESC'), default 'DESC'."
+    },
+    "orderBy": {
+      "type": "string",
+      "default": "id",
+      "description": "The 'fieldname' to order by, default \"id\". Here 'fieldname' is one of ('id', 'clusterID', 'cdeVersion', 'environment', 'environmentCrn', 'created', 'status')."
+    },
+    "filter": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Filter backups using 'fieldname(operator)argument' syntax. Here 'fieldname' is one of ('id', 'clusterID', 'cdeVersion', 'environment', 'environmentCrn', 'created', 'status') and 'operator' is one of ('eq', 'noteq', 'lte', 'lt', 'gte', 'gt', 'in', 'notin', 'like', 'rlike', 'is', 'isnot'). Multiple filters are ANDed. For example, 'status(eq)failed'."
+    },
+    "pageSize": {
+      "type": "integer",
+      "format": "int32",
+      "minimum": 1,
+      "maximum": 500,
+      "x-paging-page-size": true,
+      "description": "The size of each page."
+    },
+    "startingToken": {
+      "type": "string",
+      "x-paging-input-token": true,
+      "description": "A token to specify where to start paginating. This is the nextToken from a previously truncated response."
+    }
+  },
+  "$defs": {
+    "Order": {
+      "type": "string",
+      "description": "Order.",
+      "enum": [
+        "ASC",
+        "DESC"
+      ]
+    }
+  }
+}

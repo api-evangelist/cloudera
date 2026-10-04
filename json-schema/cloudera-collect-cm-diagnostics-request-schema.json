@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-collect-cm-diagnostics-request-schema.json",
+  "title": "CollectCmDiagnosticsRequest",
+  "description": "Request object for collecting Datahub diagnostics.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-data-hub-api-openapi.yml#/components/schemas/CollectCmDiagnosticsRequest",
+  "type": "object",
+  "required": [
+    "crn",
+    "destination"
+  ],
+  "properties": {
+    "crn": {
+      "type": "string",
+      "description": "CRN of the Datahub cluster."
+    },
+    "destination": {
+      "type": "string",
+      "enum": [
+        "SUPPORT",
+        "CLOUD_STORAGE",
+        "LOCAL"
+      ],
+      "description": "Destination of the diagnostics collection (Support, Own cloud storage, Engineering or collect only on the nodes)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Additional information / title for the diagnostics collection."
+    },
+    "caseNumber": {
+      "type": "string",
+      "description": "Optional support case number in case of SUPPORT destination, otherwise only act as additional data."
+    },
+    "roles": {
+      "type": "array",
+      "description": "Array of roles for which to get logs and metrics. If set, this restricts the roles for log and metrics collection.",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "startDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Restrict collected logs and metrics (from the provided date timestamp)."
+    },
+    "endDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Restrict collected logs and metrics (until the provided date timestamp)."
+    },
+    "updatePackage": {
+      "type": "boolean",
+      "default": false,
+      "description": "If enabled, required package (cdp-telemetry) will be upgraded or installed on the nodes. (useful if package is not installed or needs to be upgraded) Network is required for this operation."
+    },
+    "storageValidation": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable/disable node level storage validation (can be disabled for example, if you have too many hosts and do not want to do too much parallel writes to s3/abfs)"
+    },
+    "monitorMetricsCollection": {
+      "type": "boolean",
+      "default": false,
+      "description": "Flag to enable collection of metrics for chart display in CM based diagnostics collection."
+    },
+    "bundleSizeLimit": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Diagnostics bundle size limit in MB."
+    }
+  }
+}

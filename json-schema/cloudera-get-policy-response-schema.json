@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-get-policy-response-schema.json",
+  "title": "GetPolicyResponse",
+  "description": "Response object containing the policy detail which includes version IDs, associations, scope and status.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-lakehouseopt-api-openapi.yml#/components/schemas/GetPolicyResponse",
+  "type": "object",
+  "properties": {
+    "versions": {
+      "type": "array",
+      "description": "List of all version IDs of the policy.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "policyDetail": {
+      "type": "object",
+      "description": "Policy detail corresponding to a unique policy version.",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "The policy version which is a UUID."
+        },
+        "arguments": {
+          "type": "string",
+          "format": "byte",
+          "description": "JSON containing the action specific arguments and other user defined arguments.",
+          "x-skip-logging": true
+        },
+        "scope": {
+          "type": "string",
+          "description": "The scope of the policy. It can be Catalog or Namespace."
+        },
+        "associations": {
+          "type": "array",
+          "description": "The list containing table associations for each namespace.",
+          "items": {
+            "$ref": "#/$defs/NamespaceAssociation"
+          }
+        },
+        "tableCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of associated tables."
+        },
+        "creationTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The policy creation time in epoch milliseconds."
+        },
+        "lastExecutionTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The recent policy execution epoch time in milliseconds."
+        }
+      }
+    }
+  },
+  "$defs": {
+    "NamespaceAssociation": {
+      "type": "object",
+      "description": "The table associations per namespace.",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "description": "The name of the namespace."
+        },
+        "status": {
+          "type": "string",
+          "description": "The namespace status. Possible values are ERROR, SUCCESS, PAUSED, AUTO_PAUSED, USER_PAUSED, UNAVAILABLE and WARNING. PAUSED indicated that namespace is paused for maintenance actions, AUTO_PAUSED indicates namespace is paused automatically due to errors, USER_PAUSED indicates paused by user, ERROR indicates that recent task has failed or a table is in paused state due to exceptions, WARNING if a table is paused by user, SUCCESS if there are no recent task failures or paused tables, UNAVAILABLE if no tasks have run yet.",
+          "enum": [
+            "ERROR",
+            "SUCCESS",
+            "AUTO_PAUSED",
+            "USER_PAUSED",
+            "PAUSED",
+            "UNAVAILABLE",
+            "WARNING"
+          ],
+          "default": "UNAVAILABLE"
+        },
+        "tableAssociations": {
+          "type": "array",
+          "description": "The list of associated tables and their details for a namespace.",
+          "items": {
+            "$ref": "#/$defs/TableAssociation"
+          }
+        }
+      }
+    },
+    "TableAssociation": {
+      "type": "object",
+      "description": "The object containing information about a table to policy association.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The table name."
+        },
+        "namespace": {
+          "type": "string",
+          "description": "The namespace name."
+        },
+        "taskCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of CLO tasks ran for the table."
+        },
+        "lastExecutionTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The time in epoch milliseconds of recent CLO task that ran for the table."
+        },
+        "version": {
+          "type": "string",
+          "description": "The policy version applicable to this table."
+        },
+        "status": {
+          "type": "string",
+          "description": "The table status.",
+          "enum": [
+            "ERROR",
+            "SUCCESS",
+            "PAUSED",
+            "UNAVAILABLE"
+          ]
+        }
+      }
+    }
+  }
+}

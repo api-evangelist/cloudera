@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-create-private-link-endpoint-request-schema.json",
+  "title": "CreatePrivateLinkEndpointRequest",
+  "description": "Request object for the CreatePrivateLinkEndpoint method.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-cloudprivatelinks-api-openapi.yml#/components/schemas/CreatePrivateLinkEndpointRequest",
+  "type": "object",
+  "required": [
+    "cloudServiceProvider"
+  ],
+  "properties": {
+    "cloudServiceProvider": {
+      "description": "Cloud Service Provider. Currently supporting AWS and AZURE.",
+      "$ref": "#/$defs/CloudServiceProvider"
+    },
+    "enablePrivateDns": {
+      "type": "boolean",
+      "description": "Enable Private DNS for Private Link endpoint."
+    },
+    "serviceGroup": {
+      "type": "string",
+      "description": "CDP service group."
+    },
+    "awsAccountDetails": {
+      "description": "AWS account details where the Private Link endpoint is created.",
+      "$ref": "#/$defs/AWSAccountDetails"
+    },
+    "azureAccountDetails": {
+      "description": "Azure account details where Private Link endpoint is created.",
+      "$ref": "#/$defs/AzureAccountDetails"
+    },
+    "resourceTags": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ResourceTag"
+      },
+      "description": "Custom tags for the different cloud resources created during Private Links creation."
+    }
+  },
+  "$defs": {
+    "AWSAccountDetails": {
+      "type": "object",
+      "description": "Details of the cloud network and the cross-account role required to create the Private Link endpoint.",
+      "properties": {
+        "cloudAccountId": {
+          "type": "string",
+          "description": "Account ID to authorize access for Private Link."
+        },
+        "crossAccountRoleDetails": {
+          "description": "Cross account role details.",
+          "$ref": "#/$defs/CrossAccountRoleDetails"
+        },
+        "credentialCrn": {
+          "type": "string",
+          "description": "CDP Credential CRN to fetch the AWS cross-account RoleArn for the account where the endpoint gets deleted."
+        },
+        "region": {
+          "type": "string",
+          "description": "Region in which VPC exists."
+        },
+        "vpcId": {
+          "type": "string",
+          "description": "VPC ID in which the Private Link should be created."
+        },
+        "subnetIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "IDs of the private subnets in which the Private Link should be created."
+        }
+      }
+    },
+    "AzureAccountDetails": {
+      "type": "object",
+      "description": "Details of the cloud network and the cross-account role required to create the Private Link endpoint.",
+      "properties": {
+        "azureClientSecretCredential": {
+          "description": "Azure client secret credential, either this or credential CRN should be passed.",
+          "$ref": "#/$defs/AzureClientSecretCredential"
+        },
+        "credentialCrn": {
+          "type": "string",
+          "description": "CDP Credential CRN to fetch the Azure client secret credentials, either this or AzureClientSecretCredential should be passed."
+        },
+        "subscriptionId": {
+          "type": "string",
+          "description": "The Subscription for which the Private Link service to be allowed/accessible."
+        },
+        "resourceGroup": {
+          "type": "string",
+          "description": "The resource group under which the private endpoint is to be created."
+        },
+        "location": {
+          "type": "string",
+          "description": "Azure location where endpoint should be created."
+        },
+        "vNetId": {
+          "type": "string",
+          "description": "vNet ID in which the Private Link should be created."
+        },
+        "subnetId": {
+          "type": "string",
+          "description": "ID of the private subnet in which the Private Link should be created."
+        }
+      }
+    },
+    "AzureClientSecretCredential": {
+      "type": "object",
+      "description": "Azure client secret credential, either this or credential CRN should be passed.",
+      "properties": {
+        "clientId": {
+          "type": "string",
+          "description": "The client (application) ID of the service principal"
+        },
+        "clientSecret": {
+          "type": "string",
+          "description": "A client secret that was generated for the App Registration used to authenticate the client."
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "The Azure Active Directory tenant (directory) Id of the service principal."
+        }
+      }
+    },
+    "CloudServiceProvider": {
+      "type": "string",
+      "description": "Supported cloud providers\n `AWS` - A value indicating AWS as supported cloud provider for creating Private Links. `AZURE` - A value indicating Azure as supported cloud provider for creating Private Links.",
+      "enum": [
+        "AWS",
+        "AZURE"
+      ]
+    },
+    "CrossAccountRoleDetails": {
+      "type": "object",
+      "description": "Customer cross account role details.",
+      "properties": {
+        "crossAccountRole": {
+          "type": "string",
+          "description": "Cross-account role."
+        },
+        "externalId": {
+          "type": "string",
+          "description": "External ID associated with the cross-account role."
+        }
+      }
+    },
+    "ResourceTag": {
+      "type": "object",
+      "description": "Tag object which can be passed to add custom tags for the cloud resources.",
+      "required": [
+        "key",
+        "value"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Key value for the tag."
+        },
+        "value": {
+          "type": "string",
+          "description": "Value for the tag."
+        }
+      }
+    }
+  }
+}

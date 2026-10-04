@@ -1,5 +1,12 @@
 generated: '2026-09-05'
+
+description: >-
+  Cloudera CDP command line interface overview and installation details.
+
+docs: https://docs.cloudera.com/cdp-public-cloud/cloud/cli/topics/mc-cli-client-setup.html
 method: searched
+install: []
+commands: []
 source: >-
   https://docs.cloudera.com/cdp-public-cloud/cloud/cli/topics/mc-cli-client-setup.html,
   https://github.com/cloudera/cdpcli, https://github.com/cloudera/cdpcurl,

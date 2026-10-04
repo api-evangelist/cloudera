@@ -2,7 +2,7 @@ overlay: 1.0.0
 info:
   title: API Evangelist enrichment overlay — Cloudera Replication Manager Service
   version: 1.0.0
-extends: ./cloudera-replicationmanager-openapi.yml
+extends: ../openapi/_original/cloudera-replicationmanager-openapi.yml
 x-generated: '2026-09-05'
 x-method: generated
 x-source: derived from the harvested Cloudera Swagger 2.0 definition; records API Evangelist enrichment

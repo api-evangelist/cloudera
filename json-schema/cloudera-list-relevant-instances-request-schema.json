@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-list-relevant-instances-request-schema.json",
+  "title": "ListRelevantInstancesRequest",
+  "description": "Request object for the ListRelevantInstances method.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-ml-api-openapi.yml#/components/schemas/ListRelevantInstancesRequest",
+  "type": "object",
+  "required": [
+    "instanceCategory",
+    "requestInfo",
+    "environmentName",
+    "productType"
+  ],
+  "properties": {
+    "instanceCategory": {
+      "type": "string",
+      "description": "Defines the category of the instance (e.g., CPU, GPU) relevant for the query in the specified region."
+    },
+    "requestInfo": {
+      "description": "Specifies the requested resource inputs eg (CPU/GPU, model, memory etc).",
+      "$ref": "#/$defs/RequestResourceInfo"
+    },
+    "environmentName": {
+      "type": "string",
+      "description": "Specifies the environment name of respective cloud provider for which instance support details are requested."
+    },
+    "productType": {
+      "type": "string",
+      "description": "Specifies the product type for which instance support details are requested."
+    },
+    "region": {
+      "type": "string",
+      "description": "Deprecated. Please use environmentName instead, from which the region will be determined.",
+      "x-deprecated": true
+    },
+    "cloudProvider": {
+      "type": "string",
+      "description": "Deprecated. Please use environmentName instead, from which the cloud provider will be determined.",
+      "x-deprecated": true
+    }
+  },
+  "$defs": {
+    "RequestResourceInfo": {
+      "type": "object",
+      "description": "Instance Details",
+      "properties": {
+        "gpuModel": {
+          "type": "string",
+          "description": "The model of the GPU, entails the complete name by the provider."
+        },
+        "gpuType": {
+          "type": "string",
+          "description": "The gpu type, eg A100"
+        },
+        "cpu": {
+          "type": "string",
+          "description": "The number of CPU cores."
+        },
+        "gpu": {
+          "type": "string",
+          "description": "The number of GPUs."
+        },
+        "memory": {
+          "type": "string",
+          "description": "The memory size of the resource."
+        },
+        "gpuMemory": {
+          "type": "string",
+          "description": "The GPU memory size of the resource."
+        },
+        "computeCapability": {
+          "type": "string",
+          "description": "The compute capability of the GPU."
+        },
+        "interconnectType": {
+          "type": "string",
+          "description": "The interconnect type between 2 resources."
+        }
+      }
+    }
+  }
+}

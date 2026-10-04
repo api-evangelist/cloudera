@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-create-gcpdatalake-request-schema.json",
+  "title": "CreateGCPDatalakeRequest",
+  "description": "Request object for create GCP Data Lake request.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-datalake-api-openapi.yml#/components/schemas/CreateGCPDatalakeRequest",
+  "type": "object",
+  "required": [
+    "datalakeName",
+    "environmentName",
+    "cloudProviderConfiguration"
+  ],
+  "properties": {
+    "datalakeName": {
+      "type": "string",
+      "description": "The datalake name. This name must be unique, must have between 5 and 40 characters, and must contain only lowercase letters, numbers and hyphens. Names are case-sensitive.",
+      "minLength": 5,
+      "maxLength": 40
+    },
+    "environmentName": {
+      "type": "string",
+      "description": "The environment name or CRN."
+    },
+    "cloudProviderConfiguration": {
+      "$ref": "#/$defs/GCPConfigurationRequest",
+      "description": "GCP configuration."
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags that can be attached to GCP Data Lake resources. Please refer to Google documentation for the rules https://cloud.google.com/compute/docs/labeling-resources#label_format.",
+      "items": {
+        "$ref": "#/$defs/DatalakeResourceGCPTagRequest"
+      }
+    },
+    "scale": {
+      "description": "The scale of the datalake. Allowed values are \"LIGHT_DUTY\" or \"MEDIUM_DUTY_HA\". Defaults to \"LIGHT_DUTY\" if not set.",
+      "$ref": "#/$defs/DatalakeScaleType",
+      "x-no-compatibility-guarantee": true
+    },
+    "runtime": {
+      "type": "string",
+      "description": "Cloudera Runtime version."
+    },
+    "image": {
+      "$ref": "#/$defs/ImageRequest",
+      "description": "The image to use for the datalake. This must not be set if the runtime parameter is provided."
+    },
+    "recipes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/InstanceGroupRecipeRequest"
+      },
+      "description": "Additional recipes that will be attached on the datalake instances (by instance groups, most common ones are like 'master' or 'idbroker')."
+    },
+    "customInstanceGroups": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/SdxInstanceGroupRequest"
+      },
+      "description": "Configure custom properties on an instance group level."
+    },
+    "javaVersion": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Configure the major version of Java on the cluster."
+    },
+    "multiAz": {
+      "type": "boolean",
+      "default": false,
+      "description": "Creates CDP datalake distributed across multiple availability zones in GCP region."
+    }
+  },
+  "$defs": {
+    "DatalakeResourceGCPTagRequest": {
+      "type": "object",
+      "description": "A label that can be attached to GCP Data Lake resources. Please refer to Google documentation for the rules https://cloud.google.com/compute/docs/labeling-resources#label_format.",
+      "required": [
+        "key",
+        "value"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The key of tag."
+        },
+        "value": {
+          "type": "string",
+          "description": "The value of the tag."
+        }
+      }
+    },
+    "DatalakeScaleType": {
+      "type": "string",
+      "description": "Represents the available datalake scales. Defaults to LIGHT_DUTY if not set.",
+      "enum": [
+        "LIGHT_DUTY",
+        "MEDIUM_DUTY_HA",
+        "ENTERPRISE"
+      ]
+    },
+    "GCPConfigurationRequest": {
+      "type": "object",
+      "description": "Request object for GCP configuration.",
+      "required": [
+        "serviceAccountEmail",
+        "storageLocation"
+      ],
+      "properties": {
+        "serviceAccountEmail": {
+          "type": "string",
+          "description": "Email id of the service account to be associated with the datalake IdBroker instance. This service account should have \"token.creator\" role for one or more storage accounts that has access to storage."
+        },
+        "storageLocation": {
+          "type": "string",
+          "description": "The location of the GCS bucket to be used as storage. The location has to start with gs:// followed by the bucket name."
+        }
+      }
+    },
+    "ImageRequest": {
+      "description": "The image request for the datalake. When the 'runtime' parameter is set, only the 'os' parameter can be provided. Otherwise, you can use 'catalog name' and/or 'id' for selecting an image.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The image ID from the catalog. The corresponding image will be used for the created cluster machines."
+        },
+        "catalogName": {
+          "type": "string",
+          "description": "The name of the custom image catalog to use, defaulting to 'cdp-default' if not present.",
+          "default": "cdp-default"
+        },
+        "os": {
+          "type": "string",
+          "description": "The OS of the image used for cluster instances."
+        }
+      }
+    },
+    "InstanceGroupRecipeRequest": {
+      "type": "object",
+      "description": "Represents an instance group - recipe pair (by names) request.",
+      "required": [
+        "instanceGroupName"
+      ],
+      "properties": {
+        "instanceGroupName": {
+          "type": "string",
+          "description": "A valid instance/host group name. This name must be unique."
+        },
+        "recipeNames": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          },
+          "description": "Names of the recipes (empty is valid)."
+        }
+      }
+    },
+    "SdxInstanceGroupRequest": {
+      "description": "Request object for host group level custom configurations.",
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the instance group."
+        },
+        "instanceType": {
+          "type": "string",
+          "description": "Cloud provider instance type to create instances with."
+        }
+      }
+    }
+  }
+}

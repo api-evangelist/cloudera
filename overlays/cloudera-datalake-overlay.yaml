@@ -2,7 +2,7 @@ overlay: 1.0.0
 info:
   title: API Evangelist enrichment overlay — Cloudera Datalake Service
   version: 1.0.0
-extends: ./cloudera-datalake-openapi.yml
+extends: ../openapi/_original/cloudera-datalake-openapi.yml
 x-generated: '2026-09-05'
 x-method: generated
 x-source: derived from the harvested Cloudera Swagger 2.0 definition; records API Evangelist enrichment

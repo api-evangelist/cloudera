@@ -1,0 +1,336 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-change-flow-version-request-schema.json",
+  "title": "ChangeFlowVersionRequest",
+  "description": "Request object for change flow version of a deployment.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-cdflocalrpcapiversion1-api-openapi.yml#/components/schemas/ChangeFlowVersionRequest",
+  "type": "object",
+  "x-workload": true,
+  "x-client-only": true,
+  "required": [
+    "environmentCrn",
+    "deploymentCrn"
+  ],
+  "properties": {
+    "environmentCrn": {
+      "type": "string",
+      "description": "The CRN of an environment to execute the command."
+    },
+    "deploymentCrn": {
+      "type": "string",
+      "description": "The crn of the deployment being updated."
+    },
+    "parameterGroups": {
+      "type": "array",
+      "description": "The list of flow parameter groups.",
+      "items": {
+        "$ref": "#/$defs/FlowParameterGroup"
+      }
+    },
+    "kpis": {
+      "type": "array",
+      "description": "The list of configured KPIs.",
+      "items": {
+        "$ref": "#/$defs/ConfiguredKpi"
+      }
+    },
+    "strategy": {
+      "type": "string",
+      "description": "The strategy to use during change flow version.",
+      "enum": [
+        "STOP_AND_PROCESS_DATA",
+        "STOP_AND_EMPTY_QUEUES",
+        "ONLY_RESTART_AFFECTED_COMPONENTS"
+      ]
+    },
+    "waitForFlowToStopInMinutes": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The max time in minutes to wait for the flow to process data."
+    },
+    "ignoreCustomNarConfigurationCheck": {
+      "type": "boolean",
+      "description": "When specified, ignore the check to validate if deployment has custom NARs configured when the flow definition contains custom components."
+    },
+    "ignoreCustomPythonConfigurationCheck": {
+      "type": "boolean",
+      "description": "When specified, ignore the check to validate if deployment has custom Python configured when the flow definition contains custom Python processors."
+    },
+    "ignoreDeploymentInboundConfigurationChecks": {
+      "type": "boolean",
+      "description": "When specified, ignore the check to validate if deployment has inbound connection configured for all listen components."
+    },
+    "deploymentRequestCrn": {
+      "type": "string",
+      "description": "The CRN of the deployment request."
+    },
+    "assetUpdateRequestCrn": {
+      "type": "string",
+      "description": "The CRN of the asset update request. Required when updating assets of an existing deployment."
+    }
+  },
+  "$defs": {
+    "AlertFrequencyUnit": {
+      "type": "object",
+      "description": "The alert frequency unit to use in KPI tolerances and metrics",
+      "x-workload": true,
+      "x-client-only": true,
+      "required": [
+        "id",
+        "label"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The id of the frequency unit",
+          "enum": [
+            "SECONDS",
+            "MINUTES",
+            "HOURS",
+            "DAYS"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "description": "The user-friendly label of the frequency unit"
+        },
+        "abbreviation": {
+          "type": "string",
+          "description": "The abbreviation for frequency unit"
+        }
+      }
+    },
+    "AssetReference": {
+      "type": "object",
+      "description": "A reference to an asset used in a flow parameter",
+      "x-workload": true,
+      "x-client-only": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The ID of the asset"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the asset"
+        },
+        "path": {
+          "type": "string",
+          "description": "The path of the asset"
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the asset"
+        },
+        "environmentProvided": {
+          "type": "boolean",
+          "description": "Whether or not the asset is provided automatically by the environment. If true, the asset cannot removed or replaced."
+        }
+      }
+    },
+    "ConfiguredAlert": {
+      "type": "object",
+      "description": "An alert configuration that specifies a configured frequency with lower and/or upper thresholds",
+      "x-workload": true,
+      "x-client-only": true,
+      "properties": {
+        "thresholdMoreThan": {
+          "description": "The optional moreThan threshold that should trigger an alert; at least one of thresholdMoreThan and thresholdLessThan is required",
+          "$ref": "#/$defs/ConfiguredAlertThreshold"
+        },
+        "thresholdLessThan": {
+          "description": "The optional lessThan threshold that should trigger an alert",
+          "$ref": "#/$defs/ConfiguredAlertThreshold"
+        },
+        "frequencyTolerance": {
+          "description": "The configured alert frequency tolerance for the KPI",
+          "$ref": "#/$defs/ConfiguredAlertFrequencyTolerance"
+        }
+      }
+    },
+    "ConfiguredAlertFrequencyTolerance": {
+      "type": "object",
+      "description": "An alert configuration frequency tolerance for measuring an amount of time and unit for alert triggering",
+      "x-workload": true,
+      "x-client-only": true,
+      "required": [
+        "unit",
+        "value"
+      ],
+      "properties": {
+        "unit": {
+          "description": "The unit of time controlling how long a metric value can persist outside its boundaries before an alert is generated",
+          "$ref": "#/$defs/AlertFrequencyUnit"
+        },
+        "value": {
+          "type": "number",
+          "format": "double",
+          "description": "The amount of time, associated with the given unit, a metric value can persist outside its boundaries before an alert is generated"
+        }
+      }
+    },
+    "ConfiguredAlertThreshold": {
+      "type": "object",
+      "description": "A configured alert threshold to pair together a statistical unit and value",
+      "x-workload": true,
+      "x-client-only": true,
+      "required": [
+        "unitId",
+        "value"
+      ],
+      "properties": {
+        "unitId": {
+          "type": "string",
+          "description": "The identifier of the alert threshold unit to associate with the given threshold value"
+        },
+        "value": {
+          "type": "number",
+          "format": "double",
+          "description": "The threshold value whose triggering causes an alert"
+        }
+      }
+    },
+    "ConfiguredKpi": {
+      "type": "object",
+      "description": "An instantiated KPI specifying a metric on which to alert",
+      "x-workload": true,
+      "x-client-only": true,
+      "required": [
+        "metricId"
+      ],
+      "properties": {
+        "metricId": {
+          "type": "string",
+          "description": "The id of the associated metric"
+        },
+        "id": {
+          "type": "string",
+          "description": "The id of the KPI; used only when viewing and editing existing KPIs"
+        },
+        "metricComponentType": {
+          "type": "string",
+          "description": "The component type of the associated metric",
+          "enum": [
+            "SYSTEM",
+            "NIFI_FLOW",
+            "NIFI_PROCESSOR",
+            "NIFI_PROCESS_GROUP",
+            "NIFI_CONNECTION"
+          ]
+        },
+        "alert": {
+          "description": "The alert specification for the associated metric",
+          "$ref": "#/$defs/ConfiguredAlert"
+        },
+        "componentId": {
+          "type": "string",
+          "description": "The optional process group ID, processor ID, or connection ID. This is a composite ID containing a chain of process group IDs representing the component's full ancestry"
+        }
+      }
+    },
+    "FlowParameter": {
+      "type": "object",
+      "description": "A flow parameter",
+      "x-workload": true,
+      "x-client-only": true,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the parameter"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the param"
+        },
+        "value": {
+          "type": "string",
+          "description": "The value of the parameter",
+          "x-no-paramfile": true
+        },
+        "sensitive": {
+          "type": "boolean",
+          "description": "Whether or not the parameter value is sensitive"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of parameter. Possibly TEXT, FILE, FILES",
+          "enum": [
+            "TEXT",
+            "FILE",
+            "FILES"
+          ]
+        },
+        "assetReferences": {
+          "type": "array",
+          "description": "The list of referenced assets.",
+          "items": {
+            "$ref": "#/$defs/AssetReference"
+          }
+        },
+        "valueSet": {
+          "type": "boolean",
+          "description": "Indicates if the value of this parameter is set (i.e. not null)",
+          "readOnly": true
+        },
+        "sourceParameterGroupId": {
+          "type": "string",
+          "description": "The ID of the shared parameter group where the value should come from."
+        }
+      }
+    },
+    "FlowParameterGroup": {
+      "type": "object",
+      "description": "A flow parameter group",
+      "x-workload": true,
+      "x-client-only": true,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the parameter group"
+        },
+        "parameters": {
+          "type": "array",
+          "description": "The parameters in the group",
+          "items": {
+            "$ref": "#/$defs/FlowParameter"
+          }
+        },
+        "inheritedParameterGroups": {
+          "type": "array",
+          "description": "The names and versions of the inherited parameter groups",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/VersionedParameterGroupReference"
+          }
+        },
+        "otherName": {
+          "type": "string",
+          "description": "The other name that can be used to reference this group in a flow. This is used when multiple flows with same parameter group are deployed in to same NiFi cluster."
+        }
+      }
+    },
+    "VersionedParameterGroupReference": {
+      "type": "object",
+      "description": "A reference to a specific version of a shared parameter group",
+      "x-workload": true,
+      "x-client-only": true,
+      "required": [
+        "groupId"
+      ],
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "description": "The ID of the parameter group"
+        },
+        "version": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The version of the parameter group. Empty or null means the latest version."
+        }
+      }
+    }
+  }
+}

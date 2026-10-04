@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-get-private-link-status-request-schema.json",
+  "title": "GetPrivateLinkStatusRequest",
+  "description": "Request object for retrieving the status of a Private Link.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-cloudprivatelinks-api-openapi.yml#/components/schemas/GetPrivateLinkStatusRequest",
+  "type": "object",
+  "properties": {
+    "subnetIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of subnets in the given cloud network to query Private Link status. This field has been deprecated.",
+      "x-deprecated": true
+    },
+    "vNetId": {
+      "type": "string",
+      "description": "Virtual Network Id to query the status of Private Link in Azure."
+    },
+    "vpcId": {
+      "type": "string",
+      "description": "VPC ID to query the status of Private Link in AWS."
+    },
+    "cloudServiceProvider": {
+      "description": "Cloud Service Provider. Supports AWS and AZURE.",
+      "$ref": "#/$defs/CloudServiceProvider"
+    }
+  },
+  "$defs": {
+    "CloudServiceProvider": {
+      "type": "string",
+      "description": "Supported cloud providers\n `AWS` - A value indicating AWS as supported cloud provider for creating Private Links. `AZURE` - A value indicating Azure as supported cloud provider for creating Private Links.",
+      "enum": [
+        "AWS",
+        "AZURE"
+      ]
+    }
+  }
+}

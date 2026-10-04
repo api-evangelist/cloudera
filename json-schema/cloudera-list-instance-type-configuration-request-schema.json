@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-list-instance-type-configuration-request-schema.json",
+  "title": "ListInstanceTypeConfigurationRequest",
+  "description": "Request object for the ListInstanceTypeConfiguration method.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-ml-api-openapi.yml#/components/schemas/ListInstanceTypeConfigurationRequest",
+  "type": "object",
+  "required": [
+    "instanceCategory",
+    "instanceType",
+    "environmentName",
+    "productType"
+  ],
+  "properties": {
+    "instanceCategory": {
+      "type": "string",
+      "description": "Defines the category of the instance (e.g., CPU, GPU) relevant for the query in the specified region."
+    },
+    "instanceType": {
+      "type": "string",
+      "description": "Identifies the instance type."
+    },
+    "environmentName": {
+      "type": "string",
+      "description": "Specifies the environment name of respective cloud provider for which instance support details are requested."
+    },
+    "productType": {
+      "type": "string",
+      "description": "Specifies the product type for which instance support details are requested."
+    },
+    "region": {
+      "type": "string",
+      "description": "Deprecated. Please use environmentName instead, from which the region will be determined.",
+      "x-deprecated": true
+    },
+    "cloudProvider": {
+      "type": "string",
+      "description": "Deprecated. Please use environmentName instead, from which the cloud provider will be determined.",
+      "x-deprecated": true
+    }
+  }
+}

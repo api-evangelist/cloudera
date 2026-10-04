@@ -1,10 +1,19 @@
 generated: '2026-09-05'
+
+description: >-
+  Cloudera CDP API problem types and error handling details.
+
+docs: https://docs.cloudera.com/cdp-public-cloud/cloud/api/topics/error-handling.html
 method: derived
 source: >-
   openapi/cloudera-*-openapi.yml (778 operations across 19 CDP control plane
   Swagger definitions), enriched with live probes of
   https://api.us-west-1.cdp.cloudera.com on 2026-09-05
 format: custom
+problems:
+  - status: 401
+    title: Authentication failure
+    type: error
 rfc9457: false
 media_type: application/json
 envelope:

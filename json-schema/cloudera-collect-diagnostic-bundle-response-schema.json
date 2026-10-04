@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-collect-diagnostic-bundle-response-schema.json",
+  "title": "CollectDiagnosticBundleResponse",
+  "description": "Response object for collect-diagnostic-bundle.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-replicationmanager-api-openapi.yml#/components/schemas/CollectDiagnosticBundleResponse",
+  "type": "object",
+  "required": [
+    "commandId"
+  ],
+  "properties": {
+    "commandId": {
+      "description": "ID of the diagnostic bundle collection command issued against the CM. Polling get-command-status with this command id returns the current state of the command.",
+      "format": "int64",
+      "type": "integer"
+    },
+    "name": {
+      "description": "Name of the policy.",
+      "type": "string"
+    },
+    "active": {
+      "description": "Whether the diagnostic bundle command is active.",
+      "type": "boolean"
+    },
+    "startTime": {
+      "description": "Start time of the diagnostic bundle collection command.",
+      "type": "string"
+    },
+    "resultMessage": {
+      "description": "Diagnostic bundle collection command result message.",
+      "type": "string"
+    }
+  }
+}

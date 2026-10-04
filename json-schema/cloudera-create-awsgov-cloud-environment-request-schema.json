@@ -1,0 +1,286 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-create-awsgov-cloud-environment-request-schema.json",
+  "title": "CreateAWSGovCloudEnvironmentRequest",
+  "description": "Request object for a create AWS GovCloud environment request.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-environments2-api-openapi.yml#/components/schemas/CreateAWSGovCloudEnvironmentRequest",
+  "type": "object",
+  "required": [
+    "environmentName",
+    "credentialName",
+    "region",
+    "securityAccess",
+    "authentication",
+    "logStorage"
+  ],
+  "properties": {
+    "environmentName": {
+      "type": "string",
+      "description": "The name of the environment. Must contain only lowercase letters, numbers and hyphens."
+    },
+    "credentialName": {
+      "type": "string",
+      "description": "Name of the credential to use for the environment."
+    },
+    "region": {
+      "type": "string",
+      "description": "The region of the environment."
+    },
+    "securityAccess": {
+      "description": "Security control for FreeIPA and Data Lake deployment.",
+      "$ref": "#/$defs/SecurityAccessRequest"
+    },
+    "authentication": {
+      "description": "SSH authentication information for accessing cluster node instances. Users with access to this authentication information have root level access to the Data Lake and Data Hub cluster instances.",
+      "$ref": "#/$defs/AuthenticationRequest"
+    },
+    "logStorage": {
+      "description": "AWS storage configuration for cluster and audit logs.",
+      "$ref": "#/$defs/AwsLogStorageRequest"
+    },
+    "vpcId": {
+      "type": "string",
+      "description": "The Amazon VPC ID."
+    },
+    "subnetIds": {
+      "type": "array",
+      "description": "One or more subnet IDs within the VPC.",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "networkCidr": {
+      "type": "string",
+      "x-deprecated": true,
+      "description": "[Deprecated] The network CIDR. This will create a VPC along with subnets in multiple Availability Zones."
+    },
+    "createPrivateSubnets": {
+      "type": "boolean",
+      "description": "Whether to create private subnets or not."
+    },
+    "createServiceEndpoints": {
+      "type": "boolean",
+      "description": "Whether to create service endpoints or not."
+    },
+    "endpointAccessGatewayScheme": {
+      "type": "string",
+      "description": "The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.",
+      "enum": [
+        "PUBLIC",
+        "PRIVATE"
+      ]
+    },
+    "endpointAccessGatewaySubnetIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The subnets to use for endpoint access gateway."
+    },
+    "s3GuardTableName": {
+      "type": "string",
+      "description": "Deprecated. S3Guard was used to ensure consistent S3 updates when S3 was still eventually consistent. With the introduction of Consistent S3, the goal and usage of S3 Guard have become superfluous and defunct.",
+      "x-deprecated": true
+    },
+    "description": {
+      "type": "string",
+      "description": "An description of the environment."
+    },
+    "enableTunnel": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to enable SSH tunneling for the environment."
+    },
+    "workloadAnalytics": {
+      "type": "boolean",
+      "description": "When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment."
+    },
+    "freeIpa": {
+      "$ref": "#/$defs/AWSFreeIpaCreationRequest",
+      "description": "The FreeIPA creation request for the environment"
+    },
+    "image": {
+      "$ref": "#/$defs/FreeIpaImageRequest",
+      "description": "The FreeIPA image request for the environment"
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags associated with the resources.",
+      "items": {
+        "$ref": "#/$defs/TagRequest"
+      }
+    },
+    "proxyConfigName": {
+      "type": "string",
+      "description": "Name of the proxy config to use for the environment."
+    },
+    "encryptionKeyArn": {
+      "type": "string",
+      "description": "ARN of the AWS KMS CMK to use for the server-side encryption of AWS storage resources."
+    },
+    "customDockerRegistry": {
+      "description": "Configures the desired custom docker registry for data services.",
+      "$ref": "#/$defs/CustomDockerRegistryRequest"
+    }
+  },
+  "$defs": {
+    "AWSFreeIpaCreationRequest": {
+      "description": "Request object for creating FreeIPA in the environment.",
+      "type": "object",
+      "properties": {
+        "instanceCountByGroup": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of FreeIPA instances to create per group when creating FreeIPA in the environment"
+        },
+        "recipes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The recipes for the FreeIPA cluster."
+        },
+        "instanceType": {
+          "type": "string",
+          "description": "Custom instance type of FreeIPA instances."
+        },
+        "multiAz": {
+          "type": "boolean",
+          "description": "Flag which marks that the FreeIPA will be deployed in a multi-availability zone way or not."
+        },
+        "architecture": {
+          "type": "string",
+          "description": "Specifies the CPU architecture of freeipa instance type. Values are ARM64, X86_64.",
+          "enum": [
+            "ARM64",
+            "X86_64"
+          ]
+        }
+      }
+    },
+    "AuthenticationRequest": {
+      "type": "object",
+      "description": "Additional SSH key authentication configuration for accessing cluster node.",
+      "properties": {
+        "publicKey": {
+          "type": "string",
+          "description": "Public SSH key string. Mutually exclusive with publicKeyId."
+        },
+        "publicKeyId": {
+          "type": "string",
+          "description": "Public SSH key ID already registered in the cloud provider. Mutually exclusive with publicKey."
+        }
+      }
+    },
+    "AwsLogStorageRequest": {
+      "type": "object",
+      "required": [
+        "storageLocationBase",
+        "instanceProfile"
+      ],
+      "description": "AWS storage configuration for cluster and audit logs.",
+      "properties": {
+        "storageLocationBase": {
+          "type": "string",
+          "description": "The base location to store logs in S3. This should be an s3a:// url."
+        },
+        "instanceProfile": {
+          "type": "string",
+          "description": "The AWS instance profile that which contains the necessary permissions to access the S3 storage location."
+        },
+        "backupStorageLocationBase": {
+          "type": "string",
+          "description": "The base location to store backup in S3. This should be an s3a:// url."
+        }
+      }
+    },
+    "CustomDockerRegistryRequest": {
+      "description": "The desired custom docker registry for data services to be used.",
+      "type": "object",
+      "required": [
+        "crn"
+      ],
+      "properties": {
+        "crn": {
+          "type": "string",
+          "description": "The CRN of the desired custom docker registry for data services to be used."
+        }
+      }
+    },
+    "FreeIpaImageRequest": {
+      "description": "Request object for FreeIPA image.",
+      "type": "object",
+      "properties": {
+        "catalog": {
+          "type": "string",
+          "description": "Image catalog to use for FreeIPA image selection.",
+          "x-no-paramfile": true
+        },
+        "id": {
+          "type": "string",
+          "description": "Image ID to use for creating FreeIPA instances."
+        },
+        "os": {
+          "type": "string",
+          "description": "The OS to use for creating FreeIPA instances."
+        }
+      }
+    },
+    "SecurityAccessRequest": {
+      "type": "object",
+      "description": "Security control configuration for FreeIPA and Datalake deployment. Choosing a CIDR will automatically create security groups. Alternatively existing security groups can be specified.",
+      "properties": {
+        "cidr": {
+          "type": "string",
+          "description": "CIDR range which is allowed for inbound traffic. Either IPv4 or IPv6 is allowed."
+        },
+        "securityGroupIdForKnox": {
+          "type": "string",
+          "description": "Security group where Knox-enabled hosts are placed. Mutually exclusive with cidr."
+        },
+        "defaultSecurityGroupId": {
+          "type": "string",
+          "description": "Security group where all other hosts are placed. Mutually exclusive with cidr."
+        },
+        "securityGroupIDsForKnox": {
+          "type": "array",
+          "description": "Security group IDs where Knox-enabled hosts are placed. Mutually exclusive with CIDR.",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "defaultSecurityGroupIDs": {
+          "type": "array",
+          "description": "Security group IDs where all other hosts are placed. Mutually exclusive with CIDR.",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "TagRequest": {
+      "description": "A label that can be attached to some resources.",
+      "type": "object",
+      "required": [
+        "key",
+        "value"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The tag's name."
+        },
+        "value": {
+          "type": "string",
+          "description": "The associated value of the tag."
+        }
+      }
+    }
+  }
+}

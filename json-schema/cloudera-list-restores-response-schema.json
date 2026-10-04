@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-list-restores-response-schema.json",
+  "title": "ListRestoresResponse",
+  "description": "Response object for the list restores request.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-drscp-api-openapi.yml#/components/schemas/ListRestoresResponse",
+  "type": "object",
+  "required": [
+    "restores"
+  ],
+  "properties": {
+    "restores": {
+      "type": "array",
+      "description": "List of restores for the control plane.",
+      "items": {
+        "$ref": "#/$defs/SimpleRestore"
+      }
+    }
+  },
+  "$defs": {
+    "SimpleRestore": {
+      "type": "object",
+      "description": "A simple Restore entry for listRestore Usage",
+      "properties": {
+        "restoreCrn": {
+          "type": "string",
+          "description": "The CRN of the restore."
+        },
+        "backupCrn": {
+          "type": "string",
+          "description": "The CRN of the backup."
+        },
+        "restoreCreationTime": {
+          "type": "string",
+          "description": "The time when the restore was created."
+        },
+        "includedNamespaces": {
+          "type": "array",
+          "description": "The list of namespaces to be included in restore.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "restorePhase": {
+          "type": "string",
+          "description": "The phase of the restore operation. The values are PENDING, PRE_VALIDATION, STOPPING_APPS, DELETING_OBJECTS, DELETING_OBJECTS_PVC, RESTORING_PVC, RESTORING_OBJECTS, STARTING_APPS and FINISHED. PENDING indicates waiting for the job to start executing. PRE_VALIDATION indicates validation of the environment before restore. STOPPING_APPS indicates stopping the microservices before data restore. DELETING_OBJECTS indicates deletion of Kubernetes resources other than PersistentVolumeClaims. DELETING_OBJECTS_PVC indicates deletion of Kubernetes PersistentVolumeClaims. RESTORING_PVC indicates creation of Kubernetes PersistentVolumeClaims. RESTORING_OBJECTS indicates creating of Kubernetes objects other than PersistentVolumeClaims. STARTING_APPS indicates starting of the microservices after data restore and FINISHED indicates the restore job has finished."
+        },
+        "restoreJobState": {
+          "type": "string",
+          "description": "The current state of the restore job. The values are NOT_STARTED, IN_PROGRESS, COMPLETED, PARTIALLY_FAILED, FAILED and TERMINATING. NOT_STARTED indicates the job has not started. IN_PROGRESS indicates the job is running. COMPLETED indicates the job has finished running successfully. PARTIALLY_FAILED indicates the job has finished running with some warnings. FAILED indicates the job has finished running with errors and TERMINATING indicates that the entity containing this job is being deleted."
+        }
+      }
+    }
+  }
+}

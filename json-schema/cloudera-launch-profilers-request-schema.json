@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-launch-profilers-request-schema.json",
+  "title": "LaunchProfilersRequest",
+  "description": "Launch Profilers request.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-data-catalog-api-openapi.yml#/components/schemas/LaunchProfilersRequest",
+  "type": "object",
+  "required": [
+    "datalake"
+  ],
+  "properties": {
+    "datalake": {
+      "type": "string",
+      "description": "The CRN of the Datalake."
+    },
+    "enableHA": {
+      "type": "boolean",
+      "description": "Enables High Availability (HA) for datacatalog profilers (default value is false). The High Availability (HA) Profiler cluster provides failure resilience and scalability but incurs additional cost."
+    },
+    "profilers": {
+      "description": "List of profiler names that need to be launched. (Applicable only for compute cluster enabled environments).",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "instanceTypes": {
+      "description": "List of instance types to be used for the auto-scaling node group setup (Applicable only for compute cluster enabled environments).",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "maxNodes": {
+      "description": "Maximum number of nodes that can be spawned inside the auto-scaling node group, in the range of 30 to 100 (both inclusive). (Applicable only for compute cluster enabled environments).",
+      "type": "integer",
+      "format": "int64"
+    }
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-create-private-environment-request-schema.json",
+  "title": "CreatePrivateEnvironmentRequest",
+  "description": "Request object for a create private cloud environment request.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-environments2-api-openapi.yml#/components/schemas/CreatePrivateEnvironmentRequest",
+  "type": "object",
+  "x-form-factors": "private",
+  "required": [
+    "environmentName",
+    "address",
+    "user",
+    "authenticationToken",
+    "clusterNames"
+  ],
+  "properties": {
+    "environmentName": {
+      "type": "string",
+      "description": "The name of the environment. Must contain only lowercase letters, numbers and hyphens."
+    },
+    "address": {
+      "x-no-paramfile": true,
+      "type": "string",
+      "description": "The address of the Cloudera Manager managing the Datalake cluster."
+    },
+    "user": {
+      "type": "string",
+      "description": "User name for accessing the Cloudera Manager."
+    },
+    "authenticationToken": {
+      "type": "string",
+      "description": "A string (text or json) used to authenticate to the Cloudera Manager.",
+      "x-sensitive": true
+    },
+    "clusterNames": {
+      "type": "array",
+      "description": "The name of the cluster(s) to use as a Datalake for the environment.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "environmentQuota": {
+      "description": "Set quota for resources in this Environment.",
+      "$ref": "#/$defs/EnvironmentQuota"
+    },
+    "kubeConfig": {
+      "type": "string",
+      "description": "Name of credentials holding kubeconfig for access to the kubernetes cluster paired with this Environment.",
+      "x-sensitive": true
+    },
+    "authenticationTokenType": {
+      "type": "string",
+      "description": "How to interpret the authenticationToken field. Defaults to CLEARTEXT_PASSWORD.",
+      "enum": [
+        "CLEARTEXT_PASSWORD"
+      ]
+    },
+    "namespacePrefix": {
+      "type": "string",
+      "default": "cdp",
+      "description": "Prefix for all namespaces created by Cloudera Data Platform within this cluster."
+    },
+    "domain": {
+      "type": "string",
+      "description": "default domain suffix to work workload applications to use."
+    },
+    "platform": {
+      "type": "string",
+      "default": "OPENSHIFT",
+      "description": "the K8s cluster type used for the environment."
+    },
+    "dockerConfigJson": {
+      "type": "string",
+      "description": "docker pull secrets for the K8s cluster. This is expected to be a docker config json.",
+      "x-sensitive": true
+    },
+    "dockerUserPass": {
+      "type": "object",
+      "description": "Alternative to dockerConfigJson.",
+      "required": [
+        "username",
+        "password",
+        "server"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "Docker username."
+        },
+        "password": {
+          "type": "string",
+          "description": "Docker password.",
+          "x-sensitive": true
+        },
+        "email": {
+          "type": "string",
+          "description": "Docker email."
+        },
+        "server": {
+          "type": "string",
+          "description": "Docker Registry FQDN."
+        }
+      }
+    },
+    "description": {
+      "type": "string",
+      "description": "An description of the environment."
+    },
+    "storageClass": {
+      "type": "string",
+      "description": "An existing storage class on this kubernetes cluster. If not specified, the default storage class will be used."
+    }
+  },
+  "$defs": {
+    "EnvironmentQuota": {
+      "type": "object",
+      "description": "Resource pool quota for the Environment.",
+      "properties": {
+        "cpuQuota": {
+          "type": "integer",
+          "format": "int64",
+          "minimum": 1,
+          "description": "CPU quota (in Cores) for the Environment. Must be a positive number. By default, a quota won't be set for this resource type in the environment."
+        },
+        "memoryQuota": {
+          "type": "integer",
+          "format": "int64",
+          "minimum": 1,
+          "description": "Memory quota (in GigaBytes) for the Environment. Must be a positive number. By default, a quota won't be set for this resource type in the environment."
+        },
+        "gpuQuota": {
+          "type": "integer",
+          "format": "int64",
+          "minimum": 1,
+          "description": "GPU quota (in Cores) for the Environment. Must be a positive number. By default, a quota won't be set for this resource type in the environment."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-archive-audit-events-response-schema.json",
+  "title": "ArchiveAuditEventsResponse",
+  "description": "Response from archiving audit events.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-audit-api-openapi.yml#/components/schemas/ArchiveAuditEventsResponse",
+  "type": "object",
+  "properties": {
+    "eventCount": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The number of events archived."
+    },
+    "eventBatches": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ArchiveBatch"
+      },
+      "description": "The details about the batches of events archived."
+    },
+    "taskId": {
+      "type": "string",
+      "description": "The id representing an asynchronous task."
+    }
+  },
+  "$defs": {
+    "ArchiveBatch": {
+      "type": "object",
+      "description": "Information about a batch of audit events that were archived.",
+      "properties": {
+        "accountId": {
+          "type": "string",
+          "description": "The account ID for which events were archived."
+        },
+        "eventCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The number of events archived. A negative number indicates that the count is not available."
+        },
+        "archiveId": {
+          "type": "string",
+          "description": "The archive ID of the batch."
+        },
+        "archiveTimestamp": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The archive timestamp of the batch."
+        }
+      }
+    }
+  }
+}

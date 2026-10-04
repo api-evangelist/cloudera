@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-modify-cluster-instance-group-request-schema.json",
+  "title": "ModifyClusterInstanceGroupRequest",
+  "description": "Request object for ModifyClusterInstanceGroup.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-ml-api-openapi.yml#/components/schemas/ModifyClusterInstanceGroupRequest",
+  "type": "object",
+  "required": [
+    "workspaceCrn",
+    "instanceGroupName",
+    "min",
+    "max",
+    "instanceType"
+  ],
+  "properties": {
+    "workspaceCrn": {
+      "type": "string",
+      "description": "The CRN of the workbench cluster to modify."
+    },
+    "instanceGroupName": {
+      "type": "string",
+      "description": "The system-assigned name of the instance group in the workbench cluster to be modified."
+    },
+    "min": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The desired autoscaling min of the workbench cluster instance group."
+    },
+    "max": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The desired autoscaling min of the workbench cluster instance group."
+    },
+    "instanceType": {
+      "type": "string",
+      "description": "The desired instance type of the workbench cluster instance group."
+    },
+    "name": {
+      "type": "string",
+      "description": "The unique name for the instance or resource group of the workbench."
+    },
+    "accelerator": {
+      "description": "The accelerator, which refers to the GPU type configuration.",
+      "$ref": "#/$defs/Accelerator"
+    }
+  },
+  "$defs": {
+    "Accelerator": {
+      "type": "object",
+      "description": "Accelerator, i.e. GPU configurations.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The GPU type."
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The GPU count."
+        }
+      }
+    }
+  }
+}

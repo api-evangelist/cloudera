@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-describe-custom-catalog-response-schema.json",
+  "title": "DescribeCustomCatalogResponse",
+  "description": "The response object holding the retrieved data of a custom catalog.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-imagecatalog-api-openapi.yml#/components/schemas/DescribeCustomCatalogResponse",
+  "type": "object",
+  "properties": {
+    "catalogName": {
+      "type": "string",
+      "description": "Image catalog name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Image catalog description"
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ImageItemResponse"
+      },
+      "description": "Detailed information of the images contained within"
+    }
+  },
+  "$defs": {
+    "ImageItemResponse": {
+      "type": "object",
+      "description": "Model holding detailed information about a custom VM image.",
+      "properties": {
+        "imageId": {
+          "type": "string",
+          "description": "Image UUID"
+        },
+        "imageDate": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Image creation date"
+        },
+        "imageType": {
+          "description": "Image type - either \"FREEIPA\" or \"RUNTIME\"",
+          "$ref": "#/$defs/VmImageType"
+        },
+        "sourceImageId": {
+          "type": "string",
+          "description": "Customized image UUID"
+        },
+        "sourceImageDate": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Customized image creation date"
+        },
+        "versions": {
+          "type": "object",
+          "description": "Package versions",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "provider": {
+          "description": "Cloud provider - either AWS, AZURE or GCP",
+          "$ref": "#/$defs/VmImageProvider"
+        }
+      }
+    },
+    "VmImageProvider": {
+      "type": "string",
+      "description": "Object representing a valid cloud provider name.\n `AWS` - The image is an AWS VM image `AZURE` - The image is an Azure VM image `GCP` - The image is a GCP VM image",
+      "enum": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ]
+    },
+    "VmImageType": {
+      "type": "string",
+      "description": "Object representing a valid VM image type.\n `FREEIPA` - FreeIPA image `RUNTIME` - Cloudera Runtime image",
+      "enum": [
+        "FREEIPA",
+        "RUNTIME"
+      ]
+    }
+  }
+}

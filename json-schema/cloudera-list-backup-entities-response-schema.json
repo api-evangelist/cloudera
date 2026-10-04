@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-list-backup-entities-response-schema.json",
+  "title": "ListBackupEntitiesResponse",
+  "description": "Response object for the list entities request.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-drscp-api-openapi.yml#/components/schemas/ListBackupEntitiesResponse",
+  "type": "object",
+  "required": [
+    "items"
+  ],
+  "properties": {
+    "items": {
+      "type": "array",
+      "description": "The list of potential candidates for backup. It should be a single entity that indicates the namespace which the control plane is running on.",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

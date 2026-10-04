@@ -1,0 +1,422 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-create-workspace-request-schema.json",
+  "title": "CreateWorkspaceRequest",
+  "description": "Request object for the CreateWorkspace method.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-ml-api-openapi.yml#/components/schemas/CreateWorkspaceRequest",
+  "type": "object",
+  "required": [
+    "environmentName",
+    "workspaceName"
+  ],
+  "properties": {
+    "environmentName": {
+      "type": "string",
+      "description": "The environment for the workbench to create."
+    },
+    "workspaceName": {
+      "type": "string",
+      "description": "The name of the workbench to create."
+    },
+    "provisionK8sRequest": {
+      "description": "The request for Kubernetes workbench provision. Required in public cloud.",
+      "$ref": "#/$defs/ProvisionK8sRequest"
+    },
+    "usePublicLoadBalancer": {
+      "type": "boolean",
+      "description": "The boolean flag to request public load balancer. By default, private load balancer is used."
+    },
+    "disableTLS": {
+      "type": "boolean",
+      "description": "The boolean flag to disable TLS setup for workbench. By default, the TLS is enabled."
+    },
+    "enableMonitoring": {
+      "type": "boolean",
+      "description": "The boolean flag is used to enable monitoring. By default, monitoring is disabled."
+    },
+    "enableGovernance": {
+      "type": "boolean",
+      "description": "Enables Cloudera AI governance by integrating with Cloudera Atlas. By default, this flag is disabled."
+    },
+    "existingNFS": {
+      "type": "string",
+      "description": "Optionally use an existing NFS by providing the hostname and desired path (Azure and Private Cloud only)."
+    },
+    "enableYunikorn": {
+      "type": "boolean",
+      "description": "The boolean flag is used to enable yunikorn scheduling. By default, yunikorn scheduling is disabled."
+    },
+    "loadBalancerIPWhitelists": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The whitelist of IPs for load balancer."
+    },
+    "nfsVersion": {
+      "type": "string",
+      "description": "The NFS Protocol version of the NFS server we are using for Azure and Private Cloud."
+    },
+    "enableModelMetrics": {
+      "type": "boolean",
+      "description": "Enables the model metrics service for exporting metrics for models to a metrics store."
+    },
+    "existingDatabaseConfig": {
+      "description": "Optional configurations for an existing Postgres to export model metrics to.",
+      "$ref": "#/$defs/ExistingDatabaseConfig"
+    },
+    "whitelistAuthorizedIPRanges": {
+      "type": "boolean",
+      "description": "Whether to whitelist only 'authorizedIPRanges' given or all public IPs."
+    },
+    "authorizedIPRanges": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The whitelist of CIDR blocks which can access the API server."
+    },
+    "skipValidation": {
+      "type": "boolean",
+      "description": "Skip pre-flight validations if requested."
+    },
+    "privateCluster": {
+      "type": "boolean",
+      "description": "Whether to create a private cluster."
+    },
+    "subnetsForLoadBalancers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The list of subnets used for the load balancer that Cloudera AI creates."
+    },
+    "staticSubdomain": {
+      "type": "string",
+      "description": "The static subdomain to be used for the workbench."
+    },
+    "cdswMigrationMode": {
+      "type": "string",
+      "description": "Toggle for cdsw migration preflight validation"
+    },
+    "outboundTypes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/OutboundTypes"
+      },
+      "description": "Outbound Types provided for the workbench."
+    },
+    "resourcePoolConfig": {
+      "description": "The resource pool configuration for quota management.",
+      "$ref": "#/$defs/ResourcePoolConfig"
+    },
+    "enableEnhancedPerformance": {
+      "type": "boolean",
+      "description": "Enable Enhanced Performance Mode to maximize throughput and IOPS for root volumes attached to worker nodes."
+    },
+    "enableGlobalAccessLoadBalancer": {
+      "type": "boolean",
+      "description": "Enable global access to the load balancer so the workbench is accessible from other regions."
+    }
+  },
+  "$defs": {
+    "Accelerator": {
+      "type": "object",
+      "description": "Accelerator, i.e. GPU configurations.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The GPU type."
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The GPU count."
+        }
+      }
+    },
+    "Autoscaling": {
+      "type": "object",
+      "description": "Configuration for instance auto scaling.",
+      "required": [
+        "minInstances",
+        "maxInstances"
+      ],
+      "properties": {
+        "minInstances": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The minimum number of instance for auto scaling."
+        },
+        "maxInstances": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The maximum number of instance for auto scaling."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "The boolean flag to enable the auto scaling."
+        }
+      }
+    },
+    "AwsCrConfig": {
+      "type": "object",
+      "description": "The capacity reservation config for EKS",
+      "properties": {
+        "capacityReservationId": {
+          "type": "string",
+          "description": "The capacity reservation Id"
+        },
+        "network": {
+          "description": "The network config having subnets for AZ",
+          "$ref": "#/$defs/Network"
+        }
+      }
+    },
+    "ExistingDatabaseConfig": {
+      "type": "object",
+      "description": "Configurations for bringing an existing database for model metrics",
+      "properties": {
+        "existingDatabaseHost": {
+          "type": "string",
+          "description": "Optionally provide a Postgresql database host to export model metrics to."
+        },
+        "existingDatabasePort": {
+          "type": "string",
+          "description": "Optionally provide a Postgresql database port to export model metrics to."
+        },
+        "existingDatabaseName": {
+          "type": "string",
+          "description": "Optionally provide a Postgresql database name to export model metrics to."
+        },
+        "existingDatabaseUser": {
+          "type": "string",
+          "description": "Optionally provide a Postgresql database user to use when exporting model metrics."
+        },
+        "existingDatabasePassword": {
+          "type": "string",
+          "description": "Optionally provide a Postgresql database password to use when exporting model metrics.",
+          "x-sensitive": true
+        }
+      }
+    },
+    "Gcp": {
+      "type": "object",
+      "description": "Contains the information about gcp.",
+      "properties": {
+        "secondaryPodRangeName": {
+          "type": "string",
+          "description": "The secondary pod range name for GCP."
+        }
+      }
+    },
+    "InstanceGroup": {
+      "type": "object",
+      "description": "Contains the necessary info for an instance group.",
+      "required": [
+        "instanceType"
+      ],
+      "properties": {
+        "instanceType": {
+          "type": "string",
+          "description": "The cloud provider instance type for the node instance."
+        },
+        "instanceTier": {
+          "type": "string",
+          "description": "The tier of the instance i.e. on-demand/spot."
+        },
+        "instanceCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The initial number of instance node."
+        },
+        "name": {
+          "type": "string",
+          "description": "The unique name for the instance or resource group of the workbench."
+        },
+        "ingressRules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The networking rules for the ingress."
+        },
+        "rootVolume": {
+          "description": "The root volume of the instance.",
+          "$ref": "#/$defs/RootVolume"
+        },
+        "autoscaling": {
+          "description": "The auto scaling configuration.",
+          "$ref": "#/$defs/Autoscaling"
+        },
+        "accelerator": {
+          "description": "The accelerator, which refers to the GPU type configuration.",
+          "$ref": "#/$defs/Accelerator"
+        },
+        "singleZone": {
+          "type": "boolean",
+          "description": "The boolean flag to provision single zone or multi zone cluster."
+        },
+        "aws": {
+          "description": "The capacity reservation config for EKS.",
+          "$ref": "#/$defs/AwsCrConfig"
+        }
+      }
+    },
+    "Network": {
+      "type": "object",
+      "description": "The network config for capacity reservation.",
+      "properties": {
+        "subnets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The array of subnets for AZ"
+        }
+      }
+    },
+    "OutboundTypes": {
+      "type": "string",
+      "description": "List of possible Outbound types.",
+      "enum": [
+        "UNKNOWN",
+        "OUTBOUND_TYPE_UDR"
+      ]
+    },
+    "OverlayNetwork": {
+      "type": "object",
+      "description": "Contains the information about overlay network.",
+      "properties": {
+        "plugin": {
+          "type": "string",
+          "description": "The plugin specifies specific cni vendor, ex: calico, weave etc."
+        },
+        "topology": {
+          "description": "The options for overlay topology.",
+          "$ref": "#/$defs/Topology"
+        },
+        "gcp": {
+          "description": "The networking options for GCP platform.",
+          "$ref": "#/$defs/Gcp"
+        }
+      }
+    },
+    "ProvisionK8sRequest": {
+      "type": "object",
+      "description": "Request object for workbench provision. Required in public cloud.",
+      "required": [
+        "instanceGroups",
+        "environmentName"
+      ],
+      "properties": {
+        "instanceGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/InstanceGroup"
+          },
+          "description": "The instance groups."
+        },
+        "environmentName": {
+          "type": "string",
+          "description": "The name of the environment for the workbench to create."
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ProvisionTag"
+          },
+          "description": "Tags to add to the cloud provider resources created. This is in addition to any tags added by Cloudera."
+        },
+        "network": {
+          "description": "The overlay network for an AWS Kubernetes cluster's CNI.",
+          "$ref": "#/$defs/OverlayNetwork"
+        }
+      }
+    },
+    "ProvisionTag": {
+      "type": "object",
+      "description": "Contains a single tag entry that will be configured on cloud resources associated with a workbench.",
+      "required": [
+        "key",
+        "value"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The name for the tag."
+        },
+        "value": {
+          "type": "string",
+          "description": "The value for the tag."
+        }
+      }
+    },
+    "QuotaConfig": {
+      "type": "object",
+      "description": "Quota configuration for quota management.",
+      "required": [
+        "cpuQuota",
+        "memoryQuota"
+      ],
+      "properties": {
+        "cpuQuota": {
+          "type": "string",
+          "description": "The quota for CPU resource."
+        },
+        "memoryQuota": {
+          "type": "string",
+          "description": "The quota for memory resource."
+        },
+        "gpuQuota": {
+          "type": "string",
+          "description": "The quota for gpu resource."
+        }
+      }
+    },
+    "ResourcePoolConfig": {
+      "type": "object",
+      "description": "Resource pool configuration for quota management.",
+      "properties": {
+        "parentPoolName": {
+          "type": "string",
+          "description": "The name of the parent resource pool."
+        },
+        "workspaceQuota": {
+          "description": "The resource quota.",
+          "$ref": "#/$defs/QuotaConfig"
+        }
+      }
+    },
+    "RootVolume": {
+      "type": "object",
+      "description": "Configuration for instance root device volume.",
+      "required": [
+        "size"
+      ],
+      "properties": {
+        "size": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The volume size in GB."
+        }
+      }
+    },
+    "Topology": {
+      "type": "object",
+      "description": "Contains the information about topology.",
+      "properties": {
+        "subnets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The options for subnets."
+        }
+      }
+    }
+  }
+}

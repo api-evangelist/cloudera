@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-create-backup-request-schema.json",
+  "title": "CreateBackupRequest",
+  "description": "Request object for Create Backup command.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-de-api-openapi.yml#/components/schemas/CreateBackupRequest",
+  "type": "object",
+  "required": [
+    "serviceId"
+  ],
+  "properties": {
+    "serviceId": {
+      "type": "string",
+      "description": "Service ID of the service to backup."
+    },
+    "description": {
+      "type": "string",
+      "description": "Backup description."
+    },
+    "backupPath": {
+      "type": "string",
+      "description": "Backup file relative path. The path should not include file name, and be relative to the service backup location. The service backup location can be found in the service description obtained via the 'describe-service' command."
+    },
+    "includeVc": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to backup service virtual clusters. By default, virtual clusters are backed up."
+    },
+    "timeout": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Backup operation timeout in seconds."
+    },
+    "backupVcContentOptions": {
+      "$ref": "#/$defs/BackupContentOptions",
+      "description": "Backup virtual cluster content options."
+    },
+    "force": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to ignore validation errors and proceed with the backup forcefully. By default, the backup operation is not forced."
+    }
+  },
+  "$defs": {
+    "BackupContentOptions": {
+      "type": "object",
+      "description": "Backup virtual cluster content options.",
+      "properties": {
+        "includeJobs": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to backup jobs. By default, jobs are backed up."
+        },
+        "includeJobResources": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to backup job resources. By default, job resources are backed up."
+        },
+        "includeResources": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to backup resources. By default, resources are backed up."
+        },
+        "includeResourceCredentials": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to backup resource credentials. By default, resource credentials are backed up."
+        },
+        "includeCredentials": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to backup credentials. By default, credentials are backed up."
+        },
+        "includeCredentialSecrets": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to backup credential secrets. Secrets are obfuscated while storing. By default, credential secrets are backed up."
+        },
+        "includeJobRuns": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to backup job runs. By default, job runs are backed up."
+        },
+        "jobFilter": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Filter jobs for backup using 'fieldname(operator)argument' syntax. Here, 'fieldname' is one of the job fields (e.g. name, type, etc.), and 'operator' is one of ('eq', 'noteq', 'lte', 'lt', 'gte', 'gt', 'in', 'notin', 'like', 'rlike', 'is', 'isnot'). Multiple filters are ANDed. For example, 'name(eq)SparkPi'. This will only take effect if jobs are backed up, as controlled by the 'includeJobs' option."
+        },
+        "resourceFilter": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Filter resources for backup using 'fieldname(operator)argument' syntax. Here, 'fieldname' is one of the resource fields (e.g. name, type, status, etc.), and 'operator' is one of ('eq', 'noteq', 'lte', 'lt', 'gte', 'gt', 'in', 'notin', 'like', 'rlike', 'is', 'isnot'). Multiple filters are ANDed. For example, 'name(eq)test-resource'. This will only take effect if resources are backed up, as controlled by the 'includeResources' option."
+        },
+        "credentialFilter": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Filter credentials for backup using 'fieldname(operator)argument' syntax. Here, 'fieldname' is one of the credential fields (e.g. name, type, etc.), and 'operator' is one of ('eq', 'noteq', 'lte', 'lt', 'gte', 'gt', 'in', 'notin', 'like', 'rlike', 'is', 'isnot'). Multiple filters are ANDed. For example, 'name(eq)test-credential'. This will only take effect if credentials are backed up, as controlled by the 'includeCredentials' option."
+        },
+        "validateArchive": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to validate backup archive. By default, backup archive is not validated."
+        }
+      }
+    }
+  }
+}

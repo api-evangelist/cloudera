@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-execute-policy-request-schema.json",
+  "title": "ExecutePolicyRequest",
+  "description": "Request object for executing a policy on a table.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-lakehouseopt-api-openapi.yml#/components/schemas/ExecutePolicyRequest",
+  "type": "object",
+  "required": [
+    "datahubCrn",
+    "namespace",
+    "tableName",
+    "policyName"
+  ],
+  "properties": {
+    "datahubCrn": {
+      "type": "string",
+      "description": "The CRN of the Cloudera Lakehouse Optimizer Data Hub."
+    },
+    "namespace": {
+      "type": "string",
+      "description": "Namespace name."
+    },
+    "tableName": {
+      "type": "string",
+      "description": "Table name."
+    },
+    "policyName": {
+      "type": "string",
+      "description": "Policy name."
+    },
+    "dryRun": {
+      "type": "boolean",
+      "description": "Flag to indicate if the execution is a dry run. If true, it will perform a dry run else actual execution.",
+      "default": true
+    }
+  }
+}

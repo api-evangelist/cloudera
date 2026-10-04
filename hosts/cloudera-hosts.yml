@@ -1,0 +1,233 @@
+generated: '2026-10-04'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 19
+  own: 16
+  other_domain: 0
+  platform: 3
+  roles:
+  - api
+  - docs
+  - marketing
+  - other
+  - portal
+  - source
+  - status
+  - support
+  - website
+hosts:
+- host: api.cloudera.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: cloudera.com
+  role: api
+  relation: own
+- host: api.us-west-1.cdp.cloudera.com
+  found_by:
+  - apis[]
+  - probed
+  - contract-discovery
+  - well-known
+  types: []
+  serves:
+  - api
+  registrable_domain: cloudera.com
+  role: api
+  relation: own
+- host: blog.cloudera.com
+  found_by:
+  - probed
+  - site-links
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: cloudera.com
+  role: marketing
+  relation: own
+- host: br.cloudera.com
+  found_by:
+  - probed
+  - site-links
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: cloudera.com
+  role: other
+  relation: own
+- host: cloudera.github.io
+  found_by:
+  - pointer
+  - apis[]
+  types:
+  - APIReference
+  serves:
+  - docs
+  registrable_domain: github.io
+  role: docs
+  relation: platform
+- host: community.cloudera.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - Support
+  serves:
+  - cdn
+  vendor: cloudflare
+  registrable_domain: cloudera.com
+  role: support
+  relation: own
+- host: de.cloudera.com
+  found_by:
+  - probed
+  - site-links
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: cloudera.com
+  role: other
+  relation: own
+- host: docs-archive.cloudera.com
+  found_by:
+  - probed
+  - site-links
+  types: []
+  serves: []
+  registrable_domain: cloudera.com
+  role: other
+  relation: own
+- host: docs.cloudera.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - site-links
+  - docs-index
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - Documentation
+  - DeveloperPortal
+  - GettingStarted
+  serves:
+  - docs
+  - cdn
+  vendor: cloudfront
+  registrable_domain: cloudera.com
+  role: portal
+  relation: own
+- host: es.cloudera.com
+  found_by:
+  - probed
+  - site-links
+  types: []
+  serves: []
+  registrable_domain: cloudera.com
+  role: other
+  relation: own
+- host: fr.cloudera.com
+  found_by:
+  - probed
+  - site-links
+  types: []
+  serves: []
+  registrable_domain: cloudera.com
+  role: other
+  relation: own
+- host: github.com
+  found_by:
+  - pointer
+  types:
+  - GitHub
+  - GitHubOrganization
+  serves: []
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: it.cloudera.com
+  found_by:
+  - probed
+  - site-links
+  types: []
+  serves: []
+  registrable_domain: cloudera.com
+  role: other
+  relation: own
+- host: jp.cloudera.com
+  found_by:
+  - probed
+  - site-links
+  types: []
+  serves: []
+  registrable_domain: cloudera.com
+  role: other
+  relation: own
+- host: kr.cloudera.com
+  found_by:
+  - probed
+  - site-links
+  types: []
+  serves: []
+  registrable_domain: cloudera.com
+  role: other
+  relation: own
+- host: lighthouse.cloudera.com
+  found_by:
+  - probed
+  - site-links
+  types: []
+  serves: []
+  registrable_domain: cloudera.com
+  role: other
+  relation: own
+- host: status.cloudera.com
+  found_by:
+  - pointer
+  - probed
+  - contract-discovery
+  - well-known
+  types:
+  - StatusPage
+  serves: []
+  registrable_domain: cloudera.com
+  role: status
+  relation: own
+- host: www.cloudera.com
+  found_by:
+  - pointer
+  - probed
+  - well-known
+  - vendor-detect
+  types:
+  - Leadership
+  - Website
+  - Deprecation
+  - Blog
+  - Pricing
+  - SignUp
+  - TermsOfService
+  - PrivacyPolicy
+  serves:
+  - cdn
+  vendor: fastly
+  registrable_domain: cloudera.com
+  role: website
+  relation: own
+- host: www.linkedin.com
+  found_by:
+  - pointer
+  types:
+  - LinkedIn
+  serves: []
+  registrable_domain: linkedin.com
+  role: other
+  relation: platform

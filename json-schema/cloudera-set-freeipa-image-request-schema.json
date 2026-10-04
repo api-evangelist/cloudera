@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-set-freeipa-image-request-schema.json",
+  "title": "SetFreeipaImageRequest",
+  "description": "The request object to add or update a FreeIPA image in a catalog.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-imagecatalog-api-openapi.yml#/components/schemas/SetFreeipaImageRequest",
+  "type": "object",
+  "required": [
+    "catalogName",
+    "sourceImageId",
+    "vmImages"
+  ],
+  "properties": {
+    "catalogName": {
+      "type": "string",
+      "description": "Image catalog name"
+    },
+    "sourceImageId": {
+      "type": "string",
+      "description": "UUID of the image customized by the current image"
+    },
+    "vmImages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/VmImageRequest"
+      },
+      "description": "List of images"
+    },
+    "imageId": {
+      "type": "string",
+      "description": "Image UUID. If this is empty, a randomly generated UUID is used"
+    },
+    "baseParcelUrl": {
+      "type": "string",
+      "description": "Base parcel URL",
+      "x-no-paramfile": true
+    }
+  },
+  "$defs": {
+    "VmImageRequest": {
+      "type": "object",
+      "description": "Model holding information about a custom VM image and the cloud region it belongs to. The format of the image reference is specific to the cloud provider, e.g. URL in case of Azure, AMI ID in case of AWS.",
+      "required": [
+        "region",
+        "imageReference"
+      ],
+      "properties": {
+        "region": {
+          "type": "string",
+          "description": "Region"
+        },
+        "imageReference": {
+          "type": "string",
+          "description": "Image reference",
+          "x-no-paramfile": true
+        }
+      }
+    }
+  }
+}

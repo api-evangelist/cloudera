@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-describe-upgrade-database-response-schema.json",
+  "title": "DescribeUpgradeDatabaseResponse",
+  "description": "Response with upgrade availability of CDP Runtime and Operating System for a database.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-opdb-api-openapi.yml#/components/schemas/DescribeUpgradeDatabaseResponse",
+  "type": "object",
+  "properties": {
+    "statusReason": {
+      "type": "string",
+      "description": "The reason whether upgrade request is accepted or why it is not possible."
+    },
+    "currentComponentVersion": {
+      "description": "Versions of currently deployed CDP runtime and operating system.",
+      "$ref": "#/$defs/ComponentsVersion"
+    },
+    "availableComponentVersions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ComponentsVersion"
+      },
+      "description": "List of available versions for upgrade."
+    },
+    "isOSUpgradeAvailable": {
+      "type": "boolean",
+      "description": "Is an OS upgrade available."
+    },
+    "isRuntimeUpgradeAvailable": {
+      "type": "boolean",
+      "description": "Is a CDP Runtime upgrade available."
+    }
+  },
+  "$defs": {
+    "ComponentsVersion": {
+      "type": "object",
+      "description": "Versions of the CDP runtime and Operating system components.",
+      "properties": {
+        "cm": {
+          "type": "string",
+          "description": "Version of Cloudera Manager."
+        },
+        "cdp": {
+          "type": "string",
+          "description": "CDP Runtime version."
+        },
+        "os": {
+          "type": "string",
+          "description": "Operation System name and version."
+        },
+        "osPatchLevel": {
+          "type": "string",
+          "description": "Operation System patch level."
+        }
+      }
+    }
+  }
+}

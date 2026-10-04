@@ -1,0 +1,268 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-get-operation-details-response-schema.json",
+  "title": "GetOperationDetailsResponse",
+  "description": "Represents the response containing the details of an operation.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-compute-api-openapi.yml#/components/schemas/GetOperationDetailsResponse",
+  "type": "object",
+  "properties": {
+    "operationId": {
+      "type": "string",
+      "description": "The unique ID of the operation."
+    },
+    "workflowOperation": {
+      "description": "The type of workflow for this operation.",
+      "$ref": "#/$defs/WorkflowOperation"
+    },
+    "operationStatus": {
+      "description": "The current status of the operation.",
+      "$ref": "#/$defs/ExecutionStatus"
+    },
+    "message": {
+      "type": "string",
+      "description": "Additional details regarding operation status."
+    },
+    "clusterCrn": {
+      "type": "string",
+      "description": "The CRN of the cluster associated with the operation."
+    },
+    "startTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The start time of the operation."
+    },
+    "lastUpdateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The last time the operation status was updated."
+    },
+    "operationOwner": {
+      "description": "Details of operation owner.",
+      "$ref": "#/$defs/OperationOwner"
+    },
+    "retryCount": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Number of retires attempted. Its value is 0 for first operation."
+    },
+    "workflowId": {
+      "type": "string",
+      "description": "Cadence workflow ID."
+    },
+    "runId": {
+      "type": "string",
+      "description": "Cadence run ID."
+    },
+    "phaseWorkflowDetails": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PhaseWorkflowDetail"
+      },
+      "description": "Details of workflow phases."
+    },
+    "activities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Activity"
+      },
+      "description": "Activities"
+    }
+  },
+  "$defs": {
+    "Activity": {
+      "type": "object",
+      "description": "Represents an individual activity within a workflow execution.",
+      "properties": {
+        "activityId": {
+          "type": "string",
+          "description": "Unique identifier for this activity instance."
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable name of the activity."
+        },
+        "status": {
+          "description": "Current execution status of the activity.",
+          "$ref": "#/$defs/ExecutionStatus"
+        },
+        "startedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Time when the activity started execution."
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Time when the activity completed execution."
+        },
+        "logs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Collection of log messages generated during activity execution."
+        }
+      }
+    },
+    "AppWorkflowDetail": {
+      "type": "object",
+      "description": "Details of an application workflow.",
+      "properties": {
+        "workflowStatus": {
+          "description": "Workflow status.",
+          "$ref": "#/$defs/ExecutionStatus"
+        },
+        "message": {
+          "type": "string",
+          "description": "Additional details regarding workflow status."
+        },
+        "appCrn": {
+          "type": "string",
+          "description": "Application CRN."
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The start time of the workflow."
+        },
+        "lastUpdateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The last time the workflow status was updated."
+        },
+        "domain": {
+          "type": "string",
+          "description": "Domain of workflow."
+        },
+        "taskList": {
+          "type": "string",
+          "description": "List of tasks for workflows."
+        },
+        "workflowName": {
+          "type": "string",
+          "description": "Name of the workflow."
+        },
+        "workflowId": {
+          "type": "string",
+          "description": "Cadence workflow ID."
+        },
+        "runId": {
+          "type": "string",
+          "description": "Cadence run ID."
+        },
+        "activities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Activity"
+          },
+          "description": "Activities"
+        }
+      }
+    },
+    "ExecutionStatus": {
+      "type": "string",
+      "description": "Defines the execution status of an operation, workflow or activity.\n `UNKNOWN` - The execution status is unknown. `RUNNING` - The execution is currently running. `COMPLETED` - The execution has completed successfully. `FAILED` - The execution has failed. `CANCELLED` - The execution has been cancelled. `TIMED_OUT` - The execution has timed out.",
+      "enum": [
+        "UNKNOWN",
+        "RUNNING",
+        "COMPLETED",
+        "FAILED",
+        "CANCELLED",
+        "TIMED_OUT"
+      ]
+    },
+    "OperationOwner": {
+      "type": "object",
+      "description": "Operation owner structure.",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Owner's user ID."
+        },
+        "accountId": {
+          "type": "string",
+          "description": "Owner's account ID."
+        },
+        "crn": {
+          "type": "string",
+          "description": "Owner's actor CRN."
+        }
+      }
+    },
+    "PhaseWorkflowDetail": {
+      "type": "object",
+      "description": "Details of phase workflow.",
+      "properties": {
+        "workflowPhase": {
+          "description": "Workflow phase.",
+          "$ref": "#/$defs/WorkflowPhase"
+        },
+        "workflowStatus": {
+          "description": "Workflow status.",
+          "$ref": "#/$defs/ExecutionStatus"
+        },
+        "message": {
+          "type": "string",
+          "description": "Additional details regarding workflow status."
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The start time of the workflow."
+        },
+        "lastUpdateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The last time the workflow status was updated."
+        },
+        "workflowId": {
+          "type": "string",
+          "description": "Cadence workflow ID."
+        },
+        "runId": {
+          "type": "string",
+          "description": "Cadence run ID."
+        },
+        "appWorkflowDetails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AppWorkflowDetail"
+          },
+          "description": "Details of application workflow."
+        },
+        "activities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Activity"
+          },
+          "description": "Activities"
+        }
+      }
+    },
+    "WorkflowOperation": {
+      "type": "string",
+      "description": "Defines the type of workflow operation.\n `UNKNOWN` - The operation is unknown. `UPGRADE` - Represents an upgrade operation. `SUSPEND` - Represents a suspend operation. `RESUME` - Represents a resume operation. `UPDATE` - Represents an update operation.",
+      "enum": [
+        "UNKNOWN",
+        "UPGRADE",
+        "SUSPEND",
+        "RESUME",
+        "UPDATE"
+      ]
+    },
+    "WorkflowPhase": {
+      "type": "string",
+      "description": "Defines the workflow phases of an operation.\n `UNKNOWN` - The workflow phase of operation is unknown. `VALIDATE` - The operation is in validation workflow phase. `PREPARE` - The operation is in preparation workflow phase. `EXECUTE` - The operation is in execution workflow phase. `FINALIZE` - The operation is in finalization workflow phase.",
+      "enum": [
+        "UNKNOWN",
+        "VALIDATE",
+        "PREPARE",
+        "EXECUTE",
+        "FINALIZE"
+      ]
+    }
+  }
+}

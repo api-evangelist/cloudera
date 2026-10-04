@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cloudera/main/json-schema/cloudera-start-get-diagnostics-collection-request-schema.json",
+  "title": "StartGetDiagnosticsCollectionRequest",
+  "description": "Request to start DataFlow diagnostics bundle creation.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cloudera-df-api-openapi.yml#/components/schemas/StartGetDiagnosticsCollectionRequest",
+  "type": "object",
+  "required": [
+    "dfServiceCrn",
+    "destination",
+    "description"
+  ],
+  "properties": {
+    "dfServiceCrn": {
+      "type": "string",
+      "description": "DataFlow Service CRN from which to collect diagnostics."
+    },
+    "destination": {
+      "description": "Destination location.",
+      "$ref": "#/$defs/DiagnosticsDestination"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of diagnostics collection."
+    },
+    "environmentComponents": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/DiagnosticsEnvironmentComponent"
+      },
+      "description": "List of environment components for which logs should be collected."
+    },
+    "caseNumber": {
+      "type": "string",
+      "description": "Support case number associated with this request."
+    },
+    "deployments": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of deployments to collect diagnostics from, if none are specified, all deployments will be included."
+    },
+    "startTime": {
+      "type": "string",
+      "description": "Date-time from which component logs will be collected, up until endTime."
+    },
+    "endTime": {
+      "type": "string",
+      "description": "Date-time to which component logs will be collected, starting from startTime."
+    },
+    "collectionScope": {
+      "description": "Collection scope.",
+      "$ref": "#/$defs/DiagnosticsCollectionScope"
+    },
+    "includeNifiDiagnostics": {
+      "type": "boolean",
+      "description": "Indicates if the heap and thread dumps are needed for a flow."
+    }
+  },
+  "$defs": {
+    "DiagnosticsCollectionScope": {
+      "type": "string",
+      "description": "DiagnosticsCollectionScope enum.",
+      "enum": [
+        "ALL",
+        "ENVIRONMENT",
+        "DEPLOYMENT"
+      ]
+    },
+    "DiagnosticsDestination": {
+      "type": "string",
+      "description": "DiagnosticsDestination enum.",
+      "enum": [
+        "SUPPORT",
+        "CLOUD_STORAGE"
+      ]
+    },
+    "DiagnosticsEnvironmentComponent": {
+      "type": "string",
+      "description": "DiagnosticsEnvironmentComponent enum.",
+      "enum": [
+        "CFM_OPERATOR",
+        "ZOOKEEPER_OPERATOR",
+        "CERT_MANAGER",
+        "CADENCE",
+        "DFX_LOGGING",
+        "DFX_LOCAL",
+        "DFX_OPS",
+        "FLUXCD",
+        "NGINX",
+        "NFS_PROVISIONER",
+        "REDIS",
+        "VAULT",
+        "VALKEY"
+      ]
+    }
+  }
+}
