@@ -417,6 +417,9 @@ apis:
   - type: APIReference
     url: https://cloudera.github.io/cdp-dev-docs/api-docs/
 common:
+- type: CapabilityMap
+  url: capabilities/cloudera-capability-edges.yml
+  name: Cloudera Business Capability Map
 - type: Overlay
   url: overlays/cloudera-audit-overlay.yaml
 - type: Overlay

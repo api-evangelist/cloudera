@@ -1,0 +1,96 @@
+slug: cloudera
+provider: Cloudera
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 8
+edges:
+- tag: IAM
+  spec_file: cloudera-iam-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.9
+  evidence: '"manage users and user permissions under your CDP account"; operations "createUser", "createUserAccessKey",
+    "listRoles", schemas "AssignGroupResourceRoleRequest", "CreateLdapProviderRequest"'
+  reason: 'Clearly identity and access management: user, group, role, access-key and SAML/LDAP federation
+    administration.'
+- tag: Compute
+  spec_file: cloudera-compute-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.85
+  evidence: POST /api/v1/compute/createCluster "Create compute cluster"; suspendCluster, resumeCluster,
+    listDeployments
+  reason: Lifecycle management of compute clusters and deployments (create, update, suspend, resume, delete)
+    is compute/cloud infrastructure management.
+- tag: Data Hub
+  spec_file: cloudera-data-hub-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.85
+  evidence: '"a service for launching and managing workload clusters powered by Cloudera Runtime"; createAWSCluster,
+    createAzureCluster, listScalingActivities'
+  reason: Provisioning and scaling of cloud workload clusters across AWS/Azure/GCP is compute and cloud
+    infrastructure management.
+- tag: Cloudprivatelinks
+  spec_file: cloudera-cloudprivatelinks-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.82
+  evidence: '"Provisions Private Link Endpoints on the cloud environments"; createPrivateLinkEndpoint,
+    listPrivateLinkServicesForRegion, migratePrivateLinkEndpoints'
+  reason: Creation, deletion and migration of cloud Private Link network endpoints is network/cloud infrastructure
+    provisioning, mapping to IT Infrastructure Management.
+- tag: Environments2
+  spec_file: cloudera-environments2-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.8
+  evidence: '"Cloudera Environments Service is a web service that manages cloud provider access"; "createAWSEnvironment
+    — Creates a new AWS environment", "createAzureCredential"'
+  reason: The surface provisions cloud environments and cloud-provider credentials across AWS/Azure/GCP/private
+    cloud — compute/cloud infrastructure management.
+- tag: Ml
+  spec_file: cloudera-ml-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.8
+  evidence: '"Install and manage Cloudera AI applications."; "createModelRegistry — Creates a new model
+    registry", "createMlServingApp — Deploys Cloudera AI Inference Service"'
+  reason: Model registry, AI workbench and inference service management is ML lifecycle / MLOps tooling,
+    matching Artificial Intelligence Management.
+- tag: Datalake
+  spec_file: cloudera-datalake-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.75
+  evidence: '"a service for launching and managing data lake clusters powered by Cloudera Runtime"; createAWSDatalake,
+    startDatalakeVerticalScaling, renewCertificate'
+  reason: Operations are cluster lifecycle, scaling, repair and certificate rotation for data lake clusters
+    — infrastructure provisioning and operation rather than data governance itself.
+- tag: Data Catalog
+  spec_file: cloudera-data-catalog-api-openapi.yml
+  capability_id: BC-610.10
+  capability_id_l1: BC-610
+  capability_name: Data Governance Management
+  confidence: 0.7
+  evidence: '"a user can execute operations like launching profilers in DataCatalog"; createDataShare,
+    GetSuggestedTagsResponse, ReviewSuggestedTagsRequest, createExternalUsers'
+  reason: Catalog profiling, tag suggestion/review and governed data sharing with external users are data
+    stewardship and governance functions over the data estate, best fitting Data Governance Management;
+    some ambiguity against data quality/MDM sub-capabilities.
