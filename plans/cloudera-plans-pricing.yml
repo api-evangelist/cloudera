@@ -154,3 +154,155 @@ note: >-
   enterprise data platform — and reserves "contact sales" for the on-premises
   subscription bundles. Plan names, prices and units above are transcribed from
   the pricing page as published on 2026-09-05.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - seat
+  - subscription
+  units:
+  - seat
+  plans:
+  - name: Data Engineering — Core
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - hour
+  - name: Data Engineering — All-Purpose
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - hour
+  - name: Data Warehouse
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - hour
+  - name: Operational Database
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - hour
+  - name: Machine Learning
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - hour
+  - name: Data Hub
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - hour
+  - name: Flow Management on Data Hub
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - hour
+  - name: DataFlow — Deployments and Test Sessions
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - hour
+  - name: DataFlow — Functions
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods: []
+  - name: AI Workbench
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - hour
+  - name: AI Inference
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - hour
+  - name: Observability Premium
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - hour
+  - name: Private Link Network — VPC
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - hour
+  - name: Private Link Network — Authorization
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - hour
+  - name: Lakehouse Optimizer
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - hour
+  - name: Observability (on premises)
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - year
+  - name: Data Visualization (on premises)
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - year
+  - name: GPU Acceleration (on premises)
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - year
