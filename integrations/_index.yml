@@ -27,3 +27,64 @@
   relationship: distribution-channel
   status: not-a-workflow
   arazzo: null
+- slug: cloudera-cncf-cloud-native-landscape
+  label: CNCF (Cloud Native Landscape)
+  partner: cncf
+  partner_name: CNCF (Cloud Native Landscape)
+  category: Cloud native landscape
+  type: register
+  channel: standard-directory
+  evidence: https://github.com/cncf/landscape/blob/3a7d378b1824b82e729a453bb03fa6f1e37557e1/landscape.yml
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: CNCF Cloud Native Landscape (github.com/cncf/landscape landscape.yml @3a7d378b18)
+    spec_file: null
+    standard: Cloud Native (CNCF)
+    role: cncf-member (Silver)
+    registered_name: Cloudera
+    registered_names:
+    - Cloudera
+    website: https://www.cloudera.com
+    matched_domain: cloudera.com
+    matched_by: domain
+    member_tier: Silver
+    joined: '2026-01-01'
+    end_user: false
+    cncf_projects: []
+    landscape_categories: []
+    landscape_entries: 0
+    signal_note: 'participation only: a landscape listing is standard-participant evidence, not depth. Entries,
+      categories, tier and projects are CONTEXT, never read (breadth is not credit)'
+    detected_by: sweep-cloud-native.py
+    detected: '2026-10-15'
+  status: not-a-workflow
+  arazzo: null
+- slug: cloudera-cncf-kubernetes-certified-service-provider
+  label: CNCF (Kubernetes Certified Service Provider)
+  partner: cncf
+  partner_name: CNCF (Kubernetes Certified Service Provider)
+  category: Kubernetes services
+  type: register
+  channel: standard-directory
+  evidence: https://landscape.cncf.io/?group=special&view-mode=grid
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: CNCF Kubernetes Certified Service Provider (github.com/cncf/landscape landscape.yml Special / Kubernetes
+      Certified Service Provider @3a7d378b18)
+    spec_file: null
+    standard: Kubernetes (KCSP)
+    role: kcsp
+    registered_name: Cloudera
+    website: https://www.cloudera.com/services-and-support/professional-services.html
+    matched_domain: cloudera.com
+    matched_by: domain
+    certified_products:
+    - product: Kubernetes Certified Service Provider
+      lapsed: false
+    signal_note: certified_products = ONE entry (the KCSP vetting itself), never a count
+    detected_by: sweep-cloud-native.py
+    detected: '2026-10-15'
+  status: not-a-workflow
+  arazzo: null
