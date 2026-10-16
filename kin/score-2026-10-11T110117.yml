@@ -1,33 +1,31 @@
-# Kin Score artifact — cloudera — 2026-09-06T011047
+# Kin Score artifact — cloudera — 2026-10-11T110117
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: cloudera
-  schema_version: 0.18.3
-  scored_at: '2026-09-06'
-  run_ts: 2026-09-06T011047
-  composite: 63.4
-  band: strong
+  schema_version: 0.23.0
+  scored_at: '2026-10-11'
+  run_ts: 2026-10-11T110117
+  composite: 71.5
+  band: exemplar
   facets:
-    discoverability: 72.2
-    contract_quality: 40.9
-    governance: 50.0
+    discoverability: 70.0
+    contract_quality: 45.5
+    contract_governance: 59.1
     operational_transparency: 42.1
     developer_ergonomics: 80.4
-    commercial_clarity: 92.1
-    contract_governance: 50.0
     access_clarity: 92.1
   agent_readiness:
-    score: 32.0
-    band: agent-ready
+    score: 27.4
+    band: agent-aware
     dimensions:
       spec_presence: true
       agentic_access: derived
       reversibility_documented: documented
       mcp_server: documented
       auth_clarity: bearer
-      idempotency: documented
-      error_semantics: documented
+      idempotency: derived
+      error_semantics: derived
       openapi_examples: false
       rate_limit_signal: documented
       event_surface_described: false
@@ -40,6 +38,12 @@ kin_score:
       protected_resource_metadata: false
       dynamic_client_registration: false
       agentic_commerce: false
+  regulatory:
+    applies: true
+    regime: Horizontal (data, software, accessibility, platform)
+    regime_id: horizontal
+    score: 27.3
+    matched_via: fallback
   provenance:
     mcp: first-party
     skills: derived

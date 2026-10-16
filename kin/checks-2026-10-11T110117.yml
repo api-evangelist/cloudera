@@ -2,21 +2,19 @@
 kin_checks:
   slug: cloudera
   schema_version: 0.23.0
-  scored_at: '2026-10-03'
-  run_ts: 2026-10-03T024842
+  scored_at: '2026-10-11'
+  run_ts: 2026-10-11T110117
   note: Actionable checks (missed + partial) in `checks`, plus the ids that did not
     apply in `na`. Everything else in rubric/scoring-0.23.0.yml was earned; counts
     below let you verify that.
   counts:
     total: 153
-    earned: 40
-    partial: 24
-    missed: 64
+    earned: 41
+    partial: 27
+    missed: 60
     na: 25
   checks:
   - id: newsroom_present
-    status: missed
-  - id: leadership_present
     status: missed
   - id: base_url_per_api
     status: missed
@@ -66,10 +64,6 @@ kin_checks:
       (unknown)
   - id: asyncapi_present
     status: missed
-  - id: json_schema_present
-    status: missed
-  - id: json_schema_per_resource
-    status: missed
   - id: json_ld_class_depth
     status: missed
   - id: json_ld_property_depth
@@ -79,8 +73,6 @@ kin_checks:
   - id: domain_standard_conformance
     status: missed
   - id: balanced_severities
-    status: missed
-  - id: vocabulary_published
     status: missed
   - id: overlay_published
     status: missed
@@ -211,10 +203,19 @@ kin_checks:
     earned: 3.6
     detail: 19 of 19 openapi documents pass; credited at 90% because of their provenance
       (unknown)
+  - id: json_schema_present
+    status: partial
+    earned: 5.4
+  - id: json_schema_per_resource
+    status: partial
+    earned: 3.6
   - id: rules_present
     status: partial
     earned: 9.0
   - id: rules_substantial
+    status: partial
+    earned: 4.5
+  - id: vocabulary_published
     status: partial
     earned: 4.5
   - id: conformance_declared
