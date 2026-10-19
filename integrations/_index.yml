@@ -179,3 +179,43 @@
     detected: '2026-10-15'
   status: not-a-workflow
   arazzo: null
+- slug: cloudera-pypi
+  label: PyPI
+  partner: pypi
+  partner_name: PyPI
+  category: official SDK (Python)
+  type: register
+  channel: package-registry
+  evidence: https://pypi.org/project/dbt-hive/
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: PyPI (public registry JSON)
+    spec_file: null
+    language: Python
+    packages:
+    - name: dbt-hive
+      version: 1.11.2
+      released: '2026-08-20'
+      released_field: upload_time
+      lapsed: false
+      page: https://pypi.org/project/dbt-hive/
+      repo_leg: github-org:cloudera
+      publisher_leg: email:cloudera.com
+      matched_by: domain
+    - name: dbt-impala
+      version: 1.11.2
+      released: '2026-08-20'
+      released_field: upload_time
+      lapsed: false
+      page: https://pypi.org/project/dbt-impala/
+      repo_leg: github-org:cloudera
+      publisher_leg: email:cloudera.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
