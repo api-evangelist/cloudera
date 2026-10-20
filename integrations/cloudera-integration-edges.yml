@@ -72,96 +72,45 @@ edges:
   seller_name: Cloudera, Inc.
   detected_by: sweep-cloud-marketplaces.py
   detected: '2026-10-13'
-- partner_name: CNCF (Cloud Native Landscape)
-  partner: cncf
+- partner_name: PyPI
+  partner: pypi
   partner_match: register
   type: register
-  direction: partner-built
-  category: Cloud native landscape
-  evidence: https://github.com/cncf/landscape/blob/3a7d378b1824b82e729a453bb03fa6f1e37557e1/landscape.yml
-  channel: standard-directory
-  relationship: standard-participant
+  direction: provider-built
+  category: official SDK (Python)
+  evidence: https://pypi.org/project/dbt-hive/
+  channel: package-registry
+  relationship: distribution-channel
   contract_reference:
-    register: CNCF Cloud Native Landscape (github.com/cncf/landscape landscape.yml @3a7d378b18)
+    register: PyPI (public registry JSON)
     spec_file: null
-    standard: Cloud Native (CNCF)
-    role: cncf-member (Silver)
-    registered_name: Cloudera
-    registered_names:
-    - Cloudera
-    website: https://www.cloudera.com
-    matched_domain: cloudera.com
-    matched_by: domain
-    member_tier: Silver
-    joined: '2026-01-01'
-    end_user: false
-    cncf_projects: []
-    landscape_categories: []
-    landscape_entries: 0
-    signal_note: 'participation only: a landscape listing is standard-participant evidence, not depth. Entries,
-      categories, tier and projects are CONTEXT, never read (breadth is not credit)'
-    detected_by: sweep-cloud-native.py
-    detected: '2026-10-15'
-  detected_by: sweep-cloud-native.py
-  first_seen: '2026-10-15'
-- partner_name: CNCF (Kubernetes Certified Service Provider)
-  partner: cncf
-  partner_match: register
-  type: register
-  direction: partner-built
-  category: Kubernetes services
-  evidence: https://landscape.cncf.io/?group=special&view-mode=grid
-  channel: standard-directory
-  relationship: standard-participant
-  contract_reference:
-    register: CNCF Kubernetes Certified Service Provider (github.com/cncf/landscape landscape.yml Special / Kubernetes
-      Certified Service Provider @3a7d378b18)
-    spec_file: null
-    standard: Kubernetes (KCSP)
-    role: kcsp
-    registered_name: Cloudera
-    website: https://www.cloudera.com/services-and-support/professional-services.html
-    matched_domain: cloudera.com
-    matched_by: domain
-    certified_products:
-    - product: Kubernetes Certified Service Provider
+    language: Python
+    packages:
+    - name: dbt-hive
+      version: 1.11.2
+      released: '2026-08-20'
+      released_field: upload_time
       lapsed: false
-    signal_note: certified_products = ONE entry (the KCSP vetting itself), never a count
-    detected_by: sweep-cloud-native.py
-    detected: '2026-10-15'
-  detected_by: sweep-cloud-native.py
-  first_seen: '2026-10-15'
-- partner_name: LF AI & Data (Landscape)
-  partner: lf-ai-data
-  partner_match: register
-  type: register
-  direction: partner-built
-  category: AI & data landscape
-  evidence: https://github.com/lfai/landscape/blob/95d361b8abfdd04a8c76bf38a012778d13621b5e/landscape.yml
-  channel: standard-directory
-  relationship: standard-participant
-  contract_reference:
-    register: LF AI & Data Landscape (github.com/lfai/landscape landscape.yml @95d361b8ab)
-    spec_file: null
-    standard: LF AI & Data
-    role: lfai-member (General)
-    registered_name: Cloudera, Inc.
-    registered_names:
-    - Cloudera, Inc.
-    website: https://cloudera.com/
-    matched_domain: cloudera.com
-    matched_by: domain
-    member_tier: General
-    hosting_company: false
-    lfai_projects: []
-    landscape_categories: []
-    landscape_entries: 0
-    signal_note: 'participation only: a landscape listing is standard-participant evidence, not depth. Entries,
-      categories, tier and projects are CONTEXT, never read (breadth is not credit)'
-    detected_by: sweep-mlops.py
-    detected: '2026-10-15'
-  detected_by: sweep-mlops.py
-  first_seen: '2026-10-15'
+      page: https://pypi.org/project/dbt-hive/
+      repo_leg: github-org:cloudera
+      publisher_leg: email:cloudera.com
+      matched_by: domain
+    - name: dbt-impala
+      version: 1.11.2
+      released: '2026-08-20'
+      released_field: upload_time
+      lapsed: false
+      page: https://pypi.org/project/dbt-impala/
+      repo_leg: github-org:cloudera
+      publisher_leg: email:cloudera.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
 - partner_name: GovRAMP
   partner: null
   partner_match: register
@@ -221,45 +170,96 @@ edges:
     detected: '2026-10-15'
   detected_by: sweep-gov-cloud.py
   first_seen: '2026-10-15'
-- partner_name: PyPI
-  partner: pypi
+- partner_name: LF AI & Data (Landscape)
+  partner: lf-ai-data
   partner_match: register
   type: register
-  direction: provider-built
-  category: official SDK (Python)
-  evidence: https://pypi.org/project/dbt-hive/
-  channel: package-registry
-  relationship: distribution-channel
+  direction: partner-built
+  category: AI & data landscape
+  evidence: https://github.com/lfai/landscape/blob/3893e0631e1d12921a9b0ac25ffc78a2ac26239d/landscape.yml
+  channel: standard-directory
+  relationship: standard-participant
   contract_reference:
-    register: PyPI (public registry JSON)
+    register: LF AI & Data Landscape (github.com/lfai/landscape landscape.yml @3893e0631e)
     spec_file: null
-    language: Python
-    packages:
-    - name: dbt-hive
-      version: 1.11.2
-      released: '2026-08-20'
-      released_field: upload_time
+    standard: LF AI & Data
+    role: lfai-member (General)
+    registered_name: Cloudera, Inc.
+    registered_names:
+    - Cloudera, Inc.
+    website: https://cloudera.com/
+    matched_domain: cloudera.com
+    matched_by: domain
+    member_tier: General
+    hosting_company: false
+    lfai_projects: []
+    landscape_categories: []
+    landscape_entries: 0
+    signal_note: 'participation only: a landscape listing is standard-participant evidence, not depth. Entries,
+      categories, tier and projects are CONTEXT, never read (breadth is not credit)'
+    detected_by: sweep-mlops.py
+    detected: '2026-10-19'
+  detected_by: sweep-mlops.py
+  first_seen: '2026-10-15'
+- partner_name: CNCF (Cloud Native Landscape)
+  partner: cncf
+  partner_match: register
+  type: register
+  direction: partner-built
+  category: Cloud native landscape
+  evidence: https://github.com/cncf/landscape/blob/42dd4cd91dad8ec8558ac02467a43f0805b9957a/landscape.yml
+  channel: standard-directory
+  relationship: standard-participant
+  contract_reference:
+    register: CNCF Cloud Native Landscape (github.com/cncf/landscape landscape.yml @42dd4cd91d)
+    spec_file: null
+    standard: Cloud Native (CNCF)
+    role: cncf-member (Silver)
+    registered_name: Cloudera
+    registered_names:
+    - Cloudera
+    website: https://www.cloudera.com
+    matched_domain: cloudera.com
+    matched_by: domain
+    member_tier: Silver
+    joined: '2026-01-01'
+    end_user: false
+    cncf_projects: []
+    landscape_categories: []
+    landscape_entries: 0
+    signal_note: 'participation only: a landscape listing is standard-participant evidence, not depth. Entries,
+      categories, tier and projects are CONTEXT, never read (breadth is not credit)'
+    detected_by: sweep-cloud-native.py
+    detected: '2026-10-19'
+  detected_by: sweep-cloud-native.py
+  first_seen: '2026-10-15'
+- partner_name: CNCF (Kubernetes Certified Service Provider)
+  partner: cncf
+  partner_match: register
+  type: register
+  direction: partner-built
+  category: Kubernetes services
+  evidence: https://landscape.cncf.io/?group=special&view-mode=grid
+  channel: standard-directory
+  relationship: standard-participant
+  contract_reference:
+    register: CNCF Kubernetes Certified Service Provider (github.com/cncf/landscape landscape.yml Special / Kubernetes
+      Certified Service Provider @42dd4cd91d)
+    spec_file: null
+    standard: Kubernetes (KCSP)
+    role: kcsp
+    registered_name: Cloudera
+    website: https://www.cloudera.com/services-and-support/professional-services.html
+    matched_domain: cloudera.com
+    matched_by: domain
+    certified_products:
+    - product: Kubernetes Certified Service Provider
       lapsed: false
-      page: https://pypi.org/project/dbt-hive/
-      repo_leg: github-org:cloudera
-      publisher_leg: email:cloudera.com
-      matched_by: domain
-    - name: dbt-impala
-      version: 1.11.2
-      released: '2026-08-20'
-      released_field: upload_time
-      lapsed: false
-      page: https://pypi.org/project/dbt-impala/
-      repo_leg: github-org:cloudera
-      publisher_leg: email:cloudera.com
-      matched_by: domain
-    current: true
-    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
-      24 months'
-    detected_by: sweep-official-sdks.py
-    detected: '2026-10-18'
-  detected_by: sweep-official-sdks.py
-  first_seen: '2026-10-18'
+    signal_note: certified_products = ONE entry (the KCSP vetting itself), never a count
+    detected_by: sweep-cloud-native.py
+    detected: '2026-10-19'
+  detected_by: sweep-cloud-native.py
+  first_seen: '2026-10-15'
 source:
 - https://github.com/cncf/landscape
 - https://github.com/cncf/k8s-conformance
