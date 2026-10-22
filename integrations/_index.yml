@@ -257,3 +257,57 @@
     detected: '2026-10-21'
   status: not-a-workflow
   arazzo: null
+- slug: cloudera-red-hat-ecosystem-catalog-certified-partners
+  label: Red Hat Ecosystem Catalog (certified partners)
+  partner: red-hat
+  partner_name: Red Hat Ecosystem Catalog (certified partners)
+  category: Red Hat OpenShift / RHEL software certification
+  type: register
+  channel: standard-directory
+  evidence: https://catalog.redhat.com/software/containers/search?p=1&vendor_name=Cloudera
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: 'Red Hat Ecosystem Catalog (catalog.redhat.com/api/containers/v1: repositories, vendors, certified
+      operator bundles)'
+    standard: Red Hat Container Certification (Red Hat Ecosystem Catalog, registry.connect.redhat.com)
+    spec_file: null
+    role: red-hat-certified-partner
+    registered_name: Cloudera
+    register_id: cloudera
+    matched_domain: cloudera.com
+    matched_by: domain
+    identity_source: the register's own company_url for the vendor (no lookup)
+    certified_products:
+    - product: Red Hat certified container image
+      product_type: container-image
+      standard: Red Hat Container Certification (Red Hat Ecosystem Catalog, registry.connect.redhat.com)
+      lapsed: false
+      repositories_listed: 16
+      products_sample:
+      - cloudera/cfm-nifi-k8s
+      - cloudera/cfm-nifiregistry-k8s
+      - cloudera/cfm-operator
+      - cloudera/cfm-operator-bundle
+      - cloudera/cfm-tini
+      - cloudera/cloudera-streaming-analytics-kubernetes-operator-bundle
+    - product: Red Hat certified OpenShift operator
+      product_type: openshift-operator
+      standard: Red Hat OpenShift Operator Certification (certified-operator-index)
+      lapsed: false
+      operator_packages: 2
+      products_sample:
+      - cfm-operator
+      - cloudera-streams-messaging-kubernetes-operator
+      ocp_versions:
+      - '4.23'
+      - '5.0'
+      - '5.1'
+    signal_note: 'certified_products = one entry per certified product TYPE (container image, OpenShift operator),
+      standard named on each; lapsed: true when no certified item of that type is current (containers: all Deprecated
+      / past EOL / unpublished; operators: absent from the three newest certified-operator indexes); repository
+      and package counts are context, never counted'
+    detected_by: sweep-red-hat-certified-ecosystem.py
+    detected: '2026-10-22'
+  status: not-a-workflow
+  arazzo: null
