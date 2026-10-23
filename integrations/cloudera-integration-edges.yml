@@ -29,6 +29,7 @@ checked:
 - https://catalog.redhat.com/api/containers/v1/vendors/label/
 - https://catalog.redhat.com/software/partners
 - https://dir.texas.gov/resource-library-item/tx-ramp-certified-cloud-products
+- ansible/integrations/ansible-integration-edges.yml
 marketplace_apps: []
 edges:
 - partner_name: AWS Marketplace
@@ -270,25 +271,6 @@ edges:
     detected: '2026-10-19'
   detected_by: sweep-cloud-native.py
   first_seen: '2026-10-15'
-- partner_name: Terraform (terraform-registry)
-  partner: terraform
-  partner_match: mirror
-  mirror_match: register
-  type: marketplace
-  relationship: platform-app
-  direction: third-party
-  channel: partner-built
-  marketplace: terraform-registry
-  evidence: https://registry.terraform.io/providers/cloudera/cdp
-  mirror_of: terraform/integrations/terraform-integration-edges.yml
-  apps:
-  - cloudera/cdp
-  listing_count: 1
-  detected: '2026-10-21'
-  detected_by: mirror-platform-listings.py
-  category: infrastructure-as-code provider registry listing
-  badges:
-  - Verified publisher (Terraform partner tier)
 - partner_name: UK G-Cloud 14 (Digital Marketplace)
   partner: null
   partner_match: register
@@ -411,6 +393,45 @@ edges:
     detected: '2026-10-22'
   detected_by: sweep-tx-ramp-certified-cloud.py
   first_seen: '2026-10-22'
+- partner_name: Terraform (terraform-registry)
+  partner: terraform
+  partner_match: mirror
+  mirror_match: register
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: terraform-registry
+  evidence: https://registry.terraform.io/providers/cloudera/cdp
+  mirror_of: terraform/integrations/terraform-integration-edges.yml
+  apps:
+  - cloudera/cdp
+  listing_count: 1
+  detected: '2026-10-21'
+  detected_by: mirror-platform-listings.py
+  category: infrastructure-as-code provider registry listing
+  badges:
+  - Verified publisher (Terraform partner tier)
+- partner_name: Ansible (ansible-galaxy)
+  partner: ansible
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: ansible-galaxy
+  evidence: https://galaxy.ansible.com/ui/repo/published/cloudera/cloud/
+  mirror_of: ansible/integrations/ansible-integration-edges.yml
+  apps:
+  - cloudera.cloud
+  - cloudera.exe
+  - cloudera.cluster
+  - cloudera.services
+  listing_count: 1
+  detected: '2026-10-22'
+  detected_by: mirror-platform-listings.py
+  category: configuration-management content listing (Ansible collection)
 source:
 - https://github.com/cncf/landscape
 - https://github.com/cncf/k8s-conformance
