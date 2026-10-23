@@ -9,6 +9,9 @@ artifacts:
   authentication/cloudera-authentication.yml:
     method: searched
     evidence: declared in the artifact
+  capabilities/cloudera-capability-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
   changelog/cloudera-changelog.yml:
     method: searched
     evidence: declared in the artifact
@@ -30,130 +33,322 @@ artifacts:
   front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
+  hosts/cloudera-hosts.yml:
+    method: derived
+    evidence: declared in the artifact
+  integrations/_index.yml:
+    method: generated
+    evidence: carries an API Evangelist house phrase
+  integrations/cloudera-integration-edges.yml:
+    method: searched
+    evidence: declared in the artifact
   json-ld/cloudera-context.jsonld:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-24T161608.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T125852.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T133943.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T143147.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T154045.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-26T215308.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T094438.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T103455.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T123021.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T132314.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T140727.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-28T221322.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-29T213958.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-29T230545.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-30T203505.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-30T220315.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-31T223420.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T063623.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T210448.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T222808.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-02T211804.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-02T224043.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-03T161828.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-03T174231.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T062714.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T212454.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T224856.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T055819.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T072335.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T144739.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T195450.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T211839.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T011047.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T211804.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T224210.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-07T200636.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-07T213054.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-08T214843.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-08T232836.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-10T204815.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-10T222408.yml:
+  json-schema/cloudera-add-flow-to-deployment-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-archive-audit-events-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-authorize-private-link-service-access-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-change-flow-version-in-deployment-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-change-flow-version-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-change-table-policy-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-collect-cm-diagnostics-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-collect-datahub-diagnostics-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-collect-datalake-diagnostics-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-collect-diagnostic-bundle-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-collect-diagnostics-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-collect-freeipa-diagnostics-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-configure-archiving-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-abfs-credential-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-aws-cluster-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-aws-credential-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-awscluster-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-awsdatalake-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-awsenvironment-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-awsgov-cloud-cluster-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-awsgov-cloud-datalake-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-awsgov-cloud-environment-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-azure-cluster-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-azure-datalake-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-azure-environment-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-backup-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-cluster-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-data-share-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-database-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-deployment-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-gcpcluster-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-gcpdatalake-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-gcpenvironment-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-ldap-provider-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-ml-serving-app-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-model-registry-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-private-environment-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-private-link-endpoint-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-vc-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-vw-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-create-workspace-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-delete-policy-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-delete-private-link-endpoint-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-describe-cluster-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-describe-custom-catalog-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-describe-custom-image-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-describe-default-image-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-describe-upgrade-database-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-enable-service-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-execute-policy-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-find-default-image-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-get-archiving-status-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-get-cluster-config-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-get-command-status-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-get-data-share-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-get-operation-details-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-get-operation-status-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-get-policy-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-get-private-link-status-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-get-table-status-details-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-import-flow-definition-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-launch-profilers-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-backup-entities-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-backups-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-backups-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-clusters-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-clusters-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-compute-usage-records-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-compute-usage-records-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-data-shares-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-deployment-events-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-events-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-external-users-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-flows-in-deployment-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-instance-type-configuration-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-outstanding-archive-batches-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-outstanding-archive-batches-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-relevant-instances-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-restore-snapshots-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-restores-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-restores-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-list-tasks-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-modify-cluster-instance-group-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-restore-datalake-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-restore-snapshot-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-revoke-private-link-service-access-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-set-freeipa-image-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-set-runtime-image-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-start-get-diagnostics-collection-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-update-cluster-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-update-data-share-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-update-database-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-update-deployment-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-update-flow-in-deployment-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-update-ldap-provider-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-update-private-link-endpoint-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-update-service-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-update-vc-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-update-vw-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-upgrade-deployment-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/cloudera-verify-hbase-cluster-pair-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  kin/checks-2026-10-11T110117.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-12T062655.yml:
@@ -237,9 +432,27 @@ artifacts:
   kin/score-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T210408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T232841.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T000835.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T024842.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-11T110117.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/cloudera-lifecycle.yml:
     method: searched
     evidence: declared in the artifact
+  llms/cloudera-llms-provenance.yml:
+    method: searched
+    evidence: 'derive-llms-provenance.py: harvested'
   llms/cloudera-llms.txt:
     method: searched
     evidence: 'derive-llms-provenance.py: harvested'
@@ -458,16 +671,37 @@ artifacts:
   openapi/cloudera-replicationmanager-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  overlays/cloudera-audit-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/cloudera-audit-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-cdflocalrpcapiversion1-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-cloudprivatelinks-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/cloudera-cloudprivatelinks-overlay.yaml:
     method: generated
     evidence: declared in the artifact
+  overlays/cloudera-compute-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/cloudera-compute-overlay.yaml:
     method: generated
     evidence: declared in the artifact
+  overlays/cloudera-consumption-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/cloudera-consumption-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-data-catalog-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-data-hub-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/cloudera-datacatalog-overlay.yaml:
@@ -476,10 +710,19 @@ artifacts:
   overlays/cloudera-datahub-overlay.yaml:
     method: generated
     evidence: declared in the artifact
+  overlays/cloudera-datalake-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/cloudera-datalake-overlay.yaml:
     method: generated
     evidence: declared in the artifact
+  overlays/cloudera-de-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/cloudera-de-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-df-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/cloudera-df-overlay.yaml:
@@ -488,7 +731,13 @@ artifacts:
   overlays/cloudera-dfworkload-overlay.yaml:
     method: generated
     evidence: declared in the artifact
+  overlays/cloudera-drscp-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/cloudera-drscp-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-dw-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/cloudera-dw-overlay.yaml:
@@ -497,19 +746,40 @@ artifacts:
   overlays/cloudera-environments-overlay.yaml:
     method: generated
     evidence: declared in the artifact
+  overlays/cloudera-environments2-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-iam-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/cloudera-iam-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-imagecatalog-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/cloudera-imagecatalog-overlay.yaml:
     method: generated
     evidence: declared in the artifact
+  overlays/cloudera-lakehouseopt-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/cloudera-lakehouseopt-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-ml-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/cloudera-ml-overlay.yaml:
     method: generated
     evidence: declared in the artifact
+  overlays/cloudera-opdb-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/cloudera-opdb-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/cloudera-replicationmanager-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/cloudera-replicationmanager-overlay.yaml:
@@ -550,6 +820,12 @@ artifacts:
     evidence: declared in the artifact
   skills/cloudera-provision-cdp-environment.md:
     method: generated
+    evidence: declared in the artifact
+  vendors/cloudera-vendors.yml:
+    method: unknown
+    evidence: no authorship recorded
+  vocabulary/cloudera-vocabulary.yml:
+    method: derived
     evidence: declared in the artifact
   well-known/cloudera-well-known.yml:
     method: unknown
