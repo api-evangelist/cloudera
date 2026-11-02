@@ -1,184 +1,152 @@
-generated: '2026-09-05'
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
 method: searched
 source: https://www.cloudera.com/products/pricing.html
-name: Cloudera API Plans
-http_status: 200
+sources:
+- https://www.cloudera.com/products/pricing.html
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T120612
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: usage-other
+delivery:
+  delivery: managed+licensed
+  method: page
+  read: '2026-10-28'
+  evidence: Cloudera on premises Annual subscription with Business Support
+published: true
+note: Cloud services priced hourly per Cloudera Compute Unit (CCU); on-premises and several add-ons are
+  'Contact Sales for Pricing'. Page notes CCU prices are estimates and exclude infrastructure costs.
+plan_count: 17
 currency: USD
-model: consumption
-unit:
-  name: CCU
-  expansion: Cloudera Compute Unit
-  note: >-
-    Cloudera meters consumption in CCUs (and, for GPU, CGUs). Pricing is per
-    CCU-hour for cloud services and per CCU-year for on-premises subscriptions.
-    There is NO per-API-call or per-request price anywhere in Cloudera's pricing —
-    the API is a control surface over metered compute, not a metered product in
-    its own right, so an agent's API usage costs nothing directly and everything
-    indirectly through the resources it provisions.
-api_pricing:
-  metered: false
-  note: >-
-    Calls to the CDP control plane API are not billed. What they create is —
-    createAWSEnvironment, createVwCluster and createAWSCluster each start a
-    CCU-hourly meter that runs until the corresponding delete or stop operation.
-    This is the single most important cost fact for an agent operating this API.
-plan_count: 18
 plans:
-  - name: Data Engineering — Core
-    family: Cloudera on Cloud
-    price: 0.07
-    currency: USD
-    unit: CCU
-    period: hour
-  - name: Data Engineering — All-Purpose
-    family: Cloudera on Cloud
-    price: 0.20
-    currency: USD
-    unit: CCU
-    period: hour
-  - name: Data Warehouse
-    family: Cloudera on Cloud
-    price: 0.07
-    currency: USD
-    unit: CCU
-    period: hour
-  - name: Operational Database
-    family: Cloudera on Cloud
-    price: 0.08
-    currency: USD
-    unit: CCU
-    period: hour
-  - name: Machine Learning
-    family: Cloudera on Cloud
-    price: 0.20
-    currency: USD
-    unit: CCU
-    period: hour
-  - name: Data Hub
-    family: Cloudera on Cloud
-    price: 0.04
-    currency: USD
-    unit: CCU
-    period: hour
-  - name: Flow Management on Data Hub
-    family: Cloudera on Cloud
-    price: 0.15
-    currency: USD
-    unit: CCU
-    period: hour
-  - name: DataFlow — Deployments and Test Sessions
-    family: Cloudera on Cloud
-    price: 0.30
-    currency: USD
-    unit: CCU
-    period: hour
-  - name: DataFlow — Functions
-    family: Cloudera on Cloud
-    price: 0.10
-    currency: USD
-    unit: billable invocation
-    period: null
-    note: Starting price; Cloudera states volume discounts apply.
-  - name: AI Workbench
-    family: Cloudera on Cloud
-    price: 0.20
-    currency: USD
-    unit: CCU
-    period: hour
-  - name: AI Inference
-    family: Cloudera on Cloud
-    price: 0.25
-    currency: USD
-    unit: CCU
-    period: hour
-  - name: Observability Premium
-    family: Cloudera on Cloud
-    price: 0.009
-    currency: USD
-    unit: CCU
-    period: hour
-  - name: Private Link Network — VPC
-    family: Cloudera on Cloud
-    price: 0.50
-    currency: USD
-    unit: VPC
-    period: hour
-  - name: Private Link Network — Authorization
-    family: Cloudera on Cloud
-    price: 5.00
-    currency: USD
-    unit: Authorization
-    period: hour
-  - name: Lakehouse Optimizer
-    family: Cloudera on Cloud
-    price: 0.05
-    currency: USD
-    unit: CCU
-    period: hour
-  - name: Observability (on premises)
-    family: Cloudera on Premises
-    price: 80
-    currency: USD
-    unit: CCU
-    period: year
-  - name: Data Visualization (on premises)
-    family: Cloudera on Premises
-    price: 2000
-    currency: USD
-    unit: user
-    period: year
-  - name: GPU Acceleration (on premises)
-    family: Cloudera on Premises
-    price: 7500
-    currency: USD
-    unit: CGU
-    period: year
-contact_sales_only:
-  - Cloudera Data Services and Base (on premises)
-  - Edge, Streams and Flow Management (on premises)
-free_tier:
-  present: false
-  trial:
-    present: true
-    name: Cloudera on cloud trial
-    url: https://www.cloudera.com/campaign/try-cdp-public-cloud.html
-    http_status: 200
-    length_days: 60
-    terms: >-
-      "Try Cloudera on cloud for free for 60-days using your own data and
-      workloads" — quoted verbatim from the trial page. Access is gated behind a
-      lead-capture form, not a self-serve signup.
-    self_serve: false
-note: >-
-  Cloudera publishes real list prices for its cloud services — unusual for an
-  enterprise data platform — and reserves "contact sales" for the on-premises
-  subscription bundles. Plan names, prices and units above are transcribed from
-  the pricing page as published on 2026-09-05.
+- name: Data Engineering (cloud)
+  price_text: 'Core: $0.07/CCU'
+  price: 0.07
+  currency: USD
+  period: per-use
+  unit: CCU
+- name: Data Engineering All-Purpose (cloud)
+  price_text: 'All-Purpose: $0.20/CCU'
+  price: 0.2
+  currency: USD
+  period: per-use
+  unit: CCU
+- name: Data Warehouse
+  price_text: $0.07/CCU
+  price: 0.07
+  currency: USD
+  period: per-use
+  unit: CCU
+- name: Operational Database
+  price_text: $0.08/CCU
+  price: 0.08
+  currency: USD
+  period: per-use
+  unit: CCU
+- name: Machine Learning / AI Workbench
+  price_text: $0.20/CCU**
+  price: 0.2
+  currency: USD
+  period: per-use
+  unit: CCU
+- name: AI Inference
+  price_text: $0.25/CCU
+  price: 0.25
+  currency: USD
+  period: per-use
+  unit: CCU
+- name: Data Hub
+  price_text: $0.04/CCU**
+  price: 0.04
+  currency: USD
+  period: per-use
+  unit: CCU
+- name: Flow Management on Data Hub
+  price_text: $0.15/CCU
+  price: 0.15
+  currency: USD
+  period: per-use
+  unit: CCU
+- name: DataFlow Deployments & Test Sessions
+  price_text: 'Deployments & Test Sessions: $0.30/CCU'
+  price: 0.3
+  currency: USD
+  period: per-use
+  unit: CCU
+- name: DataFlow Functions
+  price_text: 'Functions: starting at $0.10 per Billable Invocation (with volume discounts)'
+  price: 0.1
+  currency: USD
+  period: per-use
+  unit: Billable Invocation
+- name: Observability Premium (cloud)
+  price_text: $0.009/CCU
+  price: 0.009
+  currency: USD
+  period: per-use
+  unit: CCU
+- name: Private Link Network
+  price_text: $0.50/VPC
+  price: 0.5
+  currency: USD
+  period: per-use
+  unit: VPC
+  overage: $5.00/Authorization
+- name: Lakehouse Optimizer
+  price_text: Compute $0.05/CCU
+  price: 0.05
+  currency: USD
+  period: per-use
+  unit: CCU
+- name: Observability (annual)
+  price_text: $80/CCU
+  price: 80
+  currency: USD
+  period: year
+  unit: CCU
+- name: Data Visualization
+  price_text: $2,000/user
+  price: 2000
+  currency: USD
+  period: year
+  unit: user
+- name: GPU Acceleration
+  price_text: $7,500/CGU
+  price: 7500
+  currency: USD
+  period: year
+  unit: CGU
+- name: Cloudera on premises (Data Services / Base)
+  price_text: Contact Sales for pricing
+  period: none
 x-canonical:
-  generated: '2026-10-08'
-  vocabulary: all/0-working/economics/plans-canonical.yml
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
   models:
+  - hybrid
   - seat
   - subscription
   units:
   - seat
   plans:
-  - name: Data Engineering — Core
+  - name: Data Engineering (cloud)
     access: other
     model: subscription
     model_how: derived
     units:
     - other
     periods:
-    - hour
-  - name: Data Engineering — All-Purpose
+    - other
+  - name: Data Engineering All-Purpose (cloud)
     access: other
     model: subscription
     model_how: derived
     units:
     - other
     periods:
-    - hour
+    - other
   - name: Data Warehouse
     access: other
     model: subscription
@@ -186,7 +154,7 @@ x-canonical:
     units:
     - other
     periods:
-    - hour
+    - other
   - name: Operational Database
     access: other
     model: subscription
@@ -194,54 +162,15 @@ x-canonical:
     units:
     - other
     periods:
-    - hour
-  - name: Machine Learning
+    - other
+  - name: Machine Learning / AI Workbench
     access: other
     model: subscription
     model_how: derived
     units:
     - other
     periods:
-    - hour
-  - name: Data Hub
-    access: other
-    model: subscription
-    model_how: derived
-    units:
     - other
-    periods:
-    - hour
-  - name: Flow Management on Data Hub
-    access: other
-    model: subscription
-    model_how: derived
-    units:
-    - other
-    periods:
-    - hour
-  - name: DataFlow — Deployments and Test Sessions
-    access: other
-    model: subscription
-    model_how: derived
-    units:
-    - other
-    periods:
-    - hour
-  - name: DataFlow — Functions
-    access: other
-    model: subscription
-    model_how: derived
-    units:
-    - other
-    periods: []
-  - name: AI Workbench
-    access: other
-    model: subscription
-    model_how: derived
-    units:
-    - other
-    periods:
-    - hour
   - name: AI Inference
     access: other
     model: subscription
@@ -249,31 +178,55 @@ x-canonical:
     units:
     - other
     periods:
-    - hour
-  - name: Observability Premium
+    - other
+  - name: Data Hub
     access: other
     model: subscription
     model_how: derived
     units:
     - other
     periods:
-    - hour
-  - name: Private Link Network — VPC
+    - other
+  - name: Flow Management on Data Hub
     access: other
     model: subscription
     model_how: derived
     units:
     - other
     periods:
-    - hour
-  - name: Private Link Network — Authorization
+    - other
+  - name: DataFlow Deployments & Test Sessions
     access: other
     model: subscription
     model_how: derived
     units:
     - other
     periods:
-    - hour
+    - other
+  - name: DataFlow Functions
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: Observability Premium (cloud)
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: Private Link Network
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
   - name: Lakehouse Optimizer
     access: other
     model: subscription
@@ -281,8 +234,8 @@ x-canonical:
     units:
     - other
     periods:
-    - hour
-  - name: Observability (on premises)
+    - other
+  - name: Observability (annual)
     access: other
     model: subscription
     model_how: derived
@@ -290,7 +243,7 @@ x-canonical:
     - other
     periods:
     - year
-  - name: Data Visualization (on premises)
+  - name: Data Visualization
     access: other
     model: seat
     model_how: derived
@@ -298,7 +251,7 @@ x-canonical:
     - seat
     periods:
     - year
-  - name: GPU Acceleration (on premises)
+  - name: GPU Acceleration
     access: other
     model: subscription
     model_how: derived
@@ -306,3 +259,10 @@ x-canonical:
     - other
     periods:
     - year
+  - name: Cloudera on premises (Data Services / Base)
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
