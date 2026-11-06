@@ -122,13 +122,14 @@ plans:
   price_text: Contact Sales for pricing
   period: none
 x-canonical:
-  generated: '2026-11-02'
+  generated: '2026-11-06'
   vocabulary: engine/economics/plans-canonical.yml
   models:
   - hybrid
   - seat
   - subscription
   units:
+  - request
   - seat
   plans:
   - name: Data Engineering (cloud)
@@ -205,10 +206,10 @@ x-canonical:
     - other
   - name: DataFlow Functions
     access: other
-    model: subscription
+    model: hybrid
     model_how: derived
     units:
-    - other
+    - request
     periods:
     - other
   - name: Observability Premium (cloud)
